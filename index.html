@@ -1,0 +1,756 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <title>AI Consulting & Automation for SMBs</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta
+    name="description"
+    content="Practical AI consulting and automation for small and medium-sized businesses – from strategy to implementation."
+  />
+  <!-- Tailwind via CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .lang-toggle-active {
+      background-color: rgb(45 212 191 / 0.15);
+      color: rgb(45 212 191);
+    }
+  </style>
+</head>
+<body class="bg-slate-950 text-slate-100 antialiased">
+<script>
+  // ===========================
+  // CONTENT CONFIG (EDIT HERE)
+  // ===========================
+  const content = {
+    en: {
+      meta: {
+        title: "AI Consulting & Automation for SMBs",
+        description:
+          "Practical AI consulting and automation for small and medium-sized businesses – from strategy to implementation.",
+      },
+      agencyName: "Pragmatic AI Studio", // EDIT
+      agencyTagline: "AI Consulting & Automation",
+      hero: {
+        eyebrow: "AI for real businesses",
+        headline:
+          "Turn <span class='text-emerald-300'>AI hype</span> into concrete results for your company.",
+        subheadline:
+          "I help small and medium-sized businesses design and implement practical AI automations: from reading emails and documents to answering internal questions and connecting to your existing systems. Without forcing you into a specific cloud or vendor.",
+        ctaLabel: "Request a 30-min intro call",
+        metaLine: "Europe-based · Remote friendly · English & German",
+        stats: [
+          {
+            title: "20+ years in software",
+            text: "Senior engineering background in backend, data processing and enterprise systems.",
+          },
+          {
+            title: "AI, agents & RAG",
+            text: "Modern LLM tooling, retrieval-augmented generation and agentic workflows.",
+          },
+        ],
+        whatYouGetTitle: "What you get",
+        whatYouGetItems: [
+          {
+            title: "AI opportunity scan",
+            text: "Short workshop to identify 2–3 realistic automation candidates in your current workflows (email, documents, tickets, CRM, ERP).",
+          },
+          {
+            title: "Architecture & tool choice",
+            text: "Cloud, on-prem or hybrid – we design something that fits your security and infrastructure instead of forcing you into a single vendor.",
+          },
+          {
+            title: "End-to-end prototype",
+            text: "A working AI workflow or chatbot on your own data, with humans still in the loop where needed.",
+          },
+        ],
+        stackNote:
+          "Tech stack examples: OpenAI / local models, LangGraph / other agent frameworks, RAG search, Kafka/queues, classic backend in Java/Python, MS 365 integration, etc.",
+      },
+      nav: {
+        services: "Services",
+        process: "How it works",
+        useCases: "Use cases",
+        about: "About",
+        contact: "Contact",
+        freeCall: "Free intro call",
+      },
+      services: {
+        sectionTitle: "Services",
+        sectionSubtitle:
+          "From first ideas to running solutions. You can start small with a single use case and grow over time.",
+        contextNote:
+          "Ideal for companies with mixed infrastructure (on-prem servers, network storage, Office 365 / Exchange, maybe no AWS yet) who want concrete AI automation, not just slides.",
+        items: [
+          {
+            label: "01 · Strategy",
+            title: "AI Opportunity & Architecture Workshop",
+            body:
+              "We map your current tools (email, file shares, ERP/CRM, ticket systems) and identify where AI can safely help: routing, summarization, answering, data entry assistance, etc.",
+            bullets: [
+              "1–2 half-day remote sessions",
+              "Concrete list of 2–3 automation candidates",
+              "High-level architecture (cloud/on-prem/hybrid)",
+            ],
+          },
+          {
+            label: "02 · Implementation",
+            title: "Agentic Workflows & Custom Chatbots",
+            body:
+              "We build LLM-powered agents that can read emails, fetch data via APIs or databases, and propose actions – always with a human in the loop where needed.",
+            bullets: [
+              "Retrieval-augmented generation (RAG) on your documents",
+              "Tools for order lookup, ticket status, invoice resend, etc.",
+              "Optional: Model Context Protocol (MCP) for clean integrations",
+            ],
+          },
+          {
+            label: "03 · Integration",
+            title: "From Prototype to Production",
+            body:
+              "We integrate the solution into your existing stack: authentication, logging, monitoring, data protection and realistic rollback options.",
+            bullets: [
+              "Integration with existing APIs and databases",
+              "Deployment on your server, cloud, or hybrid setup",
+              "Handover and documentation for your internal team",
+            ],
+          },
+        ],
+      },
+      process: {
+        sectionTitle: "How it works",
+        sectionSubtitle:
+          "Clear steps, transparent pricing. No black boxes – you stay in control of your data and systems.",
+        steps: [
+          {
+            title: "Intro & use-case selection",
+            text:
+              "30-min free call to understand your situation. If it fits, we choose one pilot use case with clear boundaries and success criteria.",
+          },
+          {
+            title: "Design & prototype",
+            text:
+              "Technical design + implementation of a working prototype: connecting to your data, using LLMs, defining what the agent is allowed to do and where humans must decide.",
+          },
+          {
+            title: "Pilot & handover",
+            text:
+              "We run a small pilot with your team, refine prompts and flows, and then hand over everything: repo, documentation, and operational guidelines.",
+          },
+        ],
+      },
+      useCases: {
+        sectionTitle: "Example use cases",
+        sectionSubtitle:
+          "Not science-fiction – these are realistic scenarios for small and medium businesses today.",
+        items: [
+          {
+            title: "Smart email triage with “human in the loop”",
+            body:
+              "An AI agent reads incoming emails (support, orders, invoices), checks your knowledge base and systems and prepares drafts or routing suggestions.",
+            bullets: [
+              "Classifies and tags emails automatically",
+              "Suggests replies, but your staff still approves and sends",
+              "Connects to ticket tools or CRM instead of replacing them",
+            ],
+          },
+          {
+            title: "Internal chatbot on your documents",
+            body:
+              "A chat interface for your team that can answer questions about your processes, contracts, technical docs or product information.",
+            bullets: [
+              "Uses RAG (retrieval-augmented generation) instead of vague answers",
+              "Can run in the cloud or on your own server",
+              "Access control based on your existing user accounts",
+            ],
+          },
+          {
+            title: "Assisted back-office workflows",
+            body:
+              "The agent prepares data entries, checks for inconsistencies and flags issues – especially where today humans manually copy & paste between systems.",
+            bullets: [
+              "Reads PDFs / documents and extracts structured data",
+              "Proposes entries; humans confirm or correct",
+              "Logs all actions for auditability",
+            ],
+          },
+          {
+            title: "Guidance for cloud vs. on-prem AI",
+            body:
+              "You’re not sure whether you’re allowed to use public cloud? We design a realistic path that matches your legal and technical constraints.",
+            bullets: [
+              "Compare OpenAI / Azure OpenAI / other vendors",
+              "Evaluate local / private models where required",
+              "Design an architecture that can evolve over time",
+            ],
+          },
+        ],
+      },
+      about: {
+        sectionTitle: "About",
+        paragraphs: [
+          "I’m an independent software engineer and consultant with more than 20 years of experience in backend, data processing and integration projects, mainly in finance and enterprise environments.",
+          "Over the last years I’ve been focusing on modern AI tooling: large language models (LLMs), retrieval-augmented generation (RAG), agentic workflows and practical MLOps. My goal is to connect this new technology with the reality of existing systems: Java backends, databases, queues, Office 365, legacy APIs and compliance requirements.",
+          "I prefer small, well-defined projects that deliver visible value quickly – and that can be extended later if your organisation is ready for the next step.",
+        ],
+      },
+      contact: {
+        sectionTitle: "Contact",
+        intro:
+          "Send a short email with a few lines about your company, your current tools and what you’d like to explore. I’ll get back to you with a suggestion for an intro call.",
+        emailLabel: "hello@example.com", // EDIT
+        details: [
+          "Based in Europe (e.g. Germany), working primarily remote.",
+          "Languages: English, German.",
+          "Suitable for pilot projects, advisory, and end-to-end implementation with your existing team.",
+        ],
+      },
+      footer: {
+        imprint: "Imprint",
+        privacy: "Privacy",
+        copyrightPrefix: "©",
+        allRights: "All rights reserved.",
+      },
+    },
+
+    de: {
+      meta: {
+        title: "AI-Beratung & Automatisierung für KMU",
+        description:
+          "Pragmatische KI-Beratung und Automatisierung für kleine und mittlere Unternehmen – von der Idee bis zum laufenden System.",
+      },
+      agencyName: "Pragmatic AI Studio", // kann gleich bleiben oder eindeutschen
+      agencyTagline: "KI-Beratung & Automatisierung",
+      hero: {
+        eyebrow: "KI für echte Unternehmen",
+        headline:
+          "Machen Sie aus dem <span class='text-emerald-300'>KI-Hype</span> konkrete Ergebnisse für Ihr Unternehmen.",
+        subheadline:
+          "Ich unterstütze kleine und mittlere Unternehmen dabei, praktische KI-Automatisierungen aufzubauen: vom Lesen und Strukturieren von E-Mails und Dokumenten über interne Auskunftssysteme bis zur Anbindung an Ihre bestehenden Anwendungen – ohne Sie in einen bestimmten Cloud-Anbieter zu zwingen.",
+        ctaLabel: "Unverbindliches Kennenlerngespräch anfragen",
+        metaLine: "Basierend in Europa · Remote · Deutsch & Englisch",
+        stats: [
+          {
+            title: "20+ Jahre Software-Erfahrung",
+            text: "Senior-Engineering-Background in Backend, Datenverarbeitung und Enterprise-Systemen.",
+          },
+          {
+            title: "KI, Agents & RAG",
+            text: "Moderne LLM-Tooling-Landschaft, Retrieval-augmented Generation und agentische Workflows.",
+          },
+        ],
+        whatYouGetTitle: "Was Sie bekommen",
+        whatYouGetItems: [
+          {
+            title: "KI-Potenzial-Check",
+            text: "Kurzer Workshop, um 2–3 realistische Automatisierungskandidaten in Ihren heutigen Abläufen zu identifizieren (E-Mails, Dokumente, Tickets, CRM, ERP).",
+          },
+          {
+            title: "Architektur & Tool-Auswahl",
+            text: "Cloud, On-Prem oder Hybrid – wir entwerfen eine Lösung, die zu Ihren Sicherheits- und Infrastrukturvorgaben passt, statt Sie in einen Anbieter zu drängen.",
+          },
+          {
+            title: "End-to-End-Prototyp",
+            text: "Ein funktionierender KI-Workflow oder Chatbot auf Basis Ihrer eigenen Daten – mit Mensch-in-der-Schleife, wo es notwendig ist.",
+          },
+        ],
+        stackNote:
+          "Technikbeispiele: OpenAI / lokale Modelle, LangGraph / andere Agent-Frameworks, RAG-Suche, Kafka/Queues, klassische Backends in Java/Python, MS 365-Integration usw.",
+      },
+      nav: {
+        services: "Leistungen",
+        process: "Ablauf",
+        useCases: "Anwendungsfälle",
+        about: "Über mich",
+        contact: "Kontakt",
+        freeCall: "Kostenloses Erstgespräch",
+      },
+      services: {
+        sectionTitle: "Leistungen",
+        sectionSubtitle:
+          "Von der ersten Idee bis zum laufenden System. Sie können mit einem kleinen Pilot starten und bei Bedarf ausbauen.",
+        contextNote:
+          "Ideal für Unternehmen mit gemischter Infrastruktur (On-Prem-Server, Netzlaufwerke, Office 365 / Exchange, ggf. noch keine AWS-Umgebung), die konkrete Automatisierung statt Folien wünschen.",
+        items: [
+          {
+            label: "01 · Strategie",
+            title: "KI-Potenziale & Architektur-Workshop",
+            body:
+              "Wir kartieren Ihre heutigen Werkzeuge (E-Mail, Dateien, ERP/CRM, Ticketsysteme) und identifizieren, wo KI sicher unterstützen kann: Routing, Zusammenfassungen, Auskünfte, Unterstützung bei Dateneingaben.",
+            bullets: [
+              "1–2 halbtägige Remote-Sessions",
+              "Konkrete Liste von 2–3 Automatisierungskandidaten",
+              "Grobes Architekturmodell (Cloud/On-Prem/Hybrid)",
+            ],
+          },
+          {
+            label: "02 · Umsetzung",
+            title: "Agentische Workflows & individuelle Chatbots",
+            body:
+              "Wir bauen LLM-basierte Agents, die E-Mails lesen, Daten über APIs oder Datenbanken holen und Handlungsvorschläge machen – mit klar definierten Grenzen und Mensch-in-der-Schleife.",
+            bullets: [
+              "Retrieval-augmented Generation (RAG) auf Ihren Dokumenten",
+              "Tools für Bestellstatus, Ticketstatus, Rechnungsversand usw.",
+              "Optional: Model Context Protocol (MCP) für saubere Integrationen",
+            ],
+          },
+          {
+            label: "03 · Integration",
+            title: "Vom Prototyp in den Betrieb",
+            body:
+              "Wir integrieren die Lösung in Ihre bestehende Landschaft: Authentifizierung, Logging, Monitoring, Datenschutz und realistische Rückfalloptionen.",
+            bullets: [
+              "Anbindung an bestehende APIs und Datenbanken",
+              "Deployment auf Ihrem Server, in der Cloud oder hybrid",
+              "Übergabe und Dokumentation für Ihr internes Team",
+            ],
+          },
+        ],
+      },
+      process: {
+        sectionTitle: "Ablauf",
+        sectionSubtitle:
+          "Transparente Schritte und klare Erwartungen. Keine Blackbox – Sie behalten die Kontrolle über Daten und Systeme.",
+        steps: [
+          {
+            title: "Kennenlernen & Use-Case-Auswahl",
+            text:
+              "Kostenloses 30-minütiges Gespräch, um Ihre Situation zu verstehen. Wenn es passt, wählen wir einen klar abgegrenzten Pilot-Use-Case mit messbaren Zielen.",
+          },
+          {
+            title: "Design & Prototyp",
+            text:
+              "Technisches Design und Umsetzung eines funktionierenden Prototyps: Anbindung Ihrer Daten, Einsatz von LLMs, Definition der erlaubten Aktionen des Agents und der Stellen, an denen Menschen entscheiden.",
+          },
+          {
+            title: "Pilotphase & Übergabe",
+            text:
+              "Wir führen eine Pilotphase mit Ihrem Team durch, verfeinern Prompts und Abläufe und übergeben anschließend Quellcode, Dokumentation und Betriebshinweise.",
+          },
+        ],
+      },
+      useCases: {
+        sectionTitle: "Beispielhafte Anwendungsfälle",
+        sectionSubtitle:
+          "Keine Science-Fiction – realistische Szenarien für kleine und mittlere Unternehmen heute.",
+        items: [
+          {
+            title: "Intelligente E-Mail-Triage mit Mensch-in-der-Schleife",
+            body:
+              "Ein KI-Agent liest eingehende E-Mails (Support, Bestellungen, Rechnungen), prüft Ihr Wissensarchiv und Ihre Systeme und bereitet Antworten oder Zuordnungsvorschläge vor.",
+            bullets: [
+              "Automatische Klassifizierung und Verschlagwortung von E-Mails",
+              "Antwortvorschläge – Ihr Team entscheidet und versendet",
+              "Anbindung an Ticket-System oder CRM statt deren Ablösung",
+            ],
+          },
+          {
+            title: "Interner Chatbot auf Ihren Dokumenten",
+            body:
+              "Eine Chat-Oberfläche für Ihre Mitarbeitenden, die Fragen zu Prozessen, Verträgen, technischen Unterlagen oder Produktinformationen beantworten kann.",
+            bullets: [
+              "Nutzt RAG (Retrieval-augmented Generation) statt vager Antworten",
+              "Kann in der Cloud oder On-Prem betrieben werden",
+              "Rechtekonzept auf Basis Ihrer bestehenden Benutzerkonten",
+            ],
+          },
+          {
+            title: "Assistierte Back-Office-Prozesse",
+            body:
+              "Der Agent bereitet Dateneingaben vor, prüft auf Inkonsistenzen und meldet Auffälligkeiten – insbesondere dort, wo heute manuell zwischen Systemen kopiert wird.",
+            bullets: [
+              "Liest PDFs/Dokumente und extrahiert strukturierte Daten",
+              "Macht Vorschläge, die Menschen bestätigen oder korrigieren",
+              "Lückenlose Protokollierung aller Aktionen",
+            ],
+          },
+          {
+            title: "Beratung zu Cloud- vs. On-Prem-KI",
+            body:
+              "Sie sind unsicher, ob und wie Sie Public-Cloud-Dienste einsetzen dürfen? Wir erarbeiten einen realistischen Weg, der zu Ihren rechtlichen und technischen Rahmenbedingungen passt.",
+            bullets: [
+              "Vergleich von OpenAI / Azure OpenAI / anderen Anbietern",
+              "Bewertung lokaler / privater Modelle, wo erforderlich",
+              "Architektur, die sich schrittweise weiterentwickeln lässt",
+            ],
+          },
+        ],
+      },
+      about: {
+        sectionTitle: "Über mich",
+        paragraphs: [
+          "Ich bin selbständiger Softwareingenieur und Berater mit über 20 Jahren Erfahrung in Backend-Entwicklung, Datenverarbeitung und Integrationsprojekten – vor allem im Finanz- und Enterprise-Umfeld.",
+          "In den letzten Jahren habe ich mich stark auf moderne KI-Werkzeuge konzentriert: Large Language Models (LLMs), Retrieval-augmented Generation (RAG), agentische Workflows und pragmatisches MLOps. Mein Ziel ist es, diese neuen Möglichkeiten mit der Realität gewachsener Systeme zu verbinden: Java-Backends, Datenbanken, Queues, Office 365, Legacy-APIs und Compliance-Anforderungen.",
+          "Ich bevorzuge kleine, klar geschnittene Projekte mit sichtbarem Mehrwert in kurzer Zeit – und mit der Option, später in angemessenem Tempo weiter auszubauen.",
+        ],
+      },
+      contact: {
+        sectionTitle: "Kontakt",
+        intro:
+          "Schreiben Sie mir kurz, wer Sie sind, welche Systeme Sie heute nutzen und was Sie mit KI erkunden möchten. Ich melde mich mit einem Vorschlag für ein kurzes Kennenlerngespräch.",
+        emailLabel: "hello@example.com", // EDIT
+        details: [
+          "Standort Europa (z. B. Deutschland), überwiegend remote.",
+          "Sprachen: Deutsch, Englisch.",
+          "Geeignet für Pilotprojekte, Beratung und End-to-End-Umsetzung gemeinsam mit Ihrem Team.",
+        ],
+      },
+      footer: {
+        imprint: "Impressum",
+        privacy: "Datenschutz",
+        copyrightPrefix: "©",
+        allRights: "Alle Rechte vorbehalten.",
+      },
+    },
+  };
+
+  // ===========================
+  // RENDERING LOGIC
+  // ===========================
+  let currentLang = "en";
+
+  function $(id) {
+    return document.getElementById(id);
+  }
+
+  function setLang(lang) {
+    currentLang = lang;
+    render();
+    document.documentElement.lang = lang;
+
+    // Toggle active state on buttons
+    const btnEn = $("btn-lang-en");
+    const btnDe = $("btn-lang-de");
+    if (btnEn && btnDe) {
+      btnEn.classList.toggle("lang-toggle-active", lang === "en");
+      btnDe.classList.toggle("lang-toggle-active", lang === "de");
+    }
+  }
+
+  function render() {
+    const c = content[currentLang];
+
+    // Meta / title
+    document.title = c.meta.title;
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute("content", c.meta.description);
+
+    // Header
+    $("agency-name").textContent = c.agencyName;
+    $("agency-tagline").textContent = c.agencyTagline;
+
+    $("nav-services").textContent = c.nav.services;
+    $("nav-process").textContent = c.nav.process;
+    $("nav-usecases").textContent = c.nav.useCases;
+    $("nav-about").textContent = c.nav.about;
+    $("nav-contact").textContent = c.nav.contact;
+    $("nav-freecall").textContent = c.nav.freeCall;
+
+    // Hero
+    $("hero-eyebrow").textContent = c.hero.eyebrow;
+    $("hero-headline").innerHTML = c.hero.headline;
+    $("hero-subheadline").textContent = c.hero.subheadline;
+    $("hero-cta").textContent = c.hero.ctaLabel;
+    $("hero-meta").textContent = c.hero.metaLine;
+
+    // Hero stats
+    $("hero-stats").innerHTML = c.hero.stats
+      .map(
+        (s) => `
+        <div class="border border-slate-800 rounded-2xl p-4">
+          <div class="text-emerald-300 font-semibold mb-1">
+            ${s.title}
+          </div>
+          <p class="text-slate-400">
+            ${s.text}
+          </p>
+        </div>
+        `
+      )
+      .join("");
+
+    // What you get
+    $("hero-wyg-title").textContent = c.hero.whatYouGetTitle;
+    $("hero-wyg-list").innerHTML = c.hero.whatYouGetItems
+      .map(
+        (item, idx) => `
+        <li class="flex gap-2">
+          <span class="mt-1 h-5 w-5 rounded-full bg-emerald-400/15 flex items-center justify-center text-[11px] text-emerald-300">${idx +
+            1}</span>
+          <div>
+            <span class="font-semibold">${item.title}</span><br />
+            ${item.text}
+          </div>
+        </li>
+        `
+      )
+      .join("");
+    $("hero-stack-note").textContent = c.hero.stackNote;
+
+    // Services
+    $("services-title").textContent = c.services.sectionTitle;
+    $("services-subtitle").textContent = c.services.sectionSubtitle;
+    $("services-note").textContent = c.services.contextNote;
+    $("services-items").innerHTML = c.services.items
+      .map(
+        (item) => `
+      <div class="border border-slate-800 rounded-2xl p-5 bg-slate-900/40">
+        <div class="text-xs uppercase tracking-[0.15em] text-emerald-300/80 mb-2">
+          ${item.label}
+        </div>
+        <h3 class="font-semibold mb-2 text-sm">${item.title}</h3>
+        <p class="text-sm text-slate-300 mb-3">
+          ${item.body}
+        </p>
+        <ul class="text-xs text-slate-400 space-y-1.5">
+          ${item.bullets.map((b) => `<li>• ${b}</li>`).join("")}
+        </ul>
+      </div>
+      `
+      )
+      .join("");
+
+    // Process
+    $("process-title").textContent = c.process.sectionTitle;
+    $("process-subtitle").textContent = c.process.sectionSubtitle;
+    $("process-steps").innerHTML = c.process.steps
+      .map(
+        (step, idx) => `
+      <li class="border border-slate-800 rounded-2xl p-5 bg-slate-900/40">
+        <div class="flex items-center gap-2 mb-2">
+          <span class="h-6 w-6 rounded-full bg-emerald-400/20 flex items-center justify-center text-xs text-emerald-300 font-semibold">${idx +
+            1}</span>
+          <span class="font-semibold">${step.title}</span>
+        </div>
+        <p class="text-slate-400">
+          ${step.text}
+        </p>
+      </li>
+      `
+      )
+      .join("");
+
+    // Use cases
+    $("usecases-title").textContent = c.useCases.sectionTitle;
+    $("usecases-subtitle").textContent = c.useCases.sectionSubtitle;
+    $("usecases-items").innerHTML = c.useCases.items
+      .map(
+        (uc) => `
+      <div class="border border-slate-800 rounded-2xl p-5 bg-slate-900/40 text-sm">
+        <h3 class="font-semibold mb-1">
+          ${uc.title}
+        </h3>
+        <p class="text-slate-300 mb-2">
+          ${uc.body}
+        </p>
+        <ul class="text-xs text-slate-400 space-y-1">
+          ${uc.bullets.map((b) => `<li>• ${b}</li>`).join("")}
+        </ul>
+      </div>
+      `
+      )
+      .join("");
+
+    // About
+    $("about-title").textContent = c.about.sectionTitle;
+    $("about-body").innerHTML = c.about.paragraphs
+      .map(
+        (p) =>
+          `<p class="text-sm text-slate-300 leading-relaxed mb-3">${p}</p>`
+      )
+      .join("");
+
+    // Contact
+    $("contact-title").textContent = c.contact.sectionTitle;
+    $("contact-intro").textContent = c.contact.intro;
+    $("contact-email-link").textContent = c.contact.emailLabel;
+    $("contact-email-link").href = "mailto:" + c.contact.emailLabel;
+    $("contact-details").innerHTML = c.contact.details
+      .map((d) => `<p class="mb-1">${d}</p>`)
+      .join("");
+
+    // Footer
+    const year = new Date().getFullYear();
+    $("footer-text").textContent = `${c.footer.copyrightPrefix} ${year} ${c.agencyName}. ${c.footer.allRights}`;
+    $("footer-imprint").textContent = c.footer.imprint;
+    $("footer-privacy").textContent = c.footer.privacy;
+  }
+
+  // Init at DOM ready
+  document.addEventListener("DOMContentLoaded", () => {
+    setLang(currentLang);
+  });
+</script>
+
+<!-- Page wrapper -->
+<div class="min-h-screen flex flex-col">
+
+  <!-- Navigation -->
+  <header class="border-b border-slate-800/70 bg-slate-950/80 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <div class="h-8 w-8 rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center text-sm font-bold">
+          AI
+        </div>
+        <div>
+          <div id="agency-name" class="font-semibold tracking-tight">
+            <!-- filled by JS -->
+          </div>
+          <div id="agency-tagline" class="text-xs text-slate-400">
+            <!-- filled by JS -->
+          </div>
+        </div>
+      </div>
+      <nav class="hidden md:flex gap-6 text-sm text-slate-300">
+        <a id="nav-services" href="#services" class="hover:text-emerald-300"></a>
+        <a id="nav-process" href="#process" class="hover:text-emerald-300"></a>
+        <a id="nav-usecases" href="#use-cases" class="hover:text-emerald-300"></a>
+        <a id="nav-about" href="#about" class="hover:text-emerald-300"></a>
+        <a id="nav-contact" href="#contact" class="hover:text-emerald-300"></a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <!-- Language toggle -->
+        <div class="flex rounded-full border border-slate-700 text-xs overflow-hidden">
+          <button id="btn-lang-en"
+                  onclick="setLang('en')"
+                  class="px-2 py-1 hover:bg-slate-800">
+            EN
+          </button>
+          <button id="btn-lang-de"
+                  onclick="setLang('de')"
+                  class="px-2 py-1 hover:bg-slate-800">
+            DE
+          </button>
+        </div>
+
+        <a id="nav-freecall"
+           href="#contact"
+           class="hidden md:inline-flex items-center rounded-full border border-emerald-400/60 px-4 py-1.5 text-sm font-medium text-emerald-100 hover:bg-emerald-500/10">
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main content -->
+  <main class="flex-1">
+    <!-- Hero -->
+    <section class="border-b border-slate-900 bg-gradient-to-b from-slate-950 to-slate-950/90">
+      <div class="max-w-6xl mx-auto px-4 py-16 lg:py-24 grid lg:grid-cols-2 gap-10 items-center">
+        <div>
+          <p id="hero-eyebrow" class="text-xs uppercase tracking-[0.25em] text-emerald-300/80 mb-4"></p>
+          <h1 id="hero-headline" class="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight mb-5"></h1>
+          <p id="hero-subheadline" class="text-sm sm:text-base text-slate-300 leading-relaxed mb-6"></p>
+          <div class="flex flex-wrap items-center gap-3 mb-8">
+            <a id="hero-cta"
+               href="#contact"
+               class="inline-flex items-center rounded-full bg-emerald-400 px-5 py-2 text-sm font-semibold text-slate-950 hover:bg-emerald-300">
+            </a>
+            <span id="hero-meta" class="text-xs text-slate-400"></span>
+          </div>
+          <div id="hero-stats" class="grid grid-cols-2 gap-4 text-xs text-slate-300">
+            <!-- filled by JS -->
+          </div>
+        </div>
+
+        <!-- Right side card -->
+        <div class="border border-slate-800 rounded-3xl bg-slate-900/40 p-5 sm:p-6 lg:p-7 shadow-xl shadow-emerald-500/5">
+          <h2 id="hero-wyg-title" class="text-sm font-semibold mb-3 text-slate-100"></h2>
+          <ul id="hero-wyg-list" class="space-y-3 text-sm text-slate-300">
+            <!-- filled by JS -->
+          </ul>
+          <div id="hero-stack-note" class="mt-5 text-xs text-slate-400 border-t border-slate-800 pt-4"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Services -->
+    <section id="services" class="border-b border-slate-900 bg-slate-950">
+      <div class="max-w-6xl mx-auto px-4 py-14 lg:py-18">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+          <div>
+            <h2 id="services-title" class="text-2xl font-semibold tracking-tight mb-2"></h2>
+            <p id="services-subtitle" class="text-sm text-slate-400 max-w-xl"></p>
+          </div>
+          <div id="services-note" class="text-xs text-slate-400 max-w-sm"></div>
+        </div>
+
+        <div id="services-items" class="grid md:grid-cols-3 gap-6">
+          <!-- filled by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Process -->
+    <section id="process" class="border-b border-slate-900 bg-slate-950">
+      <div class="max-w-6xl mx-auto px-4 py-14 lg:py-18">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+          <div>
+            <h2 id="process-title" class="text-2xl font-semibold tracking-tight mb-2"></h2>
+            <p id="process-subtitle" class="text-sm text-slate-400 max-w-xl"></p>
+          </div>
+        </div>
+
+        <ol id="process-steps" class="grid md:grid-cols-3 gap-6 text-sm text-slate-200">
+          <!-- filled by JS -->
+        </ol>
+      </div>
+    </section>
+
+    <!-- Use cases -->
+    <section id="use-cases" class="border-b border-slate-900 bg-slate-950">
+      <div class="max-w-6xl mx-auto px-4 py-14 lg:py-18">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
+          <div>
+            <h2 id="usecases-title" class="text-2xl font-semibold tracking-tight mb-2"></h2>
+            <p id="usecases-subtitle" class="text-sm text-slate-400 max-w-xl"></p>
+          </div>
+        </div>
+
+        <div id="usecases-items" class="grid md:grid-cols-2 gap-6 text-sm">
+          <!-- filled by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- About -->
+    <section id="about" class="border-b border-slate-900 bg-slate-950">
+      <div class="max-w-3xl mx-auto px-4 py-14 lg:py-18">
+        <h2 id="about-title" class="text-2xl font-semibold tracking-tight mb-4"></h2>
+        <div id="about-body">
+          <!-- filled by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Contact -->
+    <section id="contact" class="bg-slate-950">
+      <div class="max-w-3xl mx-auto px-4 py-14 lg:py-18">
+        <h2 id="contact-title" class="text-2xl font-semibold tracking-tight mb-4"></h2>
+        <p id="contact-intro" class="text-sm text-slate-300 mb-4"></p>
+        <p class="text-sm text-emerald-300 font-mono mb-6">
+          <a id="contact-email-link"
+             href="#"
+             class="underline underline-offset-2 hover:text-emerald-200">
+          </a>
+        </p>
+
+        <div class="border border-slate-800 rounded-2xl p-4 text-xs text-slate-400" id="contact-details">
+          <!-- filled by JS -->
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Footer -->
+  <footer class="border-t border-slate-900 bg-slate-950">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+      <div id="footer-text"></div>
+      <div class="flex gap-4">
+        <span id="footer-imprint"></span>
+        <span id="footer-privacy"></span>
+      </div>
+    </div>
+  </footer>
+</div>
+</body>
+</html>
