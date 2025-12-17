@@ -14,7 +14,7 @@ window.content.en = {
     headline:
       "Turn <span class='text-emerald-500 dark:text-emerald-300'>AI hype</span> into concrete results for your company.",
     subheadline:
-      "I help small and medium-sized businesses design and implement practical AI automations: from reading emails and documents to answering internal questions and connecting to your existing systems. Without forcing you into a specific cloud or vendor.",
+      "I help small and medium-sized businesses design and implement practical AI automations: from reading emails and documents to answering internal questions and connecting to your existing systems. I support a wide range of AI platforms — from local models to AWS, Azure, or OpenAI — so the technology adapts to you, not the other way around.",
     ctaLabel: "Request a 30-min intro call",
     metaLine: "Europe-based · Remote friendly · English & German",
     slogans: [
@@ -50,7 +50,7 @@ window.content.en = {
       },
     ],
     stackNote:
-      "Tech stack examples: OpenAI / local models, LangGraph / other agent frameworks, RAG search, Kafka/queues, classic backend in Java/Python, MS 365 integration, etc.",
+      "Tech stack examples: OpenAI / local models, LangGraph / n8n / other agentic frameworks, RAG, MCP, Elasticsearch, backend in Python / Java / JS, MS 365 integration, etc.",
   },
   nav: {
     services: "Services",

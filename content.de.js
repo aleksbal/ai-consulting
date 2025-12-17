@@ -14,7 +14,7 @@ window.content.de = {
     headline:
       "Machen Sie aus dem <span class='text-emerald-500 dark:text-emerald-300'>KI-Hype</span> konkrete Ergebnisse für Ihr Unternehmen.",
     subheadline:
-      "Ich unterstütze kleine und mittlere Unternehmen dabei, praktische KI-Automatisierungen aufzubauen: vom Lesen und Strukturieren von E-Mails und Dokumenten über interne Auskunftssysteme bis zur Anbindung an Ihre bestehenden Anwendungen – ohne Sie in einen bestimmten Cloud-Anbieter zu zwingen.",
+      "Ich unterstütze kleine und mittlere Unternehmen dabei, praktische KI-Automatisierungen aufzubauen: vom Lesen und Strukturieren von E-Mails und Dokumenten über interne Auskunftssysteme bis zur Anbindung an Ihre bestehenden Anwendungen. Ich unterstütze eine breite Palette von KI-Plattformen – von lokalen Modellen bis hin zu AWS, Azure oder OpenAI – sodass sich die Technologie an Sie anpasst und nicht umgekehrt.",
     ctaLabel: "Unverbindliches Kennenlerngespräch anfragen",
     metaLine: "Basierend in Europa · Remote · Deutsch & Englisch",
     slogans: [
@@ -50,7 +50,7 @@ window.content.de = {
       },
     ],
     stackNote:
-      "Technikbeispiele: OpenAI / lokale Modelle, LangGraph / andere Agent-Frameworks, RAG-Suche, Kafka/Queues, klassische Backends in Java/Python, MS 365-Integration usw.",
+      "Tech-Stack-Beispiele: OpenAI / local models, LangGraph / n8n / other agentic frameworks, RAG, MCP, Elasticsearch, backend in Python / Java / JS, MS 365 integration, etc.",
   },
   nav: {
     services: "Leistungen",
