@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <title>Articles & Insights – Modest AI Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Articles and insights on pragmatic AI consulting, RAG, MCP, workflow automation, local models and Office 365 integration." />
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' };
+  </script>
+
+  <style>
+    .lang-toggle-active {
+      background-color: rgba(45,212,191,0.15);
+      color: rgb(45,212,191);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased">
+
+<script>
+  // --- Theme + language handling (simplified, independent of index.js content) ---
+  let currentLang = "en";
+  let currentTheme = "light";
+
+  function setTheme(theme, store = true) {
+    currentTheme = theme;
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    if (store) {
+      try { localStorage.setItem("theme", theme); } catch (e) {}
+    }
+    const btn = document.getElementById("btn-theme");
+    if (btn) btn.textContent = theme === "dark" ? "☀️" : "🌙";
+  }
+
+  function initTheme() {
+    let t = null;
+    try { t = localStorage.getItem("theme"); } catch (e) {}
+    if (t === "light" || t === "dark") {
+      setTheme(t, false);
+    } else {
+      setTheme(
+        window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
+        false
+      );
+    }
+  }
+
+  function toggleTheme() {
+    setTheme(currentTheme === "dark" ? "light" : "dark");
+  }
+
+  function setLang(lang) {
+    currentLang = lang;
+    try { localStorage.setItem("lang", lang); } catch (e) {}
+    document.documentElement.lang = lang;
+    const enBtn = document.getElementById("btn-lang-en");
+    const deBtn = document.getElementById("btn-lang-de");
+    if (enBtn && deBtn) {
+      enBtn.classList.toggle("lang-toggle-active", lang === "en");
+      deBtn.classList.toggle("lang-toggle-active", lang === "de");
+    }
+  }
+
+  function initLang() {
+    let stored = null;
+    try { stored = localStorage.getItem("lang"); } catch (e) {}
+    if (stored === "en" || stored === "de") {
+      setLang(stored);
+    } else {
+      const navLang = (navigator.language || "").toLowerCase().startsWith("de") ? "de" : "en";
+      setLang(navLang);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    initTheme();
+    initLang();
+    const yearEl = document.getElementById("year");
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+  });
+</script>
+
+<div class="min-h-screen flex flex-col">
+
+  <!-- HEADER (visually aligned with index.html) -->
+  <header class="sticky top-0 z-40 border-b border-slate-200 dark:border-slate-800/70 bg-white/80 dark:bg-slate-950/80 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <div class="h-8 w-8 rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center text-sm font-bold text-slate-950">
+          M
+        </div>
+        <div>
+          <div class="font-semibold tracking-tight">Modest AI Studio</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400">
+            Pragmatic AI consulting for real-world projects
+          </div>
+        </div>
+      </div>
+      <nav class="hidden md:flex gap-6 text-sm text-slate-600 dark:text-slate-300">
+        <!-- Note: these point back to index.html sections -->
+        <a href="index.html#services" class="hover:text-emerald-600 dark:hover:text-emerald-300">Services</a>
+        <a href="index.html#process" class="hover:text-emerald-600 dark:hover:text-emerald-300">Process</a>
+        <a href="index.html#use-cases" class="hover:text-emerald-600 dark:hover:text-emerald-300">Use cases</a>
+        <a href="index.html#about" class="hover:text-emerald-600 dark:hover:text-emerald-300">About</a>
+        <a href="articles.html" class="text-emerald-600 dark:text-emerald-300 font-medium">Articles</a>
+        <a href="index.html#contact" class="hover:text-emerald-600 dark:hover:text-emerald-300">Contact</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <div class="flex rounded-full border border-slate-300 dark:border-slate-700 text-xs overflow-hidden">
+          <button id="btn-lang-en" onclick="setLang('en')" class="px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800">EN</button>
+          <button id="btn-lang-de" onclick="setLang('de')" class="px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800">DE</button>
+        </div>
+        <button id="btn-theme" onclick="toggleTheme()" class="text-sm rounded-full border px-2 py-1 border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"></button>
+        <a href="index.html#contact" class="hidden md:inline-flex items-center rounded-full border border-emerald-500/70 px-4 py-1.5 text-sm font-medium text-emerald-800 dark:text-emerald-100 hover:bg-emerald-500/10">
+          Free intro call
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN -->
+  <main class="flex-1">
+    <section class="bg-slate-50 dark:bg-slate-950">
+      <div class="max-w-6xl mx-auto px-4 py-12 lg:py-16">
+        <p class="text-xs uppercase tracking-[0.25em] text-emerald-600/80 dark:text-emerald-300/80 mb-3">
+          Knowledge
+        </p>
+        <h1 class="text-3xl font-semibold tracking-tight mb-3">
+          Articles &amp; insights
+        </h1>
+        <p class="text-sm text-slate-700 dark:text-slate-300 mb-8 max-w-2xl">
+          Short, practical explanations of the building blocks I use in client projects:
+          RAG, MCP, workflow automation, local models, Office 365 integration and more.
+          No buzzword bingo – just enough depth so you understand what you’re buying.
+        </p>
+
+        <div class="grid md:grid-cols-2 gap-6 text-sm">
+
+          <!-- Example article card – RAG -->
+          <a href="articles/article-rag-basics.html"
+             class="border border-slate-200 dark:border-slate-800 rounded-2xl p-5 bg-white/80 dark:bg-slate-900/40 hover:border-emerald-400/80 hover:shadow-md transition">
+            <div class="text-xs uppercase tracking-[0.2em] text-emerald-600/80 dark:text-emerald-300/80 mb-2">
+              RAG Basics
+            </div>
+            <h2 class="font-semibold mb-1">
+              How RAG actually works – and when it makes sense
+            </h2>
+            <p class="text-slate-700 dark:text-slate-300 mb-2">
+              Retrieval-Augmented Generation explained in normal business language:
+              what it is, when it’s overkill, and where it can really help.
+            </p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">
+              5–7 min read · For IT &amp; business stakeholders
+            </p>
+          </a>
+
+          <!-- Example article card – MCP -->
+          <a href="article-mcp-overview.html"
+             class="border border-slate-200 dark:border-slate-800 rounded-2xl p-5 bg-white/80 dark:bg-slate-900/40 hover:border-emerald-400/80 hover:shadow-md transition">
+            <div class="text-xs uppercase tracking-[0.2em] text-emerald-600/80 dark:text-emerald-300/80 mb-2">
+              MCP
+            </div>
+            <h2 class="font-semibold mb-1">
+              MCP: connecting AI agents safely to your existing systems
+            </h2>
+            <p class="text-slate-700 dark:text-slate-300 mb-2">
+              A pragmatic look at the Model Context Protocol and how it can structure
+              integrations between AI assistants and your existing APIs, databases and tools.
+            </p>
+            <p class="text-xs text-slate-500 dark:text-slate-400">
+              4–6 min read · For technical decision makers
+            </p>
+          </a>
+
+          <!-- Add more cards here as you write new articles -->
+
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- FOOTER (same style as index) -->
+  <footer class="border-t border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+      <div>© <span id="year"></span> Modest AI Studio. Alle Rechte vorbehalten.</div>
+      <div class="flex gap-4">
+        <a href="impressum.html" class="hover:text-emerald-500">Impressum</a>
+        <a href="datenschutz.html" class="hover:text-emerald-500">Datenschutzerklärung</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>
