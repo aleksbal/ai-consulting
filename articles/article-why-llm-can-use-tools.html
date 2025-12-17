@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <title>Article title – Modest AI Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Short description of this article for search engines and link previews." />
+
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' };
+  </script>
+
+  <style>
+    .lang-toggle-active {
+      background-color: rgba(45,212,191,0.15);
+      color: rgb(45,212,191);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased">
+
+<script>
+  let currentLang = "en";
+  let currentTheme = "light";
+
+  function setTheme(theme, store = true) {
+    currentTheme = theme;
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    if (store) {
+      try { localStorage.setItem("theme", theme); } catch (e) {}
+    }
+    const btn = document.getElementById("btn-theme");
+    if (btn) btn.textContent = theme === "dark" ? "☀️" : "🌙";
+  }
+
+  function initTheme() {
+    let t = null;
+    try { t = localStorage.getItem("theme"); } catch (e) {}
+    if (t === "light" || t === "dark") {
+      setTheme(t, false);
+    } else {
+      setTheme(
+        window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
+        false
+      );
+    }
+  }
+
+  function toggleTheme() {
+    setTheme(currentTheme === "dark" ? "light" : "dark");
+  }
+
+  function setLang(lang) {
+    currentLang = lang;
+    try { localStorage.setItem("lang", lang); } catch (e) {}
+    document.documentElement.lang = lang;
+    const enBtn = document.getElementById("btn-lang-en");
+    const deBtn = document.getElementById("btn-lang-de");
+    if (enBtn && deBtn) {
+      enBtn.classList.toggle("lang-toggle-active", lang === "en");
+      deBtn.classList.toggle("lang-toggle-active", lang === "de");
+    }
+  }
+
+  function initLang() {
+    let stored = null;
+    try { stored = localStorage.getItem("lang"); } catch (e) {}
+    if (stored === "en" || stored === "de") {
+      setLang(stored);
+    } else {
+      const navLang = (navigator.language || "").toLowerCase().startsWith("de") ? "de" : "en";
+      setLang(navLang);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    initTheme();
+    initLang();
+    const yearEl = document.getElementById("year");
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+  });
+</script>
+
+<div class="min-h-screen flex flex-col">
+
+  <!-- HEADER: same visual structure as index, links back to index + articles -->
+  <header class="sticky top-0 z-40 border-b border-slate-200 dark:border-slate-800/70 bg-white/80 dark:bg-slate-950/80 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <div class="h-8 w-8 rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center text-sm font-bold text-slate-950">
+          M
+        </div>
+        <div>
+          <div class="font-semibold tracking-tight">Modest AI Studio</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400">
+            Pragmatic AI consulting for real-world projects
+          </div>
+        </div>
+      </div>
+      <nav class="hidden md:flex gap-6 text-sm text-slate-600 dark:text-slate-300">
+        <a href="../index.html#services" class="hover:text-emerald-600 dark:hover:text-emerald-300">Services</a>
+        <a href="../index.html#process" class="hover:text-emerald-600 dark:hover:text-emerald-300">Process</a>
+        <a href="../index.html#use-cases" class="hover:text-emerald-600 dark:hover:text-emerald-300">Use cases</a>
+        <a href="../index.html#about" class="hover:text-emerald-600 dark:hover:text-emerald-300">About</a>
+        <a href="../articles.html" class="hover:text-emerald-600 dark:hover:text-emerald-300">Articles</a>
+        <a href="../index.html#contact" class="hover:text-emerald-600 dark:hover:text-emerald-300">Contact</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <div class="flex rounded-full border border-slate-300 dark:border-slate-700 text-xs overflow-hidden">
+          <button id="btn-lang-en" onclick="setLang('en')" class="px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800">EN</button>
+          <button id="btn-lang-de" onclick="setLang('de')" class="px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800">DE</button>
+        </div>
+        <button id="btn-theme" onclick="toggleTheme()" class="text-sm rounded-full border px-2 py-1 border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"></button>
+        <a href="../index.html#contact" class="hidden md:inline-flex items-center rounded-full border border-emerald-500/70 px-4 py-1.5 text-sm font-medium text-emerald-800 dark:text-emerald-100 hover:bg-emerald-500/10">
+          Free intro call
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN ARTICLE CONTENT -->
+  <main class="flex-1">
+    <article class="bg-slate-50 dark:bg-slate-950">
+      <div class="max-w-3xl mx-auto px-4 py-10 lg:py-14">
+        <!-- Meta line -->
+        <p class="text-xs uppercase tracking-[0.25em] text-emerald-600/80 dark:text-emerald-300/80 mb-3">
+          Topic · Category
+        </p>
+
+        <!-- Title -->
+        <h1 class="text-3xl font-semibold tracking-tight mb-3">
+          Why LLMs Can Use Tools — Explained Simply
+        </h1>
+
+        <!-- Reading time / audience -->
+        <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">
+          5–7 min read · For IT &amp; business stakeholders
+        </p>
+
+        <!-- Body -->
+        <div class="space-y-4 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+            <p>
+              When people hear that AI agents can “use tools” or “call APIs”, it often
+              sounds mysterious or even unsafe. The reality is simpler: modern LLMs can
+              understand the purpose of an action because the action is described to them in
+              a structured, human-readable way. Tools are not magic — they are a clean,
+              safe contract between your systems and the AI.
+            </p>
+
+            <h2 class="text-base font-semibold mt-6">What a tool actually is</h2>
+
+            <p>
+              A <strong>tool</strong> is a single action an AI agent is allowed to perform. Nothing
+              more, nothing less. It is defined by:
+            </p>
+
+            <ul class="list-disc list-inside space-y-1">
+              <li>a <strong>name</strong> — what the action is called,</li>
+              <li>a <strong>description</strong> — what the action does in plain language,</li>
+              <li>a <strong>parameter schema</strong> — which inputs are required.</li>
+            </ul>
+
+            <p>
+              For example:
+            </p>
+
+            <pre class="bg-slate-900 text-slate-100 rounded p-3 text-xs overflow-x-auto">
+            {
+              "name": "getCustomerByEmail",
+              "description": "Returns customer information for the given email address.",
+              "parameters": {
+                "type": "object",
+                "properties": {
+                  "email": { "type": "string" }
+                },
+                "required": ["email"]
+              }
+            }
+            </pre>
+
+            <p>
+              An LLM does not “guess” how to call your systems. Instead, it reads this
+              structured description — similar to how a developer would — and understands
+              when and how the tool should be used.
+            </p>
+
+            <h2 class="text-base font-semibold mt-6">Why LLMs can select the right tool</h2>
+
+            <p>
+              LLMs have been trained on enormous amounts of structured content: API docs,
+              function definitions, JSON schemas, and examples of how humans use such
+              interfaces. Because of this, they are excellent at <strong>semantic matching</strong>:
+            </p>
+
+            <ul class="list-disc list-inside space-y-1">
+              <li>they understand the user's intent (“find a customer”),</li>
+              <li>they understand the tool's purpose (“get customer by email”),</li>
+              <li>they align the two and choose the correct action.</li>
+            </ul>
+
+            <p>
+              Classical automation cannot do this. Traditional systems only follow steps
+              that were explicitly programmed. They do not understand meaning — LLMs do.
+            </p>
+
+            <h2 class="text-base font-semibold mt-6">How tools keep AI assistants safe</h2>
+
+            <p>
+              Tools are not just for convenience. They are also for <strong>safety</strong>. The AI cannot
+              call any API on its own. It can only use the tools you expose.
+            </p>
+
+            <p>
+              This means:
+            </p>
+
+            <ul class="list-disc list-inside space-y-1">
+              <li>you define what the agent <strong>can</strong> do,</li>
+              <li>you define what the agent <strong>cannot</strong> do,</li>
+              <li>you control which systems are accessible,</li>
+              <li>you approve which parameters are acceptable.</li>
+            </ul>
+
+            <p>
+              In practical terms, tools create a safe sandbox.
+              Without tools, the agent has no capabilities at all.
+            </p>
+
+            <h2 class="text-base font-semibold mt-6">Dynamic multi-step workflows</h2>
+
+            <p>
+              Once tools are available, LLMs can chain them to accomplish complex goals.
+              For example:
+            </p>
+
+            <ul class="list-decimal list-inside space-y-1">
+              <li>User: “Show me all customers with overdue invoices and notify sales.”</li>
+              <li>Agent finds tools: <em>listOverdueInvoices</em> and <em>notifySales</em>.</li>
+              <li>It calls <em>listOverdueInvoices</em> first.</li>
+              <li>It interprets the results and extracts the relevant customers.</li>
+              <li>It calls <em>notifySales</em> with the extracted data.</li>
+              <li>It summarizes the result in natural language.</li>
+            </ul>
+
+            <p>
+              This is not pre-programmed branching logic.
+              The agent understands the relationships between the actions and the goal.
+            </p>
+
+            <h2 class="text-base font-semibold mt-6">Why this is such a breakthrough</h2>
+
+            <p>
+              For decades, automation tools could not:
+            </p>
+
+            <ul class="list-disc list-inside space-y-1">
+              <li>interpret intent,</li>
+              <li>read API descriptions and infer meaning,</li>
+              <li>build request payloads dynamically,</li>
+              <li>decide the next step based on results,</li>
+              <li>explain the outcome in natural language.</li>
+            </ul>
+
+            <p>
+              With LLMs and tools, automations become much more flexible and human-like
+              without losing control. You provide the actions, the rules, and the boundaries.
+              The AI provides the reasoning.
+            </p>
+
+            <h2 class="text-base font-semibold mt-6">Summary</h2>
+
+            <p>
+              Tools are the bridge that connects AI understanding with real business
+              systems. They let an LLM move beyond “text in, text out” and take practical
+              actions in a safe, structured way.
+            </p>
+
+            <p>
+              The combination of:
+            </p>
+
+            <ul class="list-disc list-inside space-y-1">
+              <li>semantic understanding,</li>
+              <li>structured tool descriptions,</li>
+              <li>contextual reasoning,</li>
+              <li>and safe boundaries</li>
+            </ul>
+
+            <p>
+              makes AI-driven automation far more powerful than anything possible with
+              traditional scripting or workflow engines. It is a new layer on top of your
+              existing systems — not a replacement for them.
+            </p>
+
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+      <div>© <span id="year"></span> Modest AI Studio. Alle Rechte vorbehalten.</div>
+      <div class="flex gap-4">
+        <a href="../impressum.html" class="hover:text-emerald-500">Impressum</a>
+        <a href="../datenschutz.html" class="hover:text-emerald-500">Datenschutzerklärung</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>

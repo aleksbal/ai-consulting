@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <title>Article title – Modest AI Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Short description of this article for search engines and link previews." />
+
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' };
+  </script>
+
+  <style>
+    .lang-toggle-active {
+      background-color: rgba(45,212,191,0.15);
+      color: rgb(45,212,191);
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased">
+
+<script>
+  let currentLang = "en";
+  let currentTheme = "light";
+
+  function setTheme(theme, store = true) {
+    currentTheme = theme;
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    if (store) {
+      try { localStorage.setItem("theme", theme); } catch (e) {}
+    }
+    const btn = document.getElementById("btn-theme");
+    if (btn) btn.textContent = theme === "dark" ? "☀️" : "🌙";
+  }
+
+  function initTheme() {
+    let t = null;
+    try { t = localStorage.getItem("theme"); } catch (e) {}
+    if (t === "light" || t === "dark") {
+      setTheme(t, false);
+    } else {
+      setTheme(
+        window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
+        false
+      );
+    }
+  }
+
+  function toggleTheme() {
+    setTheme(currentTheme === "dark" ? "light" : "dark");
+  }
+
+  function setLang(lang) {
+    currentLang = lang;
+    try { localStorage.setItem("lang", lang); } catch (e) {}
+    document.documentElement.lang = lang;
+    const enBtn = document.getElementById("btn-lang-en");
+    const deBtn = document.getElementById("btn-lang-de");
+    if (enBtn && deBtn) {
+      enBtn.classList.toggle("lang-toggle-active", lang === "en");
+      deBtn.classList.toggle("lang-toggle-active", lang === "de");
+    }
+  }
+
+  function initLang() {
+    let stored = null;
+    try { stored = localStorage.getItem("lang"); } catch (e) {}
+    if (stored === "en" || stored === "de") {
+      setLang(stored);
+    } else {
+      const navLang = (navigator.language || "").toLowerCase().startsWith("de") ? "de" : "en";
+      setLang(navLang);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    initTheme();
+    initLang();
+    const yearEl = document.getElementById("year");
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+  });
+</script>
+
+<div class="min-h-screen flex flex-col">
+
+  <!-- HEADER: same visual structure as index, links back to index + articles -->
+  <header class="sticky top-0 z-40 border-b border-slate-200 dark:border-slate-800/70 bg-white/80 dark:bg-slate-950/80 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <div class="h-8 w-8 rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center text-sm font-bold text-slate-950">
+          M
+        </div>
+        <div>
+          <div class="font-semibold tracking-tight">Modest AI Studio</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400">
+             Pragmatic AI consulting for real-world projects
+          </div>
+        </div>
+      </div>
+      <nav class="hidden md:flex gap-6 text-sm text-slate-600 dark:text-slate-300">
+        <a href="../index.html#services" class="hover:text-emerald-600 dark:hover:text-emerald-300">Services</a>
+        <a href="../index.html#process" class="hover:text-emerald-600 dark:hover:text-emerald-300">How it works</a>
+        <a href="../index.html#use-cases" class="hover:text-emerald-600 dark:hover:text-emerald-300">Use cases</a>
+        <a href="../index.html#about" class="hover:text-emerald-600 dark:hover:text-emerald-300">About</a>
+        <a href="../articles.html" class="hover:text-emerald-600 dark:hover:text-emerald-300">Articles</a>
+        <a href="../index.html#contact" class="hover:text-emerald-600 dark:hover:text-emerald-300">Contact</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <div class="flex rounded-full border border-slate-300 dark:border-slate-700 text-xs overflow-hidden">
+          <button id="btn-lang-en" onclick="setLang('en')" class="px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800">EN</button>
+          <button id="btn-lang-de" onclick="setLang('de')" class="px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800">DE</button>
+        </div>
+        <button id="btn-theme" onclick="toggleTheme()" class="text-sm rounded-full border px-2 py-1 border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"></button>
+        <a href="../index.html#contact" class="hidden md:inline-flex items-center rounded-full border border-emerald-500/70 px-4 py-1.5 text-sm font-medium text-emerald-800 dark:text-emerald-100 hover:bg-emerald-500/10">
+          Free intro call
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN ARTICLE CONTENT -->
+  <main class="flex-1">
+    <article class="bg-slate-50 dark:bg-slate-950">
+      <div class="max-w-3xl mx-auto px-4 py-10 lg:py-14">
+        <!-- Meta line -->
+        <p class="text-xs uppercase tracking-[0.25em] text-emerald-600/80 dark:text-emerald-300/80 mb-3">
+          Topic · Category
+        </p>
+
+        <!-- Title -->
+        <h1 class="text-3xl font-semibold tracking-tight mb-3">
+          MCP Basics – How it actually works and why is that so usefull
+        </h1>
+
+        <!-- Reading time / audience -->
+        <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">
+          5–7 min read · For IT &amp; business stakeholders
+        </p>
+
+        <!-- Body -->
+        <div class="space-y-4 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+            <p>
+              When people hear “agents” or “AI assistants”, the first question is usually:
+              <em>“How does this actually connect to our systems without becoming a mess?”</em>
+              The Model Context Protocol (MCP) is one answer to that question. It is a
+              simple, open way to describe which data and tools an AI assistant is allowed
+              to use – and how.
+            </p>
+
+            <p>
+              This article explains MCP in practical terms, without going deep into
+              implementation details. It is meant for people who want to understand
+              <strong>where MCP fits in an architecture</strong> and <strong>when it is useful</strong>,
+              not for writing code.
+            </p>
+
+            <h2 class="text-base font-semibold mt-6">The basic problem MCP solves</h2>
+
+            <p>
+              Before MCP, most AI integrations looked like this:
+            </p>
+
+            <ul class="list-disc list-inside space-y-1">
+              <li>each assistant or tool had its <strong>own custom API format</strong>,</li>
+              <li>you had to write <strong>bespoke glue code</strong> to connect to databases, CRMs, ticketing systems, …,</li>
+              <li>every integration was a <strong>one-off project</strong> that was hard to reuse.</li>
+            </ul>
+
+            <p>
+              In small and medium-sized companies this often leads to:
+            </p>
+
+            <ul class="list-disc list-inside space-y-1">
+              <li>many separate “little automations” no one fully understands,</li>
+              <li>security questions (<em>“Who allowed the assistant to do what?”</em>),</li>
+              <li>no clear overview of which systems are actually exposed to AI tools.</li>
+            </ul>
+
+            <p>
+              MCP tries to clean this up. It gives you a <strong>standard way</strong> to say:
+              “Here is a data source”, “Here is an action (tool)”, “Here is how an AI agent
+              is allowed to call it”.
+            </p>
+
+            <h2 class="text-base font-semibold mt-6">What MCP is – in simple terms</h2>
+
+            <p>
+              MCP is an <strong>open protocol</strong> (a common language) between two sides:
+            </p>
+
+            <ul class="list-disc list-inside space-y-1">
+              <li>
+                a <strong>client</strong>: usually the AI assistant or the environment that runs it,
+              </li>
+              <li>
+                a <strong>server</strong>: something that exposes your data or actions in a structured way.
+              </li>
+            </ul>
+
+            <p>
+              An MCP server can be many things:
+            </p>
+
+            <ul class="list-disc list-inside space-y-1">
+              <li>a connector to your database,</li>
+              <li>a connector to Jira, GitHub, or your ticket system,</li>
+              <li>a connector to internal REST APIs,</li>
+              <li>a connector to internal RAG vector data storage</li>
+              <li>even a connector to something “offline”, like local files.</li>
+            </ul>
+
+            <p>
+              The important part: all of these are described to the assistant in a
+              <strong>consistent format</strong>. The AI does not need to “guess” which parameters
+              to send – the protocol describes them.
+            </p>
+
+            <h2 class="text-base font-semibold mt-6">Why this is helpful in real projects</h2>
+
+            <p>
+              For a small or medium-sized company, MCP brings three practical benefits:
+            </p>
+
+            <h3 class="font-semibold mt-4">1. Less fragile glue code</h3>
+            <p>
+              Instead of building one-off integrations (“this script calls that API in this
+              very specific way”), you have a <strong>reusable connector</strong> that can be used by
+              different assistants or workflows.
+            </p>
+
+            <h3 class="font-semibold mt-4">2. Clearer security boundaries</h3>
+            <p>
+              Because tools and data sources are explicitly described, it becomes easier to
+              answer:
+            </p>
+            <ul class="list-disc list-inside space-y-1">
+              <li>Which actions can this assistant perform?</li>
+              <li>On which systems?</li>
+              <li>With which parameters?</li>
+            </ul>
+
+            <p>
+              That is easier to reason about than “some code that calls some API somewhere”.
+            </p>
+
+            <h3 class="font-semibold mt-4">3. Easier evolution over time</h3>
+            <p>
+              If you later change your CRM or helpdesk system, you do not have to redesign
+              all assistants. You “just” adjust or replace the corresponding MCP connector.
+              The interface for the assistant can stay very similar.
+            </p>
+
+            <h2 class="text-base font-semibold mt-6">How MCP fits into a small company architecture</h2>
+
+            <p>
+              A pragmatic picture for a smaller organisation might look like this:
+            </p>
+
+            <ol class="list-decimal list-inside space-y-1">
+              <li>
+                You have an <strong>AI assistant</strong> (for example, for support teams or internal
+                operations).
+              </li>
+              <li>
+                This assistant runs in an environment that speaks MCP (for example, a
+                compatible chat interface or orchestration layer).
+              </li>
+              <li>
+                Behind that you have several <strong>MCP servers</strong>:
+                <ul class="list-disc list-inside ml-5 space-y-1">
+                  <li>one for your ticketing system,</li>
+                  <li>one for your knowledge base,</li>
+                  <li>one for your internal APIs.</li>
+                </ul>
+              </li>
+            </ol>
+
+            <p>
+              Each of these MCP servers defines:
+            </p>
+
+            <ul class="list-disc list-inside space-y-1">
+              <li>which data can be read (for example: “get ticket by ID”),</li>
+              <li>which actions can be performed (for example: “add comment”, “change status”),</li>
+              <li>which parameters are required (for example: “ticketId”, “newStatus”).</li>
+            </ul>
+
+            <p>
+              The assistant combines these building blocks to fulfil a user’s request – but
+              always within the boundaries defined by MCP.
+            </p>
+
+            <h2 class="text-base font-semibold mt-6">What MCP is <em>not</em></h2>
+
+            <p>
+              MCP is useful, but it does not magically solve all integration problems.
+              Important limitations:
+            </p>
+
+            <ul class="list-disc list-inside space-y-1">
+              <li>
+                It is <strong>not</strong> a full workflow engine – you still need some logic for
+                sequences, approvals and error handling.
+              </li>
+              <li>
+                It does <strong>not</strong> remove the need for proper APIs or permissions – if your
+                current systems are chaotic, MCP will not fix that alone.
+              </li>
+              <li>
+                It is <strong>not</strong> a “no-code” tool for business users – at least today, you
+                still need engineers to define the connectors cleanly.
+              </li>
+            </ul>
+
+            <p>
+              Think of MCP as a <strong>clean interface layer</strong>, not the whole automation story.
+            </p>
+
+            <h2 class="text-base font-semibold mt-6">When MCP makes sense for you</h2>
+
+            <p>
+              You probably do <em>not</em> need MCP for a single, tiny experiment. But it becomes
+              interesting when:
+            </p>
+
+            <ul class="list-disc list-inside space-y-1">
+              <li>you have <strong>multiple systems</strong> an assistant should work with,</li>
+              <li>you want to <strong>avoid one-off integrations</strong> that are hard to maintain,</li>
+              <li>you care about <strong>clear security and responsibilities</strong>,</li>
+              <li>you want to build something that can <strong>grow over time</strong> without being
+                  rewritten every six months.</li>
+            </ul>
+
+            <p>
+              In other words: MCP is not required to “play around with AI”. But if you see
+              AI support as something that should be part of your real operations, having a
+              structured interface layer becomes very valuable.
+            </p>
+
+            <h2 class="text-base font-semibold mt-6">Summary</h2>
+
+            <p>
+              MCP is a way to give AI assistants <strong>controlled access</strong> to your systems and
+              data. It standardises how tools and resources are described, so you do not
+              have to invent a new integration pattern every time.
+            </p>
+
+            <p>
+              For small and medium-sized companies, the interesting part is not the
+              protocol itself, but what it enables:
+            </p>
+
+            <ul class="list-disc list-inside space-y-1">
+              <li>cleaner integrations,</li>
+              <li>more predictable behaviour of assistants,</li>
+              <li>a foundation that can grow with new tools and use cases.</li>
+            </ul>
+
+            <p>
+              If you are thinking about giving AI access to internal systems, MCP is one of
+              the building blocks that can help you do it <strong>in a structured, maintainable way</strong>
+              instead of with another round of ad-hoc scripts.
+            </p>
+
+        </div>
+
+      </div>
+    </article>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+      <div>© <span id="year"></span> Modest AI Studio. Alle Rechte vorbehalten.</div>
+      <div class="flex gap-4">
+        <a href="../impressum.html" class="hover:text-emerald-500">Impressum</a>
+        <a href="../datenschutz.html" class="hover:text-emerald-500">Datenschutzerklärung</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>
