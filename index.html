@@ -10,14 +10,19 @@
   />
   <!-- Tailwind via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+      tailwind.config = {
+        darkMode: 'class',
+      }
+  </script>
   <style>
     .lang-toggle-active {
-      background-color: rgb(45 212 191 / 0.15);
-      color: rgb(45 212 191);
+      background-color: rgba(45, 212, 191, 0.15);
+      color: rgb(45, 212, 191);
     }
   </style>
 </head>
-<body class="bg-slate-950 text-slate-100 antialiased">
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased">
 <script>
   // ===========================
   // CONTENT CONFIG (EDIT HERE)
@@ -34,7 +39,7 @@
       hero: {
         eyebrow: "AI for real businesses",
         headline:
-          "Turn <span class='text-emerald-300'>AI hype</span> into concrete results for your company.",
+          "Turn <span class='text-emerald-500 dark:text-emerald-300'>AI hype</span> into concrete results for your company.",
         subheadline:
           "I help small and medium-sized businesses design and implement practical AI automations: from reading emails and documents to answering internal questions and connecting to your existing systems. Without forcing you into a specific cloud or vendor.",
         ctaLabel: "Request a 30-min intro call",
@@ -219,12 +224,12 @@
         description:
           "Pragmatische KI-Beratung und Automatisierung für kleine und mittlere Unternehmen – von der Idee bis zum laufenden System.",
       },
-      agencyName: "Pragmatic AI Studio", // kann gleich bleiben oder eindeutschen
+      agencyName: "Pragmatic AI Studio",
       agencyTagline: "KI-Beratung & Automatisierung",
       hero: {
         eyebrow: "KI für echte Unternehmen",
         headline:
-          "Machen Sie aus dem <span class='text-emerald-300'>KI-Hype</span> konkrete Ergebnisse für Ihr Unternehmen.",
+          "Machen Sie aus dem <span class='text-emerald-500 dark:text-emerald-300'>KI-Hype</span> konkrete Ergebnisse für Ihr Unternehmen.",
         subheadline:
           "Ich unterstütze kleine und mittlere Unternehmen dabei, praktische KI-Automatisierungen aufzubauen: vom Lesen und Strukturieren von E-Mails und Dokumenten über interne Auskunftssysteme bis zur Anbindung an Ihre bestehenden Anwendungen – ohne Sie in einen bestimmten Cloud-Anbieter zu zwingen.",
         ctaLabel: "Unverbindliches Kennenlerngespräch anfragen",
@@ -405,9 +410,10 @@
   };
 
   // ===========================
-  // RENDERING LOGIC
+  // THEME + LANGUAGE LOGIC
   // ===========================
   let currentLang = "en";
+  let currentTheme = "light";
 
   function $(id) {
     return document.getElementById(id);
@@ -418,12 +424,47 @@
     render();
     document.documentElement.lang = lang;
 
-    // Toggle active state on buttons
     const btnEn = $("btn-lang-en");
     const btnDe = $("btn-lang-de");
     if (btnEn && btnDe) {
       btnEn.classList.toggle("lang-toggle-active", lang === "en");
       btnDe.classList.toggle("lang-toggle-active", lang === "de");
+    }
+  }
+
+  function setTheme(theme, store = true) {
+    const root = document.documentElement;
+    currentTheme = theme;
+    if (theme === "dark") {
+      root.classList.add("dark");
+    } else {
+      root.classList.remove("dark");
+    }
+    if (store) {
+      localStorage.setItem("theme", theme);
+    }
+    const btn = $("btn-theme");
+    if (btn) {
+      btn.textContent = theme === "dark" ? "☀️" : "🌙";
+      btn.setAttribute(
+        "aria-label",
+        theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
+      );
+    }
+  }
+
+  function toggleTheme() {
+    setTheme(currentTheme === "dark" ? "light" : "dark");
+  }
+
+  function initTheme() {
+    const stored = localStorage.getItem("theme");
+    if (stored === "light" || stored === "dark") {
+      setTheme(stored, false);
+    } else {
+      const prefersDark = window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+      setTheme(prefersDark ? "dark" : "light", false);
     }
   }
 
@@ -453,15 +494,14 @@
     $("hero-cta").textContent = c.hero.ctaLabel;
     $("hero-meta").textContent = c.hero.metaLine;
 
-    // Hero stats
     $("hero-stats").innerHTML = c.hero.stats
       .map(
         (s) => `
-        <div class="border border-slate-800 rounded-2xl p-4">
-          <div class="text-emerald-300 font-semibold mb-1">
+        <div class="border border-slate-200 dark:border-slate-800 rounded-2xl p-4 bg-white/70 dark:bg-slate-900/40">
+          <div class="text-emerald-600 dark:text-emerald-300 font-semibold mb-1">
             ${s.title}
           </div>
-          <p class="text-slate-400">
+          <p class="text-slate-600 dark:text-slate-400">
             ${s.text}
           </p>
         </div>
@@ -469,13 +509,12 @@
       )
       .join("");
 
-    // What you get
     $("hero-wyg-title").textContent = c.hero.whatYouGetTitle;
     $("hero-wyg-list").innerHTML = c.hero.whatYouGetItems
       .map(
         (item, idx) => `
         <li class="flex gap-2">
-          <span class="mt-1 h-5 w-5 rounded-full bg-emerald-400/15 flex items-center justify-center text-[11px] text-emerald-300">${idx +
+          <span class="mt-1 h-5 w-5 rounded-full bg-emerald-500/15 flex items-center justify-center text-[11px] text-emerald-600 dark:text-emerald-300">${idx +
             1}</span>
           <div>
             <span class="font-semibold">${item.title}</span><br />
@@ -494,15 +533,15 @@
     $("services-items").innerHTML = c.services.items
       .map(
         (item) => `
-      <div class="border border-slate-800 rounded-2xl p-5 bg-slate-900/40">
-        <div class="text-xs uppercase tracking-[0.15em] text-emerald-300/80 mb-2">
+      <div class="border border-slate-200 dark:border-slate-800 rounded-2xl p-5 bg-white/80 dark:bg-slate-900/40">
+        <div class="text-xs uppercase tracking-[0.15em] text-emerald-600/80 dark:text-emerald-300/80 mb-2">
           ${item.label}
         </div>
         <h3 class="font-semibold mb-2 text-sm">${item.title}</h3>
-        <p class="text-sm text-slate-300 mb-3">
+        <p class="text-sm text-slate-700 dark:text-slate-300 mb-3">
           ${item.body}
         </p>
-        <ul class="text-xs text-slate-400 space-y-1.5">
+        <ul class="text-xs text-slate-600 dark:text-slate-400 space-y-1.5">
           ${item.bullets.map((b) => `<li>• ${b}</li>`).join("")}
         </ul>
       </div>
@@ -516,13 +555,13 @@
     $("process-steps").innerHTML = c.process.steps
       .map(
         (step, idx) => `
-      <li class="border border-slate-800 rounded-2xl p-5 bg-slate-900/40">
+      <li class="border border-slate-200 dark:border-slate-800 rounded-2xl p-5 bg-white/80 dark:bg-slate-900/40">
         <div class="flex items-center gap-2 mb-2">
-          <span class="h-6 w-6 rounded-full bg-emerald-400/20 flex items-center justify-center text-xs text-emerald-300 font-semibold">${idx +
+          <span class="h-6 w-6 rounded-full bg-emerald-500/15 flex items-center justify-center text-xs text-emerald-700 dark:text-emerald-300 font-semibold">${idx +
             1}</span>
           <span class="font-semibold">${step.title}</span>
         </div>
-        <p class="text-slate-400">
+        <p class="text-slate-700 dark:text-slate-400">
           ${step.text}
         </p>
       </li>
@@ -536,14 +575,14 @@
     $("usecases-items").innerHTML = c.useCases.items
       .map(
         (uc) => `
-      <div class="border border-slate-800 rounded-2xl p-5 bg-slate-900/40 text-sm">
+      <div class="border border-slate-200 dark:border-slate-800 rounded-2xl p-5 bg-white/80 dark:bg-slate-900/40 text-sm">
         <h3 class="font-semibold mb-1">
           ${uc.title}
         </h3>
-        <p class="text-slate-300 mb-2">
+        <p class="text-slate-700 dark:text-slate-300 mb-2">
           ${uc.body}
         </p>
-        <ul class="text-xs text-slate-400 space-y-1">
+        <ul class="text-xs text-slate-600 dark:text-slate-400 space-y-1">
           ${uc.bullets.map((b) => `<li>• ${b}</li>`).join("")}
         </ul>
       </div>
@@ -556,7 +595,7 @@
     $("about-body").innerHTML = c.about.paragraphs
       .map(
         (p) =>
-          `<p class="text-sm text-slate-300 leading-relaxed mb-3">${p}</p>`
+          `<p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed mb-3">${p}</p>`
       )
       .join("");
 
@@ -576,8 +615,8 @@
     $("footer-privacy").textContent = c.footer.privacy;
   }
 
-  // Init at DOM ready
   document.addEventListener("DOMContentLoaded", () => {
+    initTheme();
     setLang(currentLang);
   });
 </script>
@@ -586,46 +625,55 @@
 <div class="min-h-screen flex flex-col">
 
   <!-- Navigation -->
-  <header class="border-b border-slate-800/70 bg-slate-950/80 backdrop-blur">
+  <header class="border-b border-slate-200 dark:border-slate-800/70 bg-white/80 dark:bg-slate-950/80 backdrop-blur">
     <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
       <div class="flex items-center gap-2">
-        <div class="h-8 w-8 rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center text-sm font-bold">
+        <div class="h-8 w-8 rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center text-sm font-bold text-slate-950">
           AI
         </div>
         <div>
           <div id="agency-name" class="font-semibold tracking-tight">
             <!-- filled by JS -->
           </div>
-          <div id="agency-tagline" class="text-xs text-slate-400">
+          <div id="agency-tagline" class="text-xs text-slate-500 dark:text-slate-400">
             <!-- filled by JS -->
           </div>
         </div>
       </div>
-      <nav class="hidden md:flex gap-6 text-sm text-slate-300">
-        <a id="nav-services" href="#services" class="hover:text-emerald-300"></a>
-        <a id="nav-process" href="#process" class="hover:text-emerald-300"></a>
-        <a id="nav-usecases" href="#use-cases" class="hover:text-emerald-300"></a>
-        <a id="nav-about" href="#about" class="hover:text-emerald-300"></a>
-        <a id="nav-contact" href="#contact" class="hover:text-emerald-300"></a>
+      <nav class="hidden md:flex gap-6 text-sm text-slate-600 dark:text-slate-300">
+        <a id="nav-services" href="#services" class="hover:text-emerald-600 dark:hover:text-emerald-300"></a>
+        <a id="nav-process" href="#process" class="hover:text-emerald-600 dark:hover:text-emerald-300"></a>
+        <a id="nav-usecases" href="#use-cases" class="hover:text-emerald-600 dark:hover:text-emerald-300"></a>
+        <a id="nav-about" href="#about" class="hover:text-emerald-600 dark:hover:text-emerald-300"></a>
+        <a id="nav-contact" href="#contact" class="hover:text-emerald-600 dark:hover:text-emerald-300"></a>
       </nav>
       <div class="flex items-center gap-3">
         <!-- Language toggle -->
-        <div class="flex rounded-full border border-slate-700 text-xs overflow-hidden">
+        <div class="flex rounded-full border border-slate-300 dark:border-slate-700 text-xs overflow-hidden">
           <button id="btn-lang-en"
                   onclick="setLang('en')"
-                  class="px-2 py-1 hover:bg-slate-800">
+                  class="px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800">
             EN
           </button>
           <button id="btn-lang-de"
                   onclick="setLang('de')"
-                  class="px-2 py-1 hover:bg-slate-800">
+                  class="px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800">
             DE
           </button>
         </div>
 
+        <!-- Theme toggle -->
+        <button
+          id="btn-theme"
+          onclick="toggleTheme()"
+          class="text-sm rounded-full border border-slate-300 dark:border-slate-700 px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800"
+          aria-label="Toggle theme">
+          <!-- text set in JS -->
+        </button>
+
         <a id="nav-freecall"
            href="#contact"
-           class="hidden md:inline-flex items-center rounded-full border border-emerald-400/60 px-4 py-1.5 text-sm font-medium text-emerald-100 hover:bg-emerald-500/10">
+           class="hidden md:inline-flex items-center rounded-full border border-emerald-500/70 px-4 py-1.5 text-sm font-medium text-emerald-800 dark:text-emerald-100 hover:bg-emerald-500/10">
         </a>
       </div>
     </div>
@@ -634,44 +682,44 @@
   <!-- Main content -->
   <main class="flex-1">
     <!-- Hero -->
-    <section class="border-b border-slate-900 bg-gradient-to-b from-slate-950 to-slate-950/90">
+    <section class="border-b border-slate-200 dark:border-slate-900 bg-gradient-to-b from-slate-100 to-slate-50 dark:from-slate-950 dark:to-slate-950/90">
       <div class="max-w-6xl mx-auto px-4 py-16 lg:py-24 grid lg:grid-cols-2 gap-10 items-center">
         <div>
-          <p id="hero-eyebrow" class="text-xs uppercase tracking-[0.25em] text-emerald-300/80 mb-4"></p>
+          <p id="hero-eyebrow" class="text-xs uppercase tracking-[0.25em] text-emerald-600/80 dark:text-emerald-300/80 mb-4"></p>
           <h1 id="hero-headline" class="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight mb-5"></h1>
-          <p id="hero-subheadline" class="text-sm sm:text-base text-slate-300 leading-relaxed mb-6"></p>
+          <p id="hero-subheadline" class="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-6"></p>
           <div class="flex flex-wrap items-center gap-3 mb-8">
             <a id="hero-cta"
                href="#contact"
-               class="inline-flex items-center rounded-full bg-emerald-400 px-5 py-2 text-sm font-semibold text-slate-950 hover:bg-emerald-300">
+               class="inline-flex items-center rounded-full bg-emerald-500 px-5 py-2 text-sm font-semibold text-white hover:bg-emerald-400">
             </a>
-            <span id="hero-meta" class="text-xs text-slate-400"></span>
+            <span id="hero-meta" class="text-xs text-slate-500 dark:text-slate-400"></span>
           </div>
-          <div id="hero-stats" class="grid grid-cols-2 gap-4 text-xs text-slate-300">
+          <div id="hero-stats" class="grid grid-cols-2 gap-4 text-xs">
             <!-- filled by JS -->
           </div>
         </div>
 
         <!-- Right side card -->
-        <div class="border border-slate-800 rounded-3xl bg-slate-900/40 p-5 sm:p-6 lg:p-7 shadow-xl shadow-emerald-500/5">
-          <h2 id="hero-wyg-title" class="text-sm font-semibold mb-3 text-slate-100"></h2>
-          <ul id="hero-wyg-list" class="space-y-3 text-sm text-slate-300">
+        <div class="border border-slate-200 dark:border-slate-800 rounded-3xl bg-white/90 dark:bg-slate-900/40 p-5 sm:p-6 lg:p-7 shadow-xl shadow-emerald-500/5">
+          <h2 id="hero-wyg-title" class="text-sm font-semibold mb-3 text-slate-900 dark:text-slate-100"></h2>
+          <ul id="hero-wyg-list" class="space-y-3 text-sm text-slate-700 dark:text-slate-300">
             <!-- filled by JS -->
           </ul>
-          <div id="hero-stack-note" class="mt-5 text-xs text-slate-400 border-t border-slate-800 pt-4"></div>
+          <div id="hero-stack-note" class="mt-5 text-xs text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800 pt-4"></div>
         </div>
       </div>
     </section>
 
     <!-- Services -->
-    <section id="services" class="border-b border-slate-900 bg-slate-950">
+    <section id="services" class="border-b border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950">
       <div class="max-w-6xl mx-auto px-4 py-14 lg:py-18">
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
           <div>
             <h2 id="services-title" class="text-2xl font-semibold tracking-tight mb-2"></h2>
-            <p id="services-subtitle" class="text-sm text-slate-400 max-w-xl"></p>
+            <p id="services-subtitle" class="text-sm text-slate-600 dark:text-slate-400 max-w-xl"></p>
           </div>
-          <div id="services-note" class="text-xs text-slate-400 max-w-sm"></div>
+          <div id="services-note" class="text-xs text-slate-500 dark:text-slate-400 max-w-sm"></div>
         </div>
 
         <div id="services-items" class="grid md:grid-cols-3 gap-6">
@@ -681,28 +729,28 @@
     </section>
 
     <!-- Process -->
-    <section id="process" class="border-b border-slate-900 bg-slate-950">
+    <section id="process" class="border-b border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950">
       <div class="max-w-6xl mx-auto px-4 py-14 lg:py-18">
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
           <div>
             <h2 id="process-title" class="text-2xl font-semibold tracking-tight mb-2"></h2>
-            <p id="process-subtitle" class="text-sm text-slate-400 max-w-xl"></p>
+            <p id="process-subtitle" class="text-sm text-slate-600 dark:text-slate-400 max-w-xl"></p>
           </div>
         </div>
 
-        <ol id="process-steps" class="grid md:grid-cols-3 gap-6 text-sm text-slate-200">
+        <ol id="process-steps" class="grid md:grid-cols-3 gap-6 text-sm">
           <!-- filled by JS -->
         </ol>
       </div>
     </section>
 
     <!-- Use cases -->
-    <section id="use-cases" class="border-b border-slate-900 bg-slate-950">
+    <section id="use-cases" class="border-b border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950">
       <div class="max-w-6xl mx-auto px-4 py-14 lg:py-18">
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
           <div>
             <h2 id="usecases-title" class="text-2xl font-semibold tracking-tight mb-2"></h2>
-            <p id="usecases-subtitle" class="text-sm text-slate-400 max-w-xl"></p>
+            <p id="usecases-subtitle" class="text-sm text-slate-600 dark:text-slate-400 max-w-xl"></p>
           </div>
         </div>
 
@@ -713,7 +761,7 @@
     </section>
 
     <!-- About -->
-    <section id="about" class="border-b border-slate-900 bg-slate-950">
+    <section id="about" class="border-b border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950">
       <div class="max-w-3xl mx-auto px-4 py-14 lg:py-18">
         <h2 id="about-title" class="text-2xl font-semibold tracking-tight mb-4"></h2>
         <div id="about-body">
@@ -723,18 +771,18 @@
     </section>
 
     <!-- Contact -->
-    <section id="contact" class="bg-slate-950">
+    <section id="contact" class="bg-slate-50 dark:bg-slate-950">
       <div class="max-w-3xl mx-auto px-4 py-14 lg:py-18">
         <h2 id="contact-title" class="text-2xl font-semibold tracking-tight mb-4"></h2>
-        <p id="contact-intro" class="text-sm text-slate-300 mb-4"></p>
-        <p class="text-sm text-emerald-300 font-mono mb-6">
+        <p id="contact-intro" class="text-sm text-slate-700 dark:text-slate-300 mb-4"></p>
+        <p class="text-sm text-emerald-700 dark:text-emerald-300 font-mono mb-6">
           <a id="contact-email-link"
              href="#"
-             class="underline underline-offset-2 hover:text-emerald-200">
+             class="underline underline-offset-2 hover:text-emerald-500 dark:hover:text-emerald-200">
           </a>
         </p>
 
-        <div class="border border-slate-800 rounded-2xl p-4 text-xs text-slate-400" id="contact-details">
+        <div class="border border-slate-200 dark:border-slate-800 rounded-2xl p-4 text-xs text-slate-600 dark:text-slate-400" id="contact-details">
           <!-- filled by JS -->
         </div>
       </div>
@@ -742,12 +790,12 @@
   </main>
 
   <!-- Footer -->
-  <footer class="border-t border-slate-900 bg-slate-950">
+  <footer class="border-t border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950">
     <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
       <div id="footer-text"></div>
       <div class="flex gap-4">
-        <span id="footer-imprint"></span>
-        <span id="footer-privacy"></span>
+        <span id="footer-imprint" class="cursor-default"></span>
+        <span id="footer-privacy" class="cursor-default"></span>
       </div>
     </div>
   </footer>
