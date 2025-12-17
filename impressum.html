@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="de" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <title>Impressum – Modest AI Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Impressum von Modest AI Studio – Aleksandar Balaban, Berlin." />
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+  <!-- Tailwind -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' };
+  </script>
+</head>
+
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased">
+  <div class="min-h-screen flex flex-col">
+
+    <!-- Simple header -->
+    <header class="border-b border-slate-200 dark:border-slate-800/70 bg-white/80 dark:bg-slate-950/80 backdrop-blur sticky top-0 z-40">
+      <div class="max-w-4xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+        <div class="flex items-center gap-2">
+          <div class="h-8 w-8 rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center text-sm font-bold text-slate-950">
+            M
+          </div>
+          <div>
+            <div class="font-semibold tracking-tight">Modest AI Studio</div>
+            <div class="text-xs text-slate-500 dark:text-slate-400">Pragmatische KI-Beratung für Unternehmen</div>
+          </div>
+        </div>
+        <a href="index.html" class="text-xs text-slate-600 dark:text-slate-300 hover:text-emerald-500">
+          Zurück zur Startseite
+        </a>
+      </div>
+    </header>
+
+    <!-- Main content -->
+    <main class="flex-1">
+      <section class="bg-slate-50 dark:bg-slate-950">
+        <div class="max-w-4xl mx-auto px-4 py-10">
+          <h1 class="text-2xl font-semibold tracking-tight mb-4">Impressum</h1>
+
+          <p class="text-sm text-slate-700 dark:text-slate-300 mb-4">
+            Angaben gemäß § 5 TMG
+          </p>
+
+          <div class="text-sm text-slate-700 dark:text-slate-300 space-y-4">
+            <p>
+              <strong>Verantwortlicher</strong><br>
+              Aleksandar Balaban<br>
+              Hobrechtstr. 23<br>
+              12047 Berlin<br>
+              Deutschland
+            </p>
+
+            <p>
+              <strong>Kontakt</strong><br>
+              Telefon: <a href="tel:+4917628743460" class="underline underline-offset-2 hover:text-emerald-500">+49 176 28743460</a><br>
+              E-Mail: <a href="mailto:aleksandar.balaban@gmail.com" class="underline underline-offset-2 hover:text-emerald-500">aleksandar.balaban@gmail.com</a>
+            </p>
+
+            <p>
+              <strong>Steuerliche Angaben</strong><br>
+              Steuer-Nr.: 16/215/00176
+            </p>
+
+            <p>
+              <strong>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</strong><br>
+              Aleksandar Balaban, Hobrechtstr. 23, 12047 Berlin
+            </p>
+
+            <p>
+              <strong>Haftung für Inhalte</strong><br>
+              Als Diensteanbieter bin ich gemäß § 7 Abs. 1 TMG für eigene Inhalte auf diesen Seiten nach den allgemeinen
+              Gesetzen verantwortlich. Nach §§ 8 bis 10 TMG bin ich jedoch nicht verpflichtet, übermittelte oder gespeicherte
+              fremde Informationen zu überwachen oder nach Umständen zu forschen, die auf eine rechtswidrige Tätigkeit hinweisen.
+            </p>
+
+            <p>
+              <strong>Haftung für Links</strong><br>
+              Diese Website kann Links zu externen Websites Dritter enthalten, auf deren Inhalte ich keinen Einfluss habe.
+              Deshalb kann ich für diese fremden Inhalte keine Gewähr übernehmen. Für die Inhalte der verlinkten Seiten ist stets
+              der jeweilige Anbieter oder Betreiber der Seiten verantwortlich.
+            </p>
+
+            <p>
+              <strong>Urheberrecht</strong><br>
+              Die durch den Seitenbetreiber erstellten Inhalte und Werke auf diesen Seiten unterliegen dem deutschen Urheberrecht.
+              Die Vervielfältigung, Bearbeitung, Verbreitung und jede Art der Verwertung außerhalb der Grenzen des Urheberrechtes
+              bedürfen der schriftlichen Zustimmung des jeweiligen Autors bzw. Erstellers.
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950">
+      <div class="max-w-4xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+        <div>© <span id="year"></span> Modest AI Studio. Alle Rechte vorbehalten.</div>
+        <div class="flex gap-4">
+          <a href="impressum.html" class="hover:text-emerald-500">Impressum</a>
+          <a href="datenschutz.html" class="hover:text-emerald-500">Datenschutzerklärung</a>
+        </div>
+      </div>
+    </footer>
+  </div>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
