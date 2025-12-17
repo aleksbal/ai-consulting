@@ -8,13 +8,15 @@
     name="description"
     content="Practical AI consulting and automation for small and medium-sized businesses – from strategy to implementation."
   />
+
   <!-- Tailwind via CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-      tailwind.config = {
-        darkMode: 'class',
-      }
+    tailwind.config = {
+      darkMode: 'class',
+    };
   </script>
+
   <style>
     .lang-toggle-active {
       background-color: rgba(45, 212, 191, 0.15);
@@ -25,393 +27,12 @@
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased">
 <script>
   // ===========================
-  // CONTENT CONFIG (EDIT HERE)
+  // THEME + LANGUAGE + RENDER
   // ===========================
-  const content = {
-    en: {
-      meta: {
-        title: "AI Consulting & Automation for SMBs",
-        description:
-          "Practical AI consulting and automation for small and medium-sized businesses – from strategy to implementation.",
-      },
-      agencyName: "Modest AI Studio", // EDIT
-      agencyTagline: "AI Consulting & Automation",
-      hero: {
-        eyebrow: "AI for real businesses",
-        headline:
-          "Turn <span class='text-emerald-500 dark:text-emerald-300'>AI hype</span> into concrete results for your company.",
-        subheadline:
-          "I help small and medium-sized businesses design and implement practical AI automations: from reading emails and documents to answering internal questions and connecting to your existing systems. Without forcing you into a specific cloud or vendor.",
-        ctaLabel: "Request a 30-min intro call",
-        metaLine: "Europe-based · Remote friendly · English & German",
-        stats: [
-          {
-            title: "20+ years in software",
-            text: "Senior engineering background in backend, data processing and enterprise systems.",
-          },
-          {
-            title: "AI, agents & RAG",
-            text: "Modern LLM tooling, retrieval-augmented generation and agentic workflows.",
-          },
-        ],
-        whatYouGetTitle: "What you get",
-        whatYouGetItems: [
-          {
-            title: "AI opportunity scan",
-            text: "Short workshop to identify 2–3 realistic automation candidates in your current workflows (email, documents, tickets, CRM, ERP).",
-          },
-          {
-            title: "Architecture & tool choice",
-            text: "Cloud, on-prem or hybrid – we design something that fits your security and infrastructure instead of forcing you into a single vendor.",
-          },
-          {
-            title: "End-to-end prototype",
-            text: "A working AI workflow or chatbot on your own data, with humans still in the loop where needed.",
-          },
-        ],
-        stackNote:
-          "Tech stack examples: OpenAI / local models, LangGraph / other agent frameworks, RAG search, Kafka/queues, classic backend in Java/Python, MS 365 integration, etc.",
-      },
-      nav: {
-        services: "Services",
-        process: "How it works",
-        useCases: "Use cases",
-        about: "About",
-        contact: "Contact",
-        freeCall: "Free intro call",
-      },
-      services: {
-        sectionTitle: "Services",
-        sectionSubtitle:
-          "From first ideas to running solutions. You can start small with a single use case and grow over time.",
-        contextNote:
-          "Ideal for companies with mixed infrastructure (on-prem servers, network storage, Office 365 / Exchange, maybe no AWS yet) who want concrete AI automation, not just slides.",
-        items: [
-          {
-            label: "01 · Strategy",
-            title: "AI Opportunity & Architecture Workshop",
-            body:
-              "We map your current tools (email, file shares, ERP/CRM, ticket systems) and identify where AI can safely help: routing, summarization, answering, data entry assistance, etc.",
-            bullets: [
-              "1–2 half-day remote sessions",
-              "Concrete list of 2–3 automation candidates",
-              "High-level architecture (cloud/on-prem/hybrid)",
-            ],
-          },
-          {
-            label: "02 · Implementation",
-            title: "Agentic Workflows & Custom Chatbots",
-            body:
-              "We build LLM-powered agents that can read emails, fetch data via APIs or databases, and propose actions – always with a human in the loop where needed.",
-            bullets: [
-              "Retrieval-augmented generation (RAG) on your documents",
-              "Tools for order lookup, ticket status, invoice resend, etc.",
-              "Optional: Model Context Protocol (MCP) for clean integrations",
-            ],
-          },
-          {
-            label: "03 · Integration",
-            title: "From Prototype to Production",
-            body:
-              "We integrate the solution into your existing stack: authentication, logging, monitoring, data protection and realistic rollback options.",
-            bullets: [
-              "Integration with existing APIs and databases",
-              "Deployment on your server, cloud, or hybrid setup",
-              "Handover and documentation for your internal team",
-            ],
-          },
-        ],
-      },
-      process: {
-        sectionTitle: "How it works",
-        sectionSubtitle:
-          "Clear steps, transparent pricing. No black boxes – you stay in control of your data and systems.",
-        steps: [
-          {
-            title: "Intro & use-case selection",
-            text:
-              "30-min free call to understand your situation. If it fits, we choose one pilot use case with clear boundaries and success criteria.",
-          },
-          {
-            title: "Design & prototype",
-            text:
-              "Technical design + implementation of a working prototype: connecting to your data, using LLMs, defining what the agent is allowed to do and where humans must decide.",
-          },
-          {
-            title: "Pilot & handover",
-            text:
-              "We run a small pilot with your team, refine prompts and flows, and then hand over everything: repo, documentation, and operational guidelines.",
-          },
-        ],
-      },
-      useCases: {
-        sectionTitle: "Example use cases",
-        sectionSubtitle:
-          "Not science-fiction – these are realistic scenarios for small and medium businesses today.",
-        items: [
-          {
-            title: "Smart email triage with “human in the loop”",
-            body:
-              "An AI agent reads incoming emails (support, orders, invoices), checks your knowledge base and systems and prepares drafts or routing suggestions.",
-            bullets: [
-              "Classifies and tags emails automatically",
-              "Suggests replies, but your staff still approves and sends",
-              "Connects to ticket tools or CRM instead of replacing them",
-            ],
-          },
-          {
-            title: "Internal chatbot on your documents",
-            body:
-              "A chat interface for your team that can answer questions about your processes, contracts, technical docs or product information.",
-            bullets: [
-              "Uses RAG (retrieval-augmented generation) instead of vague answers",
-              "Can run in the cloud or on your own server",
-              "Access control based on your existing user accounts",
-            ],
-          },
-          {
-            title: "Assisted back-office workflows",
-            body:
-              "The agent prepares data entries, checks for inconsistencies and flags issues – especially where today humans manually copy & paste between systems.",
-            bullets: [
-              "Reads PDFs / documents and extracts structured data",
-              "Proposes entries; humans confirm or correct",
-              "Logs all actions for auditability",
-            ],
-          },
-          {
-            title: "Guidance for cloud vs. on-prem AI",
-            body:
-              "You’re not sure whether you’re allowed to use public cloud? We design a realistic path that matches your legal and technical constraints.",
-            bullets: [
-              "Compare OpenAI / Azure OpenAI / other vendors",
-              "Evaluate local / private models where required",
-              "Design an architecture that can evolve over time",
-            ],
-          },
-        ],
-      },
-      about: {
-        sectionTitle: "About",
-        paragraphs: [
-          "I’m an independent software engineer and consultant with more than 20 years of experience in backend, data processing and integration projects, mainly in finance and enterprise environments.",
-          "Over the last years I’ve been focusing on modern AI tooling: large language models (LLMs), retrieval-augmented generation (RAG), agentic workflows and practical MLOps. My goal is to connect this new technology with the reality of existing systems: Java backends, databases, queues, Office 365, legacy APIs and compliance requirements.",
-          "I prefer small, well-defined projects that deliver visible value quickly – and that can be extended later if your organisation is ready for the next step.",
-        ],
-      },
-      contact: {
-        sectionTitle: "Contact",
-        intro:
-          "Send a short email with a few lines about your company, your current tools and what you’d like to explore. I’ll get back to you with a suggestion for an intro call.",
-        emailLabel: "hello@example.com", // EDIT
-        details: [
-          "Based in Europe (e.g. Germany), working primarily remote.",
-          "Languages: English, German.",
-          "Suitable for pilot projects, advisory, and end-to-end implementation with your existing team.",
-        ],
-      },
-      footer: {
-        imprint: "Imprint",
-        privacy: "Privacy",
-        copyrightPrefix: "©",
-        allRights: "All rights reserved.",
-      },
-    },
 
-    de: {
-      meta: {
-        title: "AI-Beratung & Automatisierung für KMU",
-        description:
-          "Pragmatische KI-Beratung und Automatisierung für kleine und mittlere Unternehmen – von der Idee bis zum laufenden System.",
-      },
-      agencyName: "Modest AI Studio",
-      agencyTagline: "KI-Beratung & Automatisierung",
-      hero: {
-        eyebrow: "KI für echte Unternehmen",
-        headline:
-          "Machen Sie aus dem <span class='text-emerald-500 dark:text-emerald-300'>KI-Hype</span> konkrete Ergebnisse für Ihr Unternehmen.",
-        subheadline:
-          "Ich unterstütze kleine und mittlere Unternehmen dabei, praktische KI-Automatisierungen aufzubauen: vom Lesen und Strukturieren von E-Mails und Dokumenten über interne Auskunftssysteme bis zur Anbindung an Ihre bestehenden Anwendungen – ohne Sie in einen bestimmten Cloud-Anbieter zu zwingen.",
-        ctaLabel: "Unverbindliches Kennenlerngespräch anfragen",
-        metaLine: "Basierend in Europa · Remote · Deutsch & Englisch",
-        stats: [
-          {
-            title: "20+ Jahre Software-Erfahrung",
-            text: "Senior-Engineering-Background in Backend, Datenverarbeitung und Enterprise-Systemen.",
-          },
-          {
-            title: "KI, Agents & RAG",
-            text: "Moderne LLM-Tooling-Landschaft, Retrieval-augmented Generation und agentische Workflows.",
-          },
-        ],
-        whatYouGetTitle: "Was Sie bekommen",
-        whatYouGetItems: [
-          {
-            title: "KI-Potenzial-Check",
-            text: "Kurzer Workshop, um 2–3 realistische Automatisierungskandidaten in Ihren heutigen Abläufen zu identifizieren (E-Mails, Dokumente, Tickets, CRM, ERP).",
-          },
-          {
-            title: "Architektur & Tool-Auswahl",
-            text: "Cloud, On-Prem oder Hybrid – wir entwerfen eine Lösung, die zu Ihren Sicherheits- und Infrastrukturvorgaben passt, statt Sie in einen Anbieter zu drängen.",
-          },
-          {
-            title: "End-to-End-Prototyp",
-            text: "Ein funktionierender KI-Workflow oder Chatbot auf Basis Ihrer eigenen Daten – mit Mensch-in-der-Schleife, wo es notwendig ist.",
-          },
-        ],
-        stackNote:
-          "Technikbeispiele: OpenAI / lokale Modelle, LangGraph / andere Agent-Frameworks, RAG-Suche, Kafka/Queues, klassische Backends in Java/Python, MS 365-Integration usw.",
-      },
-      nav: {
-        services: "Leistungen",
-        process: "Ablauf",
-        useCases: "Anwendungsfälle",
-        about: "Über mich",
-        contact: "Kontakt",
-        freeCall: "Kostenloses Erstgespräch",
-      },
-      services: {
-        sectionTitle: "Leistungen",
-        sectionSubtitle:
-          "Von der ersten Idee bis zum laufenden System. Sie können mit einem kleinen Pilot starten und bei Bedarf ausbauen.",
-        contextNote:
-          "Ideal für Unternehmen mit gemischter Infrastruktur (On-Prem-Server, Netzlaufwerke, Office 365 / Exchange, ggf. noch keine AWS-Umgebung), die konkrete Automatisierung statt Folien wünschen.",
-        items: [
-          {
-            label: "01 · Strategie",
-            title: "KI-Potenziale & Architektur-Workshop",
-            body:
-              "Wir kartieren Ihre heutigen Werkzeuge (E-Mail, Dateien, ERP/CRM, Ticketsysteme) und identifizieren, wo KI sicher unterstützen kann: Routing, Zusammenfassungen, Auskünfte, Unterstützung bei Dateneingaben.",
-            bullets: [
-              "1–2 halbtägige Remote-Sessions",
-              "Konkrete Liste von 2–3 Automatisierungskandidaten",
-              "Grobes Architekturmodell (Cloud/On-Prem/Hybrid)",
-            ],
-          },
-          {
-            label: "02 · Umsetzung",
-            title: "Agentische Workflows & individuelle Chatbots",
-            body:
-              "Wir bauen LLM-basierte Agents, die E-Mails lesen, Daten über APIs oder Datenbanken holen und Handlungsvorschläge machen – mit klar definierten Grenzen und Mensch-in-der-Schleife.",
-            bullets: [
-              "Retrieval-augmented Generation (RAG) auf Ihren Dokumenten",
-              "Tools für Bestellstatus, Ticketstatus, Rechnungsversand usw.",
-              "Optional: Model Context Protocol (MCP) für saubere Integrationen",
-            ],
-          },
-          {
-            label: "03 · Integration",
-            title: "Vom Prototyp in den Betrieb",
-            body:
-              "Wir integrieren die Lösung in Ihre bestehende Landschaft: Authentifizierung, Logging, Monitoring, Datenschutz und realistische Rückfalloptionen.",
-            bullets: [
-              "Anbindung an bestehende APIs und Datenbanken",
-              "Deployment auf Ihrem Server, in der Cloud oder hybrid",
-              "Übergabe und Dokumentation für Ihr internes Team",
-            ],
-          },
-        ],
-      },
-      process: {
-        sectionTitle: "Ablauf",
-        sectionSubtitle:
-          "Transparente Schritte und klare Erwartungen. Keine Blackbox – Sie behalten die Kontrolle über Daten und Systeme.",
-        steps: [
-          {
-            title: "Kennenlernen & Use-Case-Auswahl",
-            text:
-              "Kostenloses 30-minütiges Gespräch, um Ihre Situation zu verstehen. Wenn es passt, wählen wir einen klar abgegrenzten Pilot-Use-Case mit messbaren Zielen.",
-          },
-          {
-            title: "Design & Prototyp",
-            text:
-              "Technisches Design und Umsetzung eines funktionierenden Prototyps: Anbindung Ihrer Daten, Einsatz von LLMs, Definition der erlaubten Aktionen des Agents und der Stellen, an denen Menschen entscheiden.",
-          },
-          {
-            title: "Pilotphase & Übergabe",
-            text:
-              "Wir führen eine Pilotphase mit Ihrem Team durch, verfeinern Prompts und Abläufe und übergeben anschließend Quellcode, Dokumentation und Betriebshinweise.",
-          },
-        ],
-      },
-      useCases: {
-        sectionTitle: "Beispielhafte Anwendungsfälle",
-        sectionSubtitle:
-          "Keine Science-Fiction – realistische Szenarien für kleine und mittlere Unternehmen heute.",
-        items: [
-          {
-            title: "Intelligente E-Mail-Triage mit Mensch-in-der-Schleife",
-            body:
-              "Ein KI-Agent liest eingehende E-Mails (Support, Bestellungen, Rechnungen), prüft Ihr Wissensarchiv und Ihre Systeme und bereitet Antworten oder Zuordnungsvorschläge vor.",
-            bullets: [
-              "Automatische Klassifizierung und Verschlagwortung von E-Mails",
-              "Antwortvorschläge – Ihr Team entscheidet und versendet",
-              "Anbindung an Ticket-System oder CRM statt deren Ablösung",
-            ],
-          },
-          {
-            title: "Interner Chatbot auf Ihren Dokumenten",
-            body:
-              "Eine Chat-Oberfläche für Ihre Mitarbeitenden, die Fragen zu Prozessen, Verträgen, technischen Unterlagen oder Produktinformationen beantworten kann.",
-            bullets: [
-              "Nutzt RAG (Retrieval-augmented Generation) statt vager Antworten",
-              "Kann in der Cloud oder On-Prem betrieben werden",
-              "Rechtekonzept auf Basis Ihrer bestehenden Benutzerkonten",
-            ],
-          },
-          {
-            title: "Assistierte Back-Office-Prozesse",
-            body:
-              "Der Agent bereitet Dateneingaben vor, prüft auf Inkonsistenzen und meldet Auffälligkeiten – insbesondere dort, wo heute manuell zwischen Systemen kopiert wird.",
-            bullets: [
-              "Liest PDFs/Dokumente und extrahiert strukturierte Daten",
-              "Macht Vorschläge, die Menschen bestätigen oder korrigieren",
-              "Lückenlose Protokollierung aller Aktionen",
-            ],
-          },
-          {
-            title: "Beratung zu Cloud- vs. On-Prem-KI",
-            body:
-              "Sie sind unsicher, ob und wie Sie Public-Cloud-Dienste einsetzen dürfen? Wir erarbeiten einen realistischen Weg, der zu Ihren rechtlichen und technischen Rahmenbedingungen passt.",
-            bullets: [
-              "Vergleich von OpenAI / Azure OpenAI / anderen Anbietern",
-              "Bewertung lokaler / privater Modelle, wo erforderlich",
-              "Architektur, die sich schrittweise weiterentwickeln lässt",
-            ],
-          },
-        ],
-      },
-      about: {
-        sectionTitle: "Über mich",
-        paragraphs: [
-          "Ich bin selbständiger Softwareingenieur und Berater mit über 20 Jahren Erfahrung in Backend-Entwicklung, Datenverarbeitung und Integrationsprojekten – vor allem im Finanz- und Enterprise-Umfeld.",
-          "In den letzten Jahren habe ich mich stark auf moderne KI-Werkzeuge konzentriert: Large Language Models (LLMs), Retrieval-augmented Generation (RAG), agentische Workflows und pragmatisches MLOps. Mein Ziel ist es, diese neuen Möglichkeiten mit der Realität gewachsener Systeme zu verbinden: Java-Backends, Datenbanken, Queues, Office 365, Legacy-APIs und Compliance-Anforderungen.",
-          "Ich bevorzuge kleine, klar geschnittene Projekte mit sichtbarem Mehrwert in kurzer Zeit – und mit der Option, später in angemessenem Tempo weiter auszubauen.",
-        ],
-      },
-      contact: {
-        sectionTitle: "Kontakt",
-        intro:
-          "Schreiben Sie mir kurz, wer Sie sind, welche Systeme Sie heute nutzen und was Sie mit KI erkunden möchten. Ich melde mich mit einem Vorschlag für ein kurzes Kennenlerngespräch.",
-        emailLabel: "hello@example.com", // EDIT
-        details: [
-          "Standort Europa (z. B. Deutschland), überwiegend remote.",
-          "Sprachen: Deutsch, Englisch.",
-          "Geeignet für Pilotprojekte, Beratung und End-to-End-Umsetzung gemeinsam mit Ihrem Team.",
-        ],
-      },
-      footer: {
-        imprint: "Impressum",
-        privacy: "Datenschutz",
-        copyrightPrefix: "©",
-        allRights: "Alle Rechte vorbehalten.",
-      },
-    },
-  };
+  // global content holder – filled by content.en.js / content.de.js
+  window.content = window.content || {};
 
-  // ===========================
-  // THEME + LANGUAGE LOGIC
-  // ===========================
   let currentLang = "en";
   let currentTheme = "light";
 
@@ -421,6 +42,12 @@
 
   function setLang(lang) {
     currentLang = lang;
+
+    // persist language
+    try {
+      localStorage.setItem("lang", lang);
+    } catch (e) {}
+
     render();
     document.documentElement.lang = lang;
 
@@ -441,7 +68,9 @@
       root.classList.remove("dark");
     }
     if (store) {
-      localStorage.setItem("theme", theme);
+      try {
+        localStorage.setItem("theme", theme);
+      } catch (e) {}
     }
     const btn = $("btn-theme");
     if (btn) {
@@ -458,9 +87,12 @@
   }
 
   function initTheme() {
-    const stored = localStorage.getItem("theme");
-    if (stored === "light" || stored === "dark") {
-      setTheme(stored, false);
+    let theme = null;
+    try {
+      theme = localStorage.getItem("theme");
+    } catch (e) {}
+    if (theme === "light" || theme === "dark") {
+      setTheme(theme, false);
     } else {
       const prefersDark = window.matchMedia &&
         window.matchMedia("(prefers-color-scheme: dark)").matches;
@@ -468,8 +100,26 @@
     }
   }
 
+  function initLang() {
+    let storedLang = null;
+    try {
+      storedLang = localStorage.getItem("lang");
+    } catch (e) {}
+    if (storedLang === "en" || storedLang === "de") {
+      currentLang = storedLang;
+    } else {
+      // simple browser-language heuristic
+      const navLang = (navigator.language || "").toLowerCase();
+      currentLang = navLang.startsWith("de") ? "de" : "en";
+    }
+  }
+
   function render() {
-    const c = content[currentLang];
+    const c = window.content[currentLang];
+    if (!c) {
+      // content might not yet be loaded
+      return;
+    }
 
     // Meta / title
     document.title = c.meta.title;
@@ -610,14 +260,16 @@
 
     // Footer
     const year = new Date().getFullYear();
-    $("footer-text").textContent = `${c.footer.copyrightPrefix} ${year} ${c.agencyName}. ${c.footer.allRights}`;
+    $("footer-text").textContent =
+      `${c.footer.copyrightPrefix} ${year} ${c.agencyName}. ${c.footer.allRights}`;
     $("footer-imprint").textContent = c.footer.imprint;
     $("footer-privacy").textContent = c.footer.privacy;
   }
 
   document.addEventListener("DOMContentLoaded", () => {
     initTheme();
-    setLang(currentLang);
+    initLang();
+    setLang(currentLang); // also triggers render
   });
 </script>
 
@@ -771,7 +423,7 @@
     </section>
 
     <!-- Contact -->
-    <section id="contact" class="bg-slate-50 dark:bg-slate-950">
+    <section id="contact" class="bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-900">
       <div class="max-w-3xl mx-auto px-4 py-14 lg:py-18">
         <h2 id="contact-title" class="text-2xl font-semibold tracking-tight mb-4"></h2>
         <p id="contact-intro" class="text-sm text-slate-700 dark:text-slate-300 mb-4"></p>
@@ -782,9 +434,80 @@
           </a>
         </p>
 
-        <div class="border border-slate-200 dark:border-slate-800 rounded-2xl p-4 text-xs text-slate-600 dark:text-slate-400" id="contact-details">
+        <div class="border border-slate-200 dark:border-slate-800 rounded-2xl p-4 text-xs text-slate-600 dark:text-slate-400 mb-6" id="contact-details">
           <!-- filled by JS -->
         </div>
+
+        <!-- Simple static contact form (FormSubmit) -->
+        <form
+          class="mt-4 space-y-3"
+          action="https://formsubmit.co/aleksandar.balaban@gmail.com"
+          method="POST">
+          <!-- FormSubmit options -->
+          <input type="hidden" name="_subject" value="New inquiry from Modest AI Studio website" />
+          <input type="hidden" name="_captcha" value="true" />
+          <input type="hidden" name="_template" value="box" />
+
+          <div>
+            <label class="block text-xs mb-1" for="name">Name</label>
+            <input
+              id="name"
+              name="name"
+              type="text"
+              required
+              class="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-emerald-500" />
+          </div>
+          <div>
+            <label class="block text-xs mb-1" for="email">Email</label>
+            <input
+              id="email"
+              name="email"
+              type="email"
+              required
+              class="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-emerald-500" />
+          </div>
+          <div>
+            <label class="block text-xs mb-1" for="message">Message</label>
+            <textarea
+              id="message"
+              name="message"
+              rows="4"
+              required
+              class="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-emerald-500"></textarea>
+          </div>
+          <button
+            type="submit"
+            class="inline-flex items-center rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400">
+            Send message
+          </button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Impressum / Datenschutz placeholders -->
+    <section id="impressum" class="bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-900">
+      <div class="max-w-3xl mx-auto px-4 py-10">
+        <h2 class="text-lg font-semibold mb-3">Impressum (Platzhalter)</h2>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-2">
+          Dies ist ein Platzhalter für das Impressum nach § 5 TMG. Bitte ersetzen Sie diesen Text
+          durch Ihre vollständigen Angaben (Name/Firma, Anschrift, Kontakt, Vertretungsberechtigte,
+          Registereintrag, USt-IdNr. usw.).
+        </p>
+      </div>
+    </section>
+
+    <section id="datenschutz" class="bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-900">
+      <div class="max-w-3xl mx-auto px-4 py-10">
+        <h2 class="text-lg font-semibold mb-3">Datenschutzerklärung (Platzhalter)</h2>
+        <p class="text-xs text-slate-600 dark:text-slate-400 mb-2">
+          Dies ist ein Platzhalter für Ihre Datenschutzerklärung (z. B. nach DSGVO). Beschreiben Sie hier,
+          welche Daten auf dieser Seite verarbeitet werden (z. B. Server-Logs, Kontaktformular,
+          eingebundene Dienste) und auf welcher Rechtsgrundlage dies geschieht.
+        </p>
+        <p class="text-xs text-slate-600 dark:text-slate-400">
+          Hinweis: Für eine rechtssichere Ausgestaltung sollten Sie einen Generator nutzen oder rechtlichen
+          Rat einholen.
+        </p>
       </div>
     </section>
   </main>
@@ -794,11 +517,15 @@
     <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
       <div id="footer-text"></div>
       <div class="flex gap-4">
-        <span id="footer-imprint" class="cursor-default"></span>
-        <span id="footer-privacy" class="cursor-default"></span>
+        <a id="footer-imprint" href="#impressum" class="cursor-pointer"></a>
+        <a id="footer-privacy" href="#datenschutz" class="cursor-pointer"></a>
       </div>
     </div>
   </footer>
 </div>
+
+<!-- External content files -->
+<script src="content.en.js"></script>
+<script src="content.de.js"></script>
 </body>
 </html>
