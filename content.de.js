@@ -17,6 +17,13 @@ window.content.de = {
       "Ich unterstütze kleine und mittlere Unternehmen dabei, praktische KI-Automatisierungen aufzubauen: vom Lesen und Strukturieren von E-Mails und Dokumenten über interne Auskunftssysteme bis zur Anbindung an Ihre bestehenden Anwendungen – ohne Sie in einen bestimmten Cloud-Anbieter zu zwingen.",
     ctaLabel: "Unverbindliches Kennenlerngespräch anfragen",
     metaLine: "Basierend in Europa · Remote · Deutsch & Englisch",
+    slogans: [
+      "Machen Sie aus dem <span class='text-emerald-500 dark:text-emerald-300'>KI-Hype</span> konkrete Ergebnisse für Ihr Unternehmen.",
+      "Bauen Sie <span class='text-emerald-500 dark:text-emerald-300'>praktische KI-Workflows</span> statt nur Folien.",
+      "Lassen Sie <span class='text-emerald-500 dark:text-emerald-300'>KI-Agents</span> die Fleißarbeit übernehmen – Menschen behalten die Kontrolle.",
+      "Verbinden Sie <span class='text-emerald-500 dark:text-emerald-300'>LLMs</span> mit Ihren echten Systemen, nicht nur mit einem Chatfenster.",
+      "Starten Sie mit einem <span class='text-emerald-500 dark:text-emerald-300'>kleinen Pilotprojekt</span> und bauen Sie darauf auf."
+    ],
     stats: [
       {
         title: "20+ Jahre Software-Erfahrung",
@@ -163,6 +170,24 @@ window.content.de = {
         ],
       },
     ],
+  },
+    socialProof: {
+    sectionTitle: "Hintergrund & Erfahrung",
+    badges: [
+      "Über 20 Jahre Erfahrung in Backend & Data Engineering",
+      "Projekte im Finanzbereich, öffentlichen Sektor und bei Softwareanbietern",
+      "Praxis mit LLMs, RAG und agentischen Workflows"
+    ],
+    miniCases: [
+      {
+        title: "Interner RAG-Chatbot für Dokumentation",
+        text: "Unterstützung eines mittelgroßen Softwareanbieters beim Prototypen eines internen Chatbots, der auf Basis von Retrieval-augmented Generation Fragen zu technischen Unterlagen und Prozessen beantwortet."
+      },
+      {
+        title: "E-Mail-Triage-Pilot für Support-Team",
+        text: "Konzeption eines Piloten, bei dem ein KI-Agent eingehende Support-Mails klassifiziert und Antwortentwürfe vorbereitet – die endgültige Antwort bleibt beim Team."
+      }
+    ]
   },
   about: {
     sectionTitle: "Über mich",

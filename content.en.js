@@ -17,6 +17,13 @@ window.content.en = {
       "I help small and medium-sized businesses design and implement practical AI automations: from reading emails and documents to answering internal questions and connecting to your existing systems. Without forcing you into a specific cloud or vendor.",
     ctaLabel: "Request a 30-min intro call",
     metaLine: "Europe-based · Remote friendly · English & German",
+    slogans: [
+      "Turn <span class='text-emerald-500 dark:text-emerald-300'>AI hype</span> into concrete results for your company.",
+      "Build <span class='text-emerald-500 dark:text-emerald-300'>practical AI workflows</span> instead of slideware.",
+      "Let <span class='text-emerald-500 dark:text-emerald-300'>AI agents</span> do the busywork – with humans in control.",
+      "Connect <span class='text-emerald-500 dark:text-emerald-300'>LLMs</span> to your real systems, not just a chat box.",
+      "Start with one <span class='text-emerald-500 dark:text-emerald-300'>small pilot</span> and grow from there."
+    ],
     stats: [
       {
         title: "20+ years in software",
@@ -163,6 +170,24 @@ window.content.en = {
         ],
       },
     ],
+  },
+    socialProof: {
+    sectionTitle: "Background & experience",
+    badges: [
+      "20+ years of backend & data engineering experience",
+      "Projects in finance, public sector and software vendors",
+      "Hands-on with LLMs, RAG and agentic workflows"
+    ],
+    miniCases: [
+      {
+        title: "Internal RAG chatbot for documentation",
+        text: "Supported a mid-sized software vendor in prototyping an internal chatbot that answers questions on technical and process documentation using retrieval-augmented generation."
+      },
+      {
+        title: "Email triage pilot for a small support team",
+        text: "Designed a pilot where an AI agent classifies incoming support emails and drafts replies, with staff still reviewing and sending the final answer."
+      }
+    ]
   },
   about: {
     sectionTitle: "About",

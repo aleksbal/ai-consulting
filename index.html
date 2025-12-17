@@ -4,82 +4,82 @@
   <meta charset="UTF-8" />
   <title>AI Consulting & Automation for SMBs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta
-    name="description"
-    content="Practical AI consulting and automation for small and medium-sized businesses – from strategy to implementation."
-  />
+  <meta name="description" content="Practical AI consulting and automation for small and medium-sized businesses – from strategy to implementation." />
 
-  <!-- Tailwind via CDN -->
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
-    tailwind.config = {
-      darkMode: 'class',
-    };
+    tailwind.config = { darkMode: 'class' };
   </script>
 
   <style>
     .lang-toggle-active {
-      background-color: rgba(45, 212, 191, 0.15);
-      color: rgb(45, 212, 191);
+      background-color: rgba(45,212,191,0.15);
+      color: rgb(45,212,191);
+    }
+
+    /* Smooth fade for rotating hero headline */
+    #hero-headline {
+      opacity: 1;
+      transition: opacity 0.9s ease; /* fade speed: 0.7s */
+    }
+
+    #hero-headline.hero-fade-out {
+      opacity: 0;
     }
   </style>
 </head>
+
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased">
 <script>
-  // ===========================
-  // THEME + LANGUAGE + RENDER
-  // ===========================
-
-  // global content holder – filled by content.en.js / content.de.js
+  //--------------------------------------------------------------------
+  // Global State
+  //--------------------------------------------------------------------
   window.content = window.content || {};
-
   let currentLang = "en";
   let currentTheme = "light";
 
-  function $(id) {
-    return document.getElementById(id);
-  }
+  // Hero rotation
+  let heroRotationTimer = null;
+  let heroRotationIndex = 0;
 
+  //--------------------------------------------------------------------
+  // Helpers
+  //--------------------------------------------------------------------
+  function $(id) { return document.getElementById(id); }
+
+  //--------------------------------------------------------------------
+  // Language
+  //--------------------------------------------------------------------
   function setLang(lang) {
     currentLang = lang;
-
-    // persist language
-    try {
-      localStorage.setItem("lang", lang);
-    } catch (e) {}
-
+    try { localStorage.setItem("lang", lang); } catch(e){}
     render();
     document.documentElement.lang = lang;
 
-    const btnEn = $("btn-lang-en");
-    const btnDe = $("btn-lang-de");
-    if (btnEn && btnDe) {
-      btnEn.classList.toggle("lang-toggle-active", lang === "en");
-      btnDe.classList.toggle("lang-toggle-active", lang === "de");
-    }
+    $("btn-lang-en").classList.toggle("lang-toggle-active", lang === "en");
+    $("btn-lang-de").classList.toggle("lang-toggle-active", lang === "de");
   }
 
+  function initLang() {
+    try {
+      const stored = localStorage.getItem("lang");
+      if (stored === "en" || stored === "de") { currentLang = stored; return; }
+    } catch(e){}
+    currentLang = (navigator.language || "").toLowerCase().startsWith("de") ? "de" : "en";
+  }
+
+  //--------------------------------------------------------------------
+  // Theme
+  //--------------------------------------------------------------------
   function setTheme(theme, store = true) {
-    const root = document.documentElement;
     currentTheme = theme;
-    if (theme === "dark") {
-      root.classList.add("dark");
-    } else {
-      root.classList.remove("dark");
-    }
-    if (store) {
-      try {
-        localStorage.setItem("theme", theme);
-      } catch (e) {}
-    }
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    if (store) { try { localStorage.setItem("theme", theme); } catch(e){} }
     const btn = $("btn-theme");
-    if (btn) {
-      btn.textContent = theme === "dark" ? "☀️" : "🌙";
-      btn.setAttribute(
-        "aria-label",
-        theme === "dark" ? "Switch to light mode" : "Switch to dark mode"
-      );
-    }
+    if (btn) btn.textContent = theme === "dark" ? "☀️" : "🌙";
   }
 
   function toggleTheme() {
@@ -87,49 +87,105 @@
   }
 
   function initTheme() {
-    let theme = null;
-    try {
-      theme = localStorage.getItem("theme");
-    } catch (e) {}
-    if (theme === "light" || theme === "dark") {
-      setTheme(theme, false);
-    } else {
-      const prefersDark = window.matchMedia &&
-        window.matchMedia("(prefers-color-scheme: dark)").matches;
-      setTheme(prefersDark ? "dark" : "light", false);
-    }
+    let t = null;
+    try { t = localStorage.getItem("theme"); } catch(e){}
+    if (t === "light" || t === "dark") setTheme(t,false);
+    else setTheme(
+      window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark":"light",
+      false
+    );
   }
 
-  function initLang() {
-    let storedLang = null;
-    try {
-      storedLang = localStorage.getItem("lang");
-    } catch (e) {}
-    if (storedLang === "en" || storedLang === "de") {
-      currentLang = storedLang;
-    } else {
-      // simple browser-language heuristic
-      const navLang = (navigator.language || "").toLowerCase();
-      currentLang = navLang.startsWith("de") ? "de" : "en";
-    }
-  }
+  //--------------------------------------------------------------------
+  // Hero Slogan Rotation with fixed height + fade
+  //--------------------------------------------------------------------
+  function startHeroRotation(c) {
+    const el = $("hero-headline");
+    if (!el || !c.hero) return;
 
-  function render() {
-    const c = window.content[currentLang];
-    if (!c) {
-      // content might not yet be loaded
+    const slogans = Array.isArray(c.hero.slogans) ? c.hero.slogans : [];
+
+    // Stop previous timer if any
+    if (heroRotationTimer) {
+      clearInterval(heroRotationTimer);
+      heroRotationTimer = null;
+    }
+    el.classList.remove("hero-fade-out");
+
+    // Zero slogans => fall back to static headline
+    if (slogans.length === 0) {
+      el.style.minHeight = "";
+      el.innerHTML = c.hero.headline;
       return;
     }
 
-    // Meta / title
+    // --- Measure tallest slogan + headline to avoid layout jumps ---
+    const clone = el.cloneNode();
+    clone.style.position = "absolute";
+    clone.style.visibility = "hidden";
+    clone.style.height = "auto";
+    clone.style.width = el.offsetWidth + "px";
+    clone.style.whiteSpace = "normal";
+    clone.style.opacity = "1";
+    clone.style.transition = "none";
+    document.body.appendChild(clone);
+
+    let maxHeight = 0;
+
+    slogans.forEach(text => {
+      clone.innerHTML = text;
+      const h = clone.clientHeight;
+      if (h > maxHeight) maxHeight = h;
+    });
+
+    clone.innerHTML = c.hero.headline;
+    maxHeight = Math.max(maxHeight, clone.clientHeight);
+
+    document.body.removeChild(clone);
+
+    // Fix min-height so the hero doesn't jump
+    el.style.minHeight = maxHeight + "px";
+
+    // If only one slogan, just show it (no rotation)
+    if (slogans.length === 1) {
+      el.innerHTML = slogans[0];
+      return;
+    }
+
+    // --- Rotation with class-based fade ---
+    const fadeDuration = 700; // ms – keep in sync with CSS (0.7s)
+    const intervalDuration = 5000; // ms between slogan changes
+
+    heroRotationIndex = 0;
+    el.innerHTML = slogans[0];
+
+    heroRotationTimer = setInterval(() => {
+      // fade out
+      el.classList.add("hero-fade-out");
+
+      setTimeout(() => {
+        // change text while hidden
+        heroRotationIndex = (heroRotationIndex + 1) % slogans.length;
+        el.innerHTML = slogans[heroRotationIndex];
+        // fade in
+        el.classList.remove("hero-fade-out");
+      }, fadeDuration);
+    }, intervalDuration);
+  }
+
+  //--------------------------------------------------------------------
+  // Render
+  //--------------------------------------------------------------------
+  function render() {
+    const c = window.content[currentLang];
+    if (!c) return;
+
     document.title = c.meta.title;
-    const metaDesc = document.querySelector('meta[name="description"]');
-    if (metaDesc) metaDesc.setAttribute("content", c.meta.description);
+    document.querySelector('meta[name="description"]').setAttribute('content', c.meta.description);
 
     // Header
     $("agency-name").textContent = c.agencyName;
     $("agency-tagline").textContent = c.agencyTagline;
-
     $("nav-services").textContent = c.nav.services;
     $("nav-process").textContent = c.nav.process;
     $("nav-usecases").textContent = c.nav.useCases;
@@ -139,157 +195,118 @@
 
     // Hero
     $("hero-eyebrow").textContent = c.hero.eyebrow;
-    $("hero-headline").innerHTML = c.hero.headline;
+    $("hero-headline").innerHTML = c.hero.headline; // default
     $("hero-subheadline").textContent = c.hero.subheadline;
     $("hero-cta").textContent = c.hero.ctaLabel;
     $("hero-meta").textContent = c.hero.metaLine;
 
-    $("hero-stats").innerHTML = c.hero.stats
-      .map(
-        (s) => `
-        <div class="border border-slate-200 dark:border-slate-800 rounded-2xl p-4 bg-white/70 dark:bg-slate-900/40">
-          <div class="text-emerald-600 dark:text-emerald-300 font-semibold mb-1">
-            ${s.title}
-          </div>
-          <p class="text-slate-600 dark:text-slate-400">
-            ${s.text}
-          </p>
-        </div>
-        `
-      )
-      .join("");
+    // Start rotation (handles 0/1/many slogans internally)
+    startHeroRotation(c);
+
+    $("hero-stats").innerHTML = c.hero.stats.map(s => `
+      <div class="border border-slate-200 dark:border-slate-800 rounded-2xl p-4 bg-white/70 dark:bg-slate-900/40">
+        <div class="text-emerald-600 dark:text-emerald-300 font-semibold mb-1">${s.title}</div>
+        <p class="text-slate-600 dark:text-slate-400">${s.text}</p>
+      </div>
+    `).join("");
 
     $("hero-wyg-title").textContent = c.hero.whatYouGetTitle;
-    $("hero-wyg-list").innerHTML = c.hero.whatYouGetItems
-      .map(
-        (item, idx) => `
-        <li class="flex gap-2">
-          <span class="mt-1 h-5 w-5 rounded-full bg-emerald-500/15 flex items-center justify-center text-[11px] text-emerald-600 dark:text-emerald-300">${idx +
-            1}</span>
-          <div>
-            <span class="font-semibold">${item.title}</span><br />
-            ${item.text}
-          </div>
-        </li>
-        `
-      )
-      .join("");
+
+    $("hero-wyg-list").innerHTML = c.hero.whatYouGetItems.map((item,i)=>`
+      <li class="flex gap-2">
+        <span class="mt-1 h-5 w-5 rounded-full bg-emerald-500/15 flex items-center justify-center text-[11px] text-emerald-600 dark:text-emerald-300">${i+1}</span>
+        <div>
+          <span class="font-semibold">${item.title}</span><br />
+          ${item.text}
+        </div>
+      </li>
+    `).join("");
+
     $("hero-stack-note").textContent = c.hero.stackNote;
 
     // Services
     $("services-title").textContent = c.services.sectionTitle;
     $("services-subtitle").textContent = c.services.sectionSubtitle;
     $("services-note").textContent = c.services.contextNote;
-    $("services-items").innerHTML = c.services.items
-      .map(
-        (item) => `
+
+    $("services-items").innerHTML = c.services.items.map(item=>`
       <div class="border border-slate-200 dark:border-slate-800 rounded-2xl p-5 bg-white/80 dark:bg-slate-900/40">
-        <div class="text-xs uppercase tracking-[0.15em] text-emerald-600/80 dark:text-emerald-300/80 mb-2">
-          ${item.label}
-        </div>
+        <div class="text-xs uppercase tracking-[0.15em] text-emerald-600/80 dark:text-emerald-300/80 mb-2">${item.label}</div>
         <h3 class="font-semibold mb-2 text-sm">${item.title}</h3>
-        <p class="text-sm text-slate-700 dark:text-slate-300 mb-3">
-          ${item.body}
-        </p>
+        <p class="text-sm text-slate-700 dark:text-slate-300 mb-3">${item.body}</p>
         <ul class="text-xs text-slate-600 dark:text-slate-400 space-y-1.5">
-          ${item.bullets.map((b) => `<li>• ${b}</li>`).join("")}
+          ${item.bullets.map(b => `<li>• ${b}</li>`).join("")}
         </ul>
       </div>
-      `
-      )
-      .join("");
+    `).join("");
 
     // Process
     $("process-title").textContent = c.process.sectionTitle;
     $("process-subtitle").textContent = c.process.sectionSubtitle;
-    $("process-steps").innerHTML = c.process.steps
-      .map(
-        (step, idx) => `
+
+    $("process-steps").innerHTML = c.process.steps.map((step,i)=>`
       <li class="border border-slate-200 dark:border-slate-800 rounded-2xl p-5 bg-white/80 dark:bg-slate-900/40">
         <div class="flex items-center gap-2 mb-2">
-          <span class="h-6 w-6 rounded-full bg-emerald-500/15 flex items-center justify-center text-xs text-emerald-700 dark:text-emerald-300 font-semibold">${idx +
-            1}</span>
+          <span class="h-6 w-6 rounded-full bg-emerald-500/15 flex items-center justify-center text-xs text-emerald-700 dark:text-emerald-300 font-semibold">${i+1}</span>
           <span class="font-semibold">${step.title}</span>
         </div>
-        <p class="text-slate-700 dark:text-slate-400">
-          ${step.text}
-        </p>
+        <p class="text-slate-700 dark:text-slate-400">${step.text}</p>
       </li>
-      `
-      )
-      .join("");
+    `).join("");
 
-    // Use cases
+    // Use Cases
     $("usecases-title").textContent = c.useCases.sectionTitle;
     $("usecases-subtitle").textContent = c.useCases.sectionSubtitle;
-    $("usecases-items").innerHTML = c.useCases.items
-      .map(
-        (uc) => `
+
+    $("usecases-items").innerHTML = c.useCases.items.map(uc => `
       <div class="border border-slate-200 dark:border-slate-800 rounded-2xl p-5 bg-white/80 dark:bg-slate-900/40 text-sm">
-        <h3 class="font-semibold mb-1">
-          ${uc.title}
-        </h3>
-        <p class="text-slate-700 dark:text-slate-300 mb-2">
-          ${uc.body}
-        </p>
+        <h3 class="font-semibold mb-1">${uc.title}</h3>
+        <p class="text-slate-700 dark:text-slate-300 mb-2">${uc.body}</p>
         <ul class="text-xs text-slate-600 dark:text-slate-400 space-y-1">
-          ${uc.bullets.map((b) => `<li>• ${b}</li>`).join("")}
+          ${uc.bullets.map(b => `<li>• ${b}</li>`).join("")}
         </ul>
       </div>
-      `
-      )
-      .join("");
+    `).join("");
 
     // About
     $("about-title").textContent = c.about.sectionTitle;
-    $("about-body").innerHTML = c.about.paragraphs
-      .map(
-        (p) =>
-          `<p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed mb-3">${p}</p>`
-      )
-      .join("");
+    $("about-body").innerHTML = c.about.paragraphs.map(p=>`
+      <p class="text-sm text-slate-700 dark:text-slate-300 leading-relaxed mb-3">${p}</p>
+    `).join("");
 
     // Contact
     $("contact-title").textContent = c.contact.sectionTitle;
     $("contact-intro").textContent = c.contact.intro;
     $("contact-email-link").textContent = c.contact.emailLabel;
-    $("contact-email-link").href = "mailto:" + c.contact.emailLabel;
-    $("contact-details").innerHTML = c.contact.details
-      .map((d) => `<p class="mb-1">${d}</p>`)
-      .join("");
+    $("contact-email-link").href = "mailto:"+c.contact.emailLabel;
+    $("contact-details").innerHTML = c.contact.details.map(d => `<p class="mb-1">${d}</p>`).join("");
 
     // Footer
-    const year = new Date().getFullYear();
-    $("footer-text").textContent =
-      `${c.footer.copyrightPrefix} ${year} ${c.agencyName}. ${c.footer.allRights}`;
+    $("footer-text").textContent = `${c.footer.copyrightPrefix} ${new Date().getFullYear()} ${c.agencyName}. ${c.footer.allRights}`;
     $("footer-imprint").textContent = c.footer.imprint;
     $("footer-privacy").textContent = c.footer.privacy;
   }
 
+  //--------------------------------------------------------------------
   document.addEventListener("DOMContentLoaded", () => {
     initTheme();
     initLang();
-    setLang(currentLang); // also triggers render
+    setLang(currentLang);
   });
 </script>
 
-<!-- Page wrapper -->
+
+<!-- PAGE WRAPPER -->
 <div class="min-h-screen flex flex-col">
 
-  <!-- Navigation -->
-  <header class="border-b border-slate-200 dark:border-slate-800/70 bg-white/80 dark:bg-slate-950/80 backdrop-blur">
+  <!-- HEADER -->
+  <header class="md:sticky md:top-0 md:z-40 border-b border-slate-200 dark:border-slate-800/70 bg-white/80 dark:bg-slate-950/80 backdrop-blur">
     <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
       <div class="flex items-center gap-2">
-        <div class="h-8 w-8 rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center text-sm font-bold text-slate-950">
-          AI
-        </div>
+        <div class="h-8 w-8 rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center text-sm font-bold text-slate-950">M</div>
         <div>
-          <div id="agency-name" class="font-semibold tracking-tight">
-            <!-- filled by JS -->
-          </div>
-          <div id="agency-tagline" class="text-xs text-slate-500 dark:text-slate-400">
-            <!-- filled by JS -->
-          </div>
+          <div id="agency-name" class="font-semibold tracking-tight"></div>
+          <div id="agency-tagline" class="text-xs text-slate-500 dark:text-slate-400"></div>
         </div>
       </div>
       <nav class="hidden md:flex gap-6 text-sm text-slate-600 dark:text-slate-300">
@@ -300,70 +317,41 @@
         <a id="nav-contact" href="#contact" class="hover:text-emerald-600 dark:hover:text-emerald-300"></a>
       </nav>
       <div class="flex items-center gap-3">
-        <!-- Language toggle -->
         <div class="flex rounded-full border border-slate-300 dark:border-slate-700 text-xs overflow-hidden">
-          <button id="btn-lang-en"
-                  onclick="setLang('en')"
-                  class="px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800">
-            EN
-          </button>
-          <button id="btn-lang-de"
-                  onclick="setLang('de')"
-                  class="px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800">
-            DE
-          </button>
+          <button id="btn-lang-en" onclick="setLang('en')" class="px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800">EN</button>
+          <button id="btn-lang-de" onclick="setLang('de')" class="px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800">DE</button>
         </div>
-
-        <!-- Theme toggle -->
-        <button
-          id="btn-theme"
-          onclick="toggleTheme()"
-          class="text-sm rounded-full border border-slate-300 dark:border-slate-700 px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800"
-          aria-label="Toggle theme">
-          <!-- text set in JS -->
-        </button>
-
-        <a id="nav-freecall"
-           href="#contact"
-           class="hidden md:inline-flex items-center rounded-full border border-emerald-500/70 px-4 py-1.5 text-sm font-medium text-emerald-800 dark:text-emerald-100 hover:bg-emerald-500/10">
-        </a>
+        <button id="btn-theme" onclick="toggleTheme()" class="text-sm rounded-full border px-2 py-1 border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"></button>
+        <a id="nav-freecall" href="#contact" class="hidden md:inline-flex items-center rounded-full border border-emerald-500/70 px-4 py-1.5 text-sm font-medium text-emerald-800 dark:text-emerald-100 hover:bg-emerald-500/10"></a>
       </div>
     </div>
   </header>
 
-  <!-- Main content -->
+  <!-- MAIN -->
   <main class="flex-1">
-    <!-- Hero -->
+    <!-- HERO -->
     <section class="border-b border-slate-200 dark:border-slate-900 bg-gradient-to-b from-slate-100 to-slate-50 dark:from-slate-950 dark:to-slate-950/90">
-      <div class="max-w-6xl mx-auto px-4 py-16 lg:py-24 grid lg:grid-cols-2 gap-10 items-center">
+      <div class="max-w-6xl mx-auto px-4 py-16 lg:py-24 grid lg:grid-cols-2 gap-10 items-stretch">
         <div>
           <p id="hero-eyebrow" class="text-xs uppercase tracking-[0.25em] text-emerald-600/80 dark:text-emerald-300/80 mb-4"></p>
           <h1 id="hero-headline" class="text-3xl sm:text-4xl lg:text-5xl font-semibold tracking-tight mb-5"></h1>
           <p id="hero-subheadline" class="text-sm sm:text-base text-slate-700 dark:text-slate-300 leading-relaxed mb-6"></p>
           <div class="flex flex-wrap items-center gap-3 mb-8">
-            <a id="hero-cta"
-               href="#contact"
-               class="inline-flex items-center rounded-full bg-emerald-500 px-5 py-2 text-sm font-semibold text-white hover:bg-emerald-400">
-            </a>
+            <a id="hero-cta" href="#contact" class="inline-flex items-center rounded-full bg-emerald-500 px-5 py-2 text-sm font-semibold text-white hover:bg-emerald-400"></a>
             <span id="hero-meta" class="text-xs text-slate-500 dark:text-slate-400"></span>
           </div>
-          <div id="hero-stats" class="grid grid-cols-2 gap-4 text-xs">
-            <!-- filled by JS -->
-          </div>
+          <div id="hero-stats" class="grid grid-cols-2 gap-4 text-xs"></div>
         </div>
 
-        <!-- Right side card -->
         <div class="border border-slate-200 dark:border-slate-800 rounded-3xl bg-white/90 dark:bg-slate-900/40 p-5 sm:p-6 lg:p-7 shadow-xl shadow-emerald-500/5">
-          <h2 id="hero-wyg-title" class="text-sm font-semibold mb-3 text-slate-900 dark:text-slate-100"></h2>
-          <ul id="hero-wyg-list" class="space-y-3 text-sm text-slate-700 dark:text-slate-300">
-            <!-- filled by JS -->
-          </ul>
-          <div id="hero-stack-note" class="mt-5 text-xs text-slate-600 dark:text-slate-400 border-t border-slate-200 dark:border-slate-800 pt-4"></div>
+          <h2 id="hero-wyg-title" class="text-xl font-semibold mb-4 text-emerald-600 dark:text-emerald-300"></h2>
+          <ul id="hero-wyg-list" class="space-y-3 text-sm"></ul>
+          <div id="hero-stack-note" class="mt-5 text-xs border-t border-slate-200 dark:border-slate-800 pt-4"></div>
         </div>
       </div>
     </section>
 
-    <!-- Services -->
+    <!-- SERVICES -->
     <section id="services" class="border-b border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950">
       <div class="max-w-6xl mx-auto px-4 py-14 lg:py-18">
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
@@ -373,14 +361,11 @@
           </div>
           <div id="services-note" class="text-xs text-slate-500 dark:text-slate-400 max-w-sm"></div>
         </div>
-
-        <div id="services-items" class="grid md:grid-cols-3 gap-6">
-          <!-- filled by JS -->
-        </div>
+        <div id="services-items" class="grid md:grid-cols-3 gap-6"></div>
       </div>
     </section>
 
-    <!-- Process -->
+    <!-- PROCESS -->
     <section id="process" class="border-b border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950">
       <div class="max-w-6xl mx-auto px-4 py-14 lg:py-18">
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
@@ -389,14 +374,11 @@
             <p id="process-subtitle" class="text-sm text-slate-600 dark:text-slate-400 max-w-xl"></p>
           </div>
         </div>
-
-        <ol id="process-steps" class="grid md:grid-cols-3 gap-6 text-sm">
-          <!-- filled by JS -->
-        </ol>
+        <ol id="process-steps" class="grid md:grid-cols-3 gap-6 text-sm"></ol>
       </div>
     </section>
 
-    <!-- Use cases -->
+    <!-- USE CASES -->
     <section id="use-cases" class="border-b border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950">
       <div class="max-w-6xl mx-auto px-4 py-14 lg:py-18">
         <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-10">
@@ -405,93 +387,60 @@
             <p id="usecases-subtitle" class="text-sm text-slate-600 dark:text-slate-400 max-w-xl"></p>
           </div>
         </div>
-
-        <div id="usecases-items" class="grid md:grid-cols-2 gap-6 text-sm">
-          <!-- filled by JS -->
-        </div>
+        <div id="usecases-items" class="grid md:grid-cols-2 gap-6 text-sm"></div>
       </div>
     </section>
 
-    <!-- About -->
+    <!-- ABOUT -->
     <section id="about" class="border-b border-slate-200 dark:border-slate-900 bg-slate-50 dark:bg-slate-950">
       <div class="max-w-3xl mx-auto px-4 py-14 lg:py-18">
         <h2 id="about-title" class="text-2xl font-semibold tracking-tight mb-4"></h2>
-        <div id="about-body">
-          <!-- filled by JS -->
-        </div>
+        <div id="about-body"></div>
       </div>
     </section>
 
-    <!-- Contact -->
+    <!-- CONTACT -->
     <section id="contact" class="bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-900">
       <div class="max-w-3xl mx-auto px-4 py-14 lg:py-18">
         <h2 id="contact-title" class="text-2xl font-semibold tracking-tight mb-4"></h2>
         <p id="contact-intro" class="text-sm text-slate-700 dark:text-slate-300 mb-4"></p>
         <p class="text-sm text-emerald-700 dark:text-emerald-300 font-mono mb-6">
-          <a id="contact-email-link"
-             href="#"
-             class="underline underline-offset-2 hover:text-emerald-500 dark:hover:text-emerald-200">
-          </a>
+          <a id="contact-email-link" href="#" class="underline underline-offset-2 hover:text-emerald-500 dark:hover:text-emerald-200"></a>
         </p>
 
-        <div class="border border-slate-200 dark:border-slate-800 rounded-2xl p-4 text-xs text-slate-600 dark:text-slate-400 mb-6" id="contact-details">
-          <!-- filled by JS -->
-        </div>
+        <div id="contact-details" class="border border-slate-200 dark:border-slate-800 rounded-2xl p-4 text-xs text-slate-600 dark:text-slate-400 mb-6"></div>
 
-        <!-- Simple static contact form (FormSubmit) -->
-        <form
-          class="mt-4 space-y-3"
-          action="https://formsubmit.co/aleksandar.balaban@gmail.com"
-          method="POST">
-          <!-- FormSubmit options -->
+        <form class="mt-4 space-y-3" action="https://formsubmit.co/aleksandar.balaban@gmail.com" method="POST">
           <input type="hidden" name="_subject" value="New inquiry from Modest AI Studio website" />
           <input type="hidden" name="_captcha" value="true" />
           <input type="hidden" name="_template" value="box" />
 
           <div>
             <label class="block text-xs mb-1" for="name">Name</label>
-            <input
-              id="name"
-              name="name"
-              type="text"
-              required
-              class="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-emerald-500" />
+            <input id="name" name="name" type="text" required class="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-emerald-500" />
           </div>
+
           <div>
             <label class="block text-xs mb-1" for="email">Email</label>
-            <input
-              id="email"
-              name="email"
-              type="email"
-              required
-              class="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-emerald-500" />
+            <input id="email" name="email" type="email" required class="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-emerald-500" />
           </div>
+
           <div>
             <label class="block text-xs mb-1" for="message">Message</label>
-            <textarea
-              id="message"
-              name="message"
-              rows="4"
-              required
-              class="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-emerald-500"></textarea>
+            <textarea id="message" name="message" rows="4" required class="w-full rounded-md border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-900 px-3 py-2 text-sm outline-none focus:ring-1 focus:ring-emerald-500"></textarea>
           </div>
-          <button
-            type="submit"
-            class="inline-flex items-center rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400">
-            Send message
-          </button>
+
+          <button type="submit" class="inline-flex items-center rounded-full bg-emerald-500 px-4 py-2 text-sm font-semibold text-white hover:bg-emerald-400">Send message</button>
         </form>
       </div>
     </section>
 
-    <!-- Impressum / Datenschutz placeholders -->
+    <!-- IMPRESSUM / DATENSCHUTZ -->
     <section id="impressum" class="bg-slate-50 dark:bg-slate-950 border-b border-slate-200 dark:border-slate-900">
       <div class="max-w-3xl mx-auto px-4 py-10">
         <h2 class="text-lg font-semibold mb-3">Impressum (Platzhalter)</h2>
         <p class="text-xs text-slate-600 dark:text-slate-400 mb-2">
-          Dies ist ein Platzhalter für das Impressum nach § 5 TMG. Bitte ersetzen Sie diesen Text
-          durch Ihre vollständigen Angaben (Name/Firma, Anschrift, Kontakt, Vertretungsberechtigte,
-          Registereintrag, USt-IdNr. usw.).
+          Dies ist ein Platzhalter für das Impressum gemäß §5 TMG. Bitte ersetzen Sie den Text mit Ihren vollständigen Pflichtangaben.
         </p>
       </div>
     </section>
@@ -500,19 +449,13 @@
       <div class="max-w-3xl mx-auto px-4 py-10">
         <h2 class="text-lg font-semibold mb-3">Datenschutzerklärung (Platzhalter)</h2>
         <p class="text-xs text-slate-600 dark:text-slate-400 mb-2">
-          Dies ist ein Platzhalter für Ihre Datenschutzerklärung (z. B. nach DSGVO). Beschreiben Sie hier,
-          welche Daten auf dieser Seite verarbeitet werden (z. B. Server-Logs, Kontaktformular,
-          eingebundene Dienste) und auf welcher Rechtsgrundlage dies geschieht.
-        </p>
-        <p class="text-xs text-slate-600 dark:text-slate-400">
-          Hinweis: Für eine rechtssichere Ausgestaltung sollten Sie einen Generator nutzen oder rechtlichen
-          Rat einholen.
+          Platzhalter für Ihre DSGVO-konforme Datenschutzerklärung.
         </p>
       </div>
     </section>
   </main>
 
-  <!-- Footer -->
+  <!-- FOOTER -->
   <footer class="border-t border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950">
     <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
       <div id="footer-text"></div>
@@ -524,8 +467,8 @@
   </footer>
 </div>
 
-<!-- External content files -->
 <script src="content.en.js"></script>
 <script src="content.de.js"></script>
+
 </body>
 </html>
