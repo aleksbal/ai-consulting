@@ -9,7 +9,7 @@
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
 
   <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
   <script>
     tailwind.config = { darkMode: 'class' };
   </script>
@@ -142,7 +142,7 @@
         </p>
 
         <!-- Body -->
-        <div class="space-y-4 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+        <div class="prose prose-slate dark:prose-invert max-w-none">
             <p>
               When people hear that AI agents can “use tools” or “call APIs”, it often
               sounds mysterious or even unsafe. The reality is simpler: modern LLMs can
