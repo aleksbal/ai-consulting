@@ -8,7 +8,7 @@ window.content.en = {
       "Practical AI consulting and automation for small and medium-sized businesses – from strategy to implementation.",
   },
   agencyName: "Modest AI Studio",
-  agencyTagline: "AI Consulting & Automation",
+  agencyTagline: "AI consulting for real-world projects",
   hero: {
     eyebrow: "AI for real businesses",
     headline:

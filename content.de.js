@@ -8,7 +8,7 @@ window.content.de = {
       "Pragmatische KI-Beratung und Automatisierung für kleine und mittlere Unternehmen – von der Idee bis zum laufenden System.",
   },
   agencyName: "Modest AI Studio",
-  agencyTagline: "KI-Beratung & Automatisierung",
+  agencyTagline: "AI consulting for real-world projects",
   hero: {
     eyebrow: "KI für echte Unternehmen",
     headline:
