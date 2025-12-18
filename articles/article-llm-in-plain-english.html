@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <title>LLMs in Plain English: The Basics for Business Workflows</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="A simple explanation of what is LLM and what it isn’t" />
+
+
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+
+  <!-- Tailwind + Typography plugin -->
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' };
+  </script>
+
+  <style>
+    .lang-toggle-active {
+      background-color: rgba(45,212,191,0.15);
+      color: rgb(45,212,191);
+    }
+  </style>
+
+  <link rel="stylesheet" href="../css/prose.css">
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased">
+
+<script>
+  let currentLang = "en";
+  let currentTheme = "light";
+
+  function setTheme(theme, store = true) {
+    currentTheme = theme;
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    if (store) {
+      try { localStorage.setItem("theme", theme); } catch (e) {}
+    }
+    const btn = document.getElementById("btn-theme");
+    if (btn) btn.textContent = theme === "dark" ? "☀️" : "🌙";
+  }
+
+  function initTheme() {
+    let t = null;
+    try { t = localStorage.getItem("theme"); } catch (e) {}
+    if (t === "light" || t === "dark") {
+      setTheme(t, false);
+    } else {
+      setTheme(
+        window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
+        false
+      );
+    }
+  }
+
+  function toggleTheme() {
+    setTheme(currentTheme === "dark" ? "light" : "dark");
+  }
+
+  function setLang(lang) {
+    currentLang = lang;
+    try { localStorage.setItem("lang", lang); } catch (e) {}
+    document.documentElement.lang = lang;
+    const enBtn = document.getElementById("btn-lang-en");
+    const deBtn = document.getElementById("btn-lang-de");
+    if (enBtn && deBtn) {
+      enBtn.classList.toggle("lang-toggle-active", lang === "en");
+      deBtn.classList.toggle("lang-toggle-active", lang === "de");
+    }
+  }
+
+  function initLang() {
+    let stored = null;
+    try { stored = localStorage.getItem("lang"); } catch (e) {}
+    if (stored === "en" || stored === "de") {
+      setLang(stored);
+    } else {
+      const navLang = (navigator.language || "").toLowerCase().startsWith("de") ? "de" : "en";
+      setLang(navLang);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    initTheme();
+    initLang();
+    const yearEl = document.getElementById("year");
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+  });
+</script>
+
+<div class="min-h-screen flex flex-col">
+
+  <!-- HEADER: same visual structure as index, links back to index + articles -->
+  <header class="sticky top-0 z-40 border-b border-slate-200 dark:border-slate-800/70 bg-white/80 dark:bg-slate-950/80 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <div class="h-8 w-8 rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center text-sm font-bold text-slate-950">
+          M
+        </div>
+        <div>
+          <div class="font-semibold tracking-tight">Modest AI Studio</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400">
+            AI consulting for real-world projects
+          </div>
+        </div>
+      </div>
+      <nav class="hidden md:flex gap-6 text-sm text-slate-600 dark:text-slate-300">
+        <a href="../index.html#services" class="hover:text-emerald-600 dark:hover:text-emerald-300">Services</a>
+        <a href="../index.html#process" class="hover:text-emerald-600 dark:hover:text-emerald-300">Process</a>
+        <a href="../index.html#use-cases" class="hover:text-emerald-600 dark:hover:text-emerald-300">Use cases</a>
+        <a href="../index.html#about" class="hover:text-emerald-600 dark:hover:text-emerald-300">About</a>
+        <a href="../articles.html" class="hover:text-emerald-600 dark:hover:text-emerald-300">Articles</a>
+        <a href="../index.html#contact" class="hover:text-emerald-600 dark:hover:text-emerald-300">Contact</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <div class="flex rounded-full border border-slate-300 dark:border-slate-700 text-xs overflow-hidden">
+          <button id="btn-lang-en" onclick="setLang('en')" class="px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800">EN</button>
+          <button id="btn-lang-de" onclick="setLang('de')" class="px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800">DE</button>
+        </div>
+        <button id="btn-theme" onclick="toggleTheme()" class="text-sm rounded-full border px-2 py-1 border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"></button>
+        <a href="../index.html#contact" class="hidden md:inline-flex items-center rounded-full border border-emerald-500/70 px-4 py-1.5 text-sm font-medium text-emerald-800 dark:text-emerald-100 hover:bg-emerald-500/10">
+          Free intro call
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN ARTICLE CONTENT -->
+  <main class="flex-1">
+    <article class="bg-slate-50 dark:bg-slate-950">
+      <div class="max-w-3xl mx-auto px-4 py-10 lg:py-14">
+            <!-- Meta line -->
+            <p class="text-xs uppercase tracking-[0.25em] text-emerald-600/80 dark:text-emerald-300/80 mb-3">
+              LLM · Introduction
+            </p>
+
+            <!-- Title -->
+            <h1 class="text-3xl font-semibold tracking-tight mb-3">
+              LLMs in Plain English: The Basics for Business Workflows
+            </h1>
+
+            <!-- Reading time / audience -->
+            <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">
+              5–7 min read · For IT &amp; business stakeholders
+            </p>
+
+            <!-- Body -->
+            <div class="prose prose-slate dark:prose-invert max-w-none">
+          <p>
+            You’ve probably seen “LLM” next to words like <em>agents</em>, <em>automation</em>, and <em>workflows</em>.
+            It can sound like a big new platform you must adopt. In practice, an LLM is simply a very capable text-and-language engine
+            that can read and write in a way that feels close to how people communicate.
+          </p>
+
+          <p>
+            The useful question isn’t “Should we use an LLM?” but: <strong>Where does language slow us down today?</strong>
+            If your business work includes emails, tickets, documents, approvals, forms, or “someone has to read this and decide”
+            steps, you’re already in LLM territory.
+          </p>
+
+          <h2>What an LLM is (and what it isn’t)</h2>
+
+          <p>
+            An LLM (Large Language Model) is a model trained on large amounts of text to predict and generate language.
+            That sounds abstract, but the outcome is practical: it can summarize, rewrite, classify, extract facts, translate,
+            draft replies, and follow instructions.
+          </p>
+
+          <p>
+            What it is <strong>not</strong>: a database, a guaranteed source of truth, or a mind-reader.
+            It can be wrong in a confident tone. That’s why good solutions combine LLM output with rules, data sources,
+            and clear guardrails.
+          </p>
+
+          <h2>Why businesses care</h2>
+
+          <p>
+            Most office work is “language work” disguised as process: someone reads a message, looks up context, applies policy,
+            fills a template, and updates a system. This repeats hundreds of times per week. LLMs shine in exactly these loops:
+            they reduce the friction of reading, writing, and translating between messy human input and structured company systems.
+          </p>
+
+          <h2>Common workflow patterns where LLMs pay off</h2>
+
+          <ul>
+            <li>
+              <strong>Inbox &amp; ticket triage:</strong> classify incoming messages, detect urgency, route to the right queue,
+              draft a first response, and ask for missing details.
+            </li>
+            <li>
+              <strong>Document handling:</strong> summarize PDFs, extract key fields, compare against checklists, and generate
+              structured data for downstream systems.
+            </li>
+            <li>
+              <strong>Knowledge assistance:</strong> answer internal questions using company documentation and past cases,
+              with links to sources instead of “trust me”.
+            </li>
+            <li>
+              <strong>Sales &amp; customer support:</strong> propose reply drafts, adapt tone, generate product explanations,
+              and keep responses consistent with your policies.
+            </li>
+            <li>
+              <strong>Ops automation:</strong> convert free-text requests into actions: create a CRM entry, open a Jira ticket,
+              schedule a meeting, or prepare a report.
+            </li>
+          </ul>
+
+          <h2>How “agents” fit in</h2>
+
+          <p>
+            If an LLM is the language engine, an <strong>agent</strong> is the workflow around it:
+            a system that can decide what step to take next and call tools to get real work done
+            (search a knowledge base, read an ERP record, create a ticket, send a notification).
+          </p>
+
+          <p>
+            In other words: the LLM handles language and reasoning steps; the surrounding workflow handles correctness,
+            permissions, and integration.
+          </p>
+
+          <h2>RAG: using your own documents without retraining</h2>
+
+          <p>
+            A common requirement is: “Answer using <em>our</em> information.” That’s what <strong>RAG</strong>
+            (Retrieval-Augmented Generation) is for.
+            Instead of guessing, the system first retrieves relevant internal content (documents, policies, manuals, past tickets),
+            then asks the LLM to respond using that material.
+          </p>
+
+          <p>
+            This is typically faster, cheaper, and safer than training a custom model, and it keeps knowledge up to date
+            as your documents change.
+          </p>
+
+          <h2>What a realistic LLM setup looks like</h2>
+
+          <p>
+            The most successful implementations are rarely “one big chatbot”. They are small, focused automations that fit into
+            existing processes:
+          </p>
+
+          <ol>
+            <li><strong>A clear input:</strong> email, form, ticket, or uploaded document.</li>
+            <li><strong>Context:</strong> customer data, policies, past cases, or relevant documents (often via RAG).</li>
+            <li><strong>A constrained task:</strong> draft, classify, extract, explain, or propose next steps.</li>
+            <li><strong>Verification:</strong> rules, validations, and human approval where risk is higher.</li>
+            <li><strong>An action:</strong> update a system, notify a person, create a record, or generate a document.</li>
+          </ol>
+
+          <h2>Guardrails you should expect</h2>
+
+          <p>
+            “Safe and useful” is a design choice. In a business setting, you typically want:
+          </p>
+
+          <ul>
+            <li><strong>Source grounding:</strong> responses cite internal sources where possible.</li>
+            <li><strong>Data access control:</strong> the system only sees what it is allowed to see.</li>
+            <li><strong>Auditability:</strong> logs of what was read, what was generated, and what action was taken.</li>
+            <li><strong>Human-in-the-loop:</strong> approvals for sensitive actions (payments, contract changes, deletions).</li>
+            <li><strong>Fallback behavior:</strong> when uncertain, the system asks, escalates, or stops.</li>
+          </ul>
+
+          <h2>What you can expect in the first 2–6 weeks</h2>
+
+          <p>
+            A pragmatic first phase usually delivers a working pilot on one workflow slice:
+            for example, ticket triage + draft replies, or document extraction + validation.
+            The goal is to prove value quickly, then expand to adjacent workflows once you see stable results.
+          </p>
+
+          <h2>A simple way to spot good LLM opportunities</h2>
+
+          <p>
+            If a task is repetitive, language-heavy, and depends on context that already exists in your systems or documents,
+            it’s a strong candidate. If the task requires perfect correctness and has high downside, it can still work—just with
+            stronger guardrails and approval steps.
+          </p>
+
+          <p>
+            If you want, describe one workflow that eats time in your business (even roughly).
+            I can propose a minimal, realistic automation design: what the agent would do, which systems it would touch,
+            and where human approval makes sense.
+          </p>
+        </div>
+      </div>
+    </article>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+      <div>© <span id="year"></span> Modest AI Studio. Alle Rechte vorbehalten.</div>
+      <div class="flex gap-4">
+        <a href="../impressum.html" class="hover:text-emerald-500">Impressum</a>
+        <a href="../datenschutz.html" class="hover:text-emerald-500">Datenschutzerklärung</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>
