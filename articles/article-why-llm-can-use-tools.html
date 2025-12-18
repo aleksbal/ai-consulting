@@ -2,13 +2,13 @@
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
-  <title>Article title – Modest AI Studio</title>
+  <title>Why LLMs Can Use Tools</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Short description of this article for search engines and link previews." />
+  <meta name="description" content="A simple explanation of why LLMs can select and use tools: how tool descriptions, schemas, and safe boundaries make API usage practical and controllable." />
 
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
 
-  <!-- Tailwind -->
+  <!-- Tailwind + Typography plugin -->
   <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
   <script>
     tailwind.config = { darkMode: 'class' };
@@ -20,7 +20,10 @@
       color: rgb(45,212,191);
     }
   </style>
+
+  <link rel="stylesheet" href="../css/prose.css">
 </head>
+
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased">
 
 <script>
@@ -87,7 +90,7 @@
 
 <div class="min-h-screen flex flex-col">
 
-  <!-- HEADER: same visual structure as index, links back to index + articles -->
+  <!-- HEADER -->
   <header class="sticky top-0 z-40 border-b border-slate-200 dark:border-slate-800/70 bg-white/80 dark:bg-slate-950/80 backdrop-blur">
     <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
       <div class="flex items-center gap-2">
@@ -101,6 +104,7 @@
           </div>
         </div>
       </div>
+
       <nav class="hidden md:flex gap-6 text-sm text-slate-600 dark:text-slate-300">
         <a href="../index.html#services" class="hover:text-emerald-600 dark:hover:text-emerald-300">Services</a>
         <a href="../index.html#process" class="hover:text-emerald-600 dark:hover:text-emerald-300">Process</a>
@@ -109,6 +113,7 @@
         <a href="../articles.html" class="hover:text-emerald-600 dark:hover:text-emerald-300">Articles</a>
         <a href="../index.html#contact" class="hover:text-emerald-600 dark:hover:text-emerald-300">Contact</a>
       </nav>
+
       <div class="flex items-center gap-3">
         <div class="flex rounded-full border border-slate-300 dark:border-slate-700 text-xs overflow-hidden">
           <button id="btn-lang-en" onclick="setLang('en')" class="px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800">EN</button>
@@ -122,179 +127,160 @@
     </div>
   </header>
 
-  <!-- MAIN ARTICLE CONTENT -->
+  <!-- MAIN -->
   <main class="flex-1">
     <article class="bg-slate-50 dark:bg-slate-950">
       <div class="max-w-3xl mx-auto px-4 py-10 lg:py-14">
-        <!-- Meta line -->
+
         <p class="text-xs uppercase tracking-[0.25em] text-emerald-600/80 dark:text-emerald-300/80 mb-3">
-          Topic · Category
+          Agents · Tools · APIs
         </p>
 
-        <!-- Title -->
         <h1 class="text-3xl font-semibold tracking-tight mb-3">
-          Why LLMs Can Use Tools — Explained Simply
+          Why LLMs can use tools — explained simply
         </h1>
 
-        <!-- Reading time / audience -->
         <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">
           5–7 min read · For IT &amp; business stakeholders
         </p>
 
-        <!-- Body -->
+        <!-- Body (IMPORTANT: keep content semantic; prose controls typography) -->
         <div class="prose prose-slate dark:prose-invert max-w-none">
-            <p>
-              When people hear that AI agents can “use tools” or “call APIs”, it often
-              sounds mysterious or even unsafe. The reality is simpler: modern LLMs can
-              understand the purpose of an action because the action is described to them in
-              a structured, human-readable way. Tools are not magic — they are a clean,
-              safe contract between your systems and the AI.
-            </p>
 
-            <h2 class="text-base font-semibold mt-6">What a tool actually is</h2>
+          <p>
+            When people hear that AI agents can “use tools” or “call APIs”, it often sounds mysterious or even unsafe.
+            The reality is simpler: modern LLMs can understand the purpose of an action because the action is described
+            to them in a structured, human-readable way. Tools are not magic — they are a clean, safe contract between
+            your systems and the AI.
+          </p>
 
-            <p>
-              A <strong>tool</strong> is a single action an AI agent is allowed to perform. Nothing
-              more, nothing less. It is defined by:
-            </p>
+          <h2>What a tool actually is</h2>
 
-            <ul class="list-disc list-inside space-y-1">
-              <li>a <strong>name</strong> — what the action is called,</li>
-              <li>a <strong>description</strong> — what the action does in plain language,</li>
-              <li>a <strong>parameter schema</strong> — which inputs are required.</li>
-            </ul>
+          <p>
+            A <strong>tool</strong> is a single action an AI agent is allowed to perform. Nothing more, nothing less.
+            It is defined by:
+          </p>
 
-            <p>
-              For example:
-            </p>
+          <ul>
+            <li>a <strong>name</strong> — what the action is called,</li>
+            <li>a <strong>description</strong> — what the action does in plain language,</li>
+            <li>a <strong>parameter schema</strong> — which inputs are required.</li>
+          </ul>
 
-            <pre class="bg-slate-900 text-slate-100 rounded p-3 text-xs overflow-x-auto">
-            {
-              "name": "getCustomerByEmail",
-              "description": "Returns customer information for the given email address.",
-              "parameters": {
-                "type": "object",
-                "properties": {
-                  "email": { "type": "string" }
-                },
-                "required": ["email"]
-              }
-            }
-            </pre>
+          <p>For example:</p>
 
-            <p>
-              An LLM does not “guess” how to call your systems. Instead, it reads this
-              structured description — similar to how a developer would — and understands
-              when and how the tool should be used.
-            </p>
+          <pre><code>{
+  "name": "getCustomerByEmail",
+  "description": "Returns customer information for the given email address.",
+  "parameters": {
+    "type": "object",
+    "properties": {
+      "email": { "type": "string" }
+    },
+    "required": ["email"]
+  }
+}</code></pre>
 
-            <h2 class="text-base font-semibold mt-6">Why LLMs can select the right tool</h2>
+          <p>
+            An LLM does not “guess” how to call your systems. Instead, it reads this structured description — similar
+            to how a developer would — and understands when and how the tool should be used.
+          </p>
 
-            <p>
-              LLMs have been trained on enormous amounts of structured content: API docs,
-              function definitions, JSON schemas, and examples of how humans use such
-              interfaces. Because of this, they are excellent at <strong>semantic matching</strong>:
-            </p>
+          <h2>Why LLMs can select the right tool</h2>
 
-            <ul class="list-disc list-inside space-y-1">
-              <li>they understand the user's intent (“find a customer”),</li>
-              <li>they understand the tool's purpose (“get customer by email”),</li>
-              <li>they align the two and choose the correct action.</li>
-            </ul>
+          <p>
+            LLMs have been trained on enormous amounts of structured content: API docs, function definitions,
+            JSON schemas, and examples of how humans use such interfaces. Because of this, they are excellent at
+            <strong>semantic matching</strong>:
+          </p>
 
-            <p>
-              Classical automation cannot do this. Traditional systems only follow steps
-              that were explicitly programmed. They do not understand meaning — LLMs do.
-            </p>
+          <ul>
+            <li>they understand the user's intent (“find a customer”),</li>
+            <li>they understand the tool's purpose (“get customer by email”),</li>
+            <li>they align the two and choose the correct action.</li>
+          </ul>
 
-            <h2 class="text-base font-semibold mt-6">How tools keep AI assistants safe</h2>
+          <p>
+            Classical automation cannot do this. Traditional systems only follow steps that were explicitly programmed.
+            They do not understand meaning — LLMs do.
+          </p>
 
-            <p>
-              Tools are not just for convenience. They are also for <strong>safety</strong>. The AI cannot
-              call any API on its own. It can only use the tools you expose.
-            </p>
+          <h2>How tools keep AI assistants safe</h2>
 
-            <p>
-              This means:
-            </p>
+          <p>
+            Tools are not just for convenience. They are also for <strong>safety</strong>.
+            The AI cannot call any API on its own. It can only use the tools you expose.
+          </p>
 
-            <ul class="list-disc list-inside space-y-1">
-              <li>you define what the agent <strong>can</strong> do,</li>
-              <li>you define what the agent <strong>cannot</strong> do,</li>
-              <li>you control which systems are accessible,</li>
-              <li>you approve which parameters are acceptable.</li>
-            </ul>
+          <p>This means:</p>
 
-            <p>
-              In practical terms, tools create a safe sandbox.
-              Without tools, the agent has no capabilities at all.
-            </p>
+          <ul>
+            <li>you define what the agent <strong>can</strong> do,</li>
+            <li>you define what the agent <strong>cannot</strong> do,</li>
+            <li>you control which systems are accessible,</li>
+            <li>you approve which parameters are acceptable.</li>
+          </ul>
 
-            <h2 class="text-base font-semibold mt-6">Dynamic multi-step workflows</h2>
+          <p>
+            In practical terms, tools create a safe sandbox. Without tools, the agent has no capabilities at all.
+          </p>
 
-            <p>
-              Once tools are available, LLMs can chain them to accomplish complex goals.
-              For example:
-            </p>
+          <h2>Dynamic multi-step workflows</h2>
 
-            <ul class="list-decimal list-inside space-y-1">
-              <li>User: “Show me all customers with overdue invoices and notify sales.”</li>
-              <li>Agent finds tools: <em>listOverdueInvoices</em> and <em>notifySales</em>.</li>
-              <li>It calls <em>listOverdueInvoices</em> first.</li>
-              <li>It interprets the results and extracts the relevant customers.</li>
-              <li>It calls <em>notifySales</em> with the extracted data.</li>
-              <li>It summarizes the result in natural language.</li>
-            </ul>
+          <p>
+            Once tools are available, LLMs can chain them to accomplish complex goals. For example:
+          </p>
 
-            <p>
-              This is not pre-programmed branching logic.
-              The agent understands the relationships between the actions and the goal.
-            </p>
+          <ol>
+            <li>User: “Show me all customers with overdue invoices and notify sales.”</li>
+            <li>Agent finds tools: <em>listOverdueInvoices</em> and <em>notifySales</em>.</li>
+            <li>It calls <em>listOverdueInvoices</em> first.</li>
+            <li>It interprets the results and extracts the relevant customers.</li>
+            <li>It calls <em>notifySales</em> with the extracted data.</li>
+            <li>It summarizes the result in natural language.</li>
+          </ol>
 
-            <h2 class="text-base font-semibold mt-6">Why this is such a breakthrough</h2>
+          <p>
+            This is not pre-programmed branching logic. The agent understands the relationships between the actions and the goal.
+          </p>
 
-            <p>
-              For decades, automation tools could not:
-            </p>
+          <h2>Why this is such a breakthrough</h2>
 
-            <ul class="list-disc list-inside space-y-1">
-              <li>interpret intent,</li>
-              <li>read API descriptions and infer meaning,</li>
-              <li>build request payloads dynamically,</li>
-              <li>decide the next step based on results,</li>
-              <li>explain the outcome in natural language.</li>
-            </ul>
+          <p>For decades, automation tools could not:</p>
 
-            <p>
-              With LLMs and tools, automations become much more flexible and human-like
-              without losing control. You provide the actions, the rules, and the boundaries.
-              The AI provides the reasoning.
-            </p>
+          <ul>
+            <li>interpret intent,</li>
+            <li>read API descriptions and infer meaning,</li>
+            <li>build request payloads dynamically,</li>
+            <li>decide the next step based on results,</li>
+            <li>explain the outcome in natural language.</li>
+          </ul>
 
-            <h2 class="text-base font-semibold mt-6">Summary</h2>
+          <p>
+            With LLMs and tools, automations become much more flexible and human-like without losing control.
+            You provide the actions, the rules, and the boundaries. The AI provides the reasoning.
+          </p>
 
-            <p>
-              Tools are the bridge that connects AI understanding with real business
-              systems. They let an LLM move beyond “text in, text out” and take practical
-              actions in a safe, structured way.
-            </p>
+          <h2>Summary</h2>
 
-            <p>
-              The combination of:
-            </p>
+          <p>
+            Tools are the bridge that connects AI understanding with real business systems. They let an LLM move beyond
+            “text in, text out” and take practical actions in a safe, structured way.
+          </p>
 
-            <ul class="list-disc list-inside space-y-1">
-              <li>semantic understanding,</li>
-              <li>structured tool descriptions,</li>
-              <li>contextual reasoning,</li>
-              <li>and safe boundaries</li>
-            </ul>
+          <p>The combination of:</p>
 
-            <p>
-              makes AI-driven automation far more powerful than anything possible with
-              traditional scripting or workflow engines. It is a new layer on top of your
-              existing systems — not a replacement for them.
-            </p>
+          <ul>
+            <li>semantic understanding,</li>
+            <li>structured tool descriptions,</li>
+            <li>contextual reasoning,</li>
+            <li>and safe boundaries</li>
+          </ul>
+
+          <p>
+            makes AI-driven automation far more powerful than anything possible with traditional scripting or workflow engines.
+            It is a new layer on top of your existing systems — not a replacement for them.
+          </p>
 
         </div>
       </div>
@@ -311,7 +297,7 @@
       </div>
     </div>
   </footer>
-</div>
 
+</div>
 </body>
 </html>

@@ -6,10 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="description" content="Short description of this article for search engines and link previews." />
 
+
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
 
-  <!-- Tailwind -->
-  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tailwind + Typography plugin -->
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
   <script>
     tailwind.config = { darkMode: 'class' };
   </script>
@@ -20,6 +21,8 @@
       color: rgb(45,212,191);
     }
   </style>
+
+  <link rel="stylesheet" href="../css/prose.css">
 </head>
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased">
 
@@ -142,25 +145,25 @@
         </p>
 
         <!-- Body -->
-        <div class="space-y-4 text-sm text-slate-700 dark:text-slate-300 leading-relaxed">
+        <div class="prose prose-slate dark:prose-invert max-w-none">
           <p>
             Start with 2–3 sentences that explain what this article is about and why a non-technical
             decision maker should care. Keep it concrete and avoid pure buzzwords.
           </p>
 
-          <h2 class="text-base font-semibold mt-6">Section heading</h2>
+          <h2>Section heading</h2>
           <p>
             Explain one core idea in this section. Aim for short paragraphs and concrete examples
             from real projects, not abstract theory.
           </p>
 
-          <ul class="list-disc list-inside space-y-1">
+          <ul>
             <li>Bullet point with one clear thought.</li>
             <li>Another point, ideally connected to a real scenario.</li>
             <li>Keep bullets short and scannable.</li>
           </ul>
 
-          <h2 class="text-base font-semibold mt-6">Another section heading</h2>
+          <h2>Another section heading</h2>
           <p>
             Describe how this topic fits into a small or medium-sized company: what needs to be in
             place, what can be done pragmatically, and what should be avoided at the beginning.

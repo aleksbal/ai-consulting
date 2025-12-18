@@ -2,13 +2,13 @@
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
-  <title>Article title – Modest AI Studio</title>
+  <title>MCP Basics</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Short description of this article for search engines and link previews." />
+  <meta name="description" content="A pragmatic introduction to the Model Context Protocol (MCP): what it solves, what it is, and when it makes sense in real projects." />
 
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
 
-  <!-- Tailwind -->
+  <!-- Tailwind + Typography plugin -->
   <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
   <script>
     tailwind.config = { darkMode: 'class' };
@@ -20,7 +20,11 @@
       color: rgb(45,212,191);
     }
   </style>
+
+  <!-- Shared prose polish -->
+  <link rel="stylesheet" href="../css/prose.css">
 </head>
+
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased">
 
 <script>
@@ -87,7 +91,7 @@
 
 <div class="min-h-screen flex flex-col">
 
-  <!-- HEADER: same visual structure as index, links back to index + articles -->
+  <!-- HEADER -->
   <header class="sticky top-0 z-40 border-b border-slate-200 dark:border-slate-800/70 bg-white/80 dark:bg-slate-950/80 backdrop-blur">
     <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
       <div class="flex items-center gap-2">
@@ -97,10 +101,11 @@
         <div>
           <div class="font-semibold tracking-tight">Modest AI Studio</div>
           <div class="text-xs text-slate-500 dark:text-slate-400">
-             AI consulting for real-world projects
+            AI consulting for real-world projects
           </div>
         </div>
       </div>
+
       <nav class="hidden md:flex gap-6 text-sm text-slate-600 dark:text-slate-300">
         <a href="../index.html#services" class="hover:text-emerald-600 dark:hover:text-emerald-300">Services</a>
         <a href="../index.html#process" class="hover:text-emerald-600 dark:hover:text-emerald-300">How it works</a>
@@ -109,6 +114,7 @@
         <a href="../articles.html" class="hover:text-emerald-600 dark:hover:text-emerald-300">Articles</a>
         <a href="../index.html#contact" class="hover:text-emerald-600 dark:hover:text-emerald-300">Contact</a>
       </nav>
+
       <div class="flex items-center gap-3">
         <div class="flex rounded-full border border-slate-300 dark:border-slate-700 text-xs overflow-hidden">
           <button id="btn-lang-en" onclick="setLang('en')" class="px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800">EN</button>
@@ -126,248 +132,200 @@
   <main class="flex-1">
     <article class="bg-slate-50 dark:bg-slate-950">
       <div class="max-w-3xl mx-auto px-4 py-10 lg:py-14">
-        <!-- Meta line -->
+
         <p class="text-xs uppercase tracking-[0.25em] text-emerald-600/80 dark:text-emerald-300/80 mb-3">
-          Topic · Category
+          MCP · Integration
         </p>
 
-        <!-- Title -->
         <h1 class="text-3xl font-semibold tracking-tight mb-3">
-          MCP Basics – How it actually works and why is that so usefull
+          MCP Basics – how it works and why it’s useful
         </h1>
 
-        <!-- Reading time / audience -->
         <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">
           5–7 min read · For IT &amp; business stakeholders
         </p>
 
-        <!-- Body -->
+        <!-- Body (IMPORTANT: no utility classes inside, prose controls typography) -->
         <div class="prose prose-slate dark:prose-invert max-w-none">
-            <p>
-              When people hear “agents” or “AI assistants”, the first question is usually:
-              <em>“How does this actually connect to our systems without becoming a mess?”</em>
-              The Model Context Protocol (MCP) is one answer to that question. It is a
-              simple, open way to describe which data and tools an AI assistant is allowed
-              to use – and how.
-            </p>
 
-            <p>
-              This article explains MCP in practical terms, without going deep into
-              implementation details. It is meant for people who want to understand
-              <strong>where MCP fits in an architecture</strong> and <strong>when it is useful</strong>,
-              not for writing code.
-            </p>
+          <p>
+            When people hear “agents” or “AI assistants”, the first question is usually:
+            <em>“How does this actually connect to our systems without becoming a mess?”</em>
+            The Model Context Protocol (MCP) is one answer to that question. It is a simple,
+            open way to describe which data and tools an AI assistant is allowed to use — and how.
+          </p>
 
-            <h2 class="text-base font-semibold mt-6">The basic problem MCP solves</h2>
+          <p>
+            This article explains MCP in practical terms, without going deep into implementation details.
+            It is meant for people who want to understand <strong>where MCP fits in an architecture</strong> and
+            <strong>when it is useful</strong>, not for writing code.
+          </p>
 
-            <p>
-              Before MCP, most AI integrations looked like this:
-            </p>
+          <h2>The basic problem MCP solves</h2>
 
-            <ul class="list-disc list-inside space-y-1">
-              <li>each assistant or tool had its <strong>own custom API format</strong>,</li>
-              <li>you had to write <strong>bespoke glue code</strong> to connect to databases, CRMs, ticketing systems, …,</li>
-              <li>every integration was a <strong>one-off project</strong> that was hard to reuse.</li>
-            </ul>
+          <p>Before MCP, most AI integrations looked like this:</p>
 
-            <p>
-              In small and medium-sized companies this often leads to:
-            </p>
+          <ul>
+            <li>each assistant or tool had its <strong>own custom API format</strong>,</li>
+            <li>you had to write <strong>bespoke glue code</strong> to connect to databases, CRMs, ticketing systems, …,</li>
+            <li>every integration was a <strong>one-off project</strong> that was hard to reuse.</li>
+          </ul>
 
-            <ul class="list-disc list-inside space-y-1">
-              <li>many separate “little automations” no one fully understands,</li>
-              <li>security questions (<em>“Who allowed the assistant to do what?”</em>),</li>
-              <li>no clear overview of which systems are actually exposed to AI tools.</li>
-            </ul>
+          <p>In small and medium-sized companies this often leads to:</p>
 
-            <p>
-              MCP tries to clean this up. It gives you a <strong>standard way</strong> to say:
-              “Here is a data source”, “Here is an action (tool)”, “Here is how an AI agent
-              is allowed to call it”.
-            </p>
+          <ul>
+            <li>many separate “little automations” no one fully understands,</li>
+            <li>security questions (<em>“Who allowed the assistant to do what?”</em>),</li>
+            <li>no clear overview of which systems are actually exposed to AI tools.</li>
+          </ul>
 
-            <h2 class="text-base font-semibold mt-6">What MCP is – in simple terms</h2>
+          <p>
+            MCP tries to clean this up. It gives you a <strong>standard way</strong> to say:
+            “Here is a data source”, “Here is an action (tool)”, “Here is how an AI agent
+            is allowed to call it”.
+          </p>
 
-            <p>
-              MCP is an <strong>open protocol</strong> (a common language) between two sides:
-            </p>
+          <h2>What MCP is — in simple terms</h2>
 
-            <ul class="list-disc list-inside space-y-1">
-              <li>
-                a <strong>client</strong>: usually the AI assistant or the environment that runs it,
-              </li>
-              <li>
-                a <strong>server</strong>: something that exposes your data or actions in a structured way.
-              </li>
-            </ul>
+          <p>MCP is an <strong>open protocol</strong> (a common language) between two sides:</p>
 
-            <p>
-              An MCP server can be many things:
-            </p>
+          <ul>
+            <li><strong>a client</strong>: usually the AI assistant or the environment that runs it,</li>
+            <li><strong>a server</strong>: something that exposes your data or actions in a structured way.</li>
+          </ul>
 
-            <ul class="list-disc list-inside space-y-1">
-              <li>a connector to your database,</li>
-              <li>a connector to Jira, GitHub, or your ticket system,</li>
-              <li>a connector to internal REST APIs,</li>
-              <li>a connector to internal RAG vector data storage</li>
-              <li>even a connector to something “offline”, like local files.</li>
-            </ul>
+          <p>An MCP server can be many things:</p>
 
-            <p>
-              The important part: all of these are described to the assistant in a
-              <strong>consistent format</strong>. The AI does not need to “guess” which parameters
-              to send – the protocol describes them.
-            </p>
+          <ul>
+            <li>a connector to your database,</li>
+            <li>a connector to Jira, GitHub, or your ticket system,</li>
+            <li>a connector to internal REST APIs,</li>
+            <li>a connector to internal RAG vector data storage,</li>
+            <li>even a connector to something “offline”, like local files.</li>
+          </ul>
 
-            <h2 class="text-base font-semibold mt-6">Why this is helpful in real projects</h2>
+          <p>
+            The important part: all of these are described to the assistant in a <strong>consistent format</strong>.
+            The AI does not need to “guess” which parameters to send — the protocol describes them.
+          </p>
 
-            <p>
-              For a small or medium-sized company, MCP brings three practical benefits:
-            </p>
+          <h2>Why this is helpful in real projects</h2>
 
-            <h3 class="font-semibold mt-4">1. Less fragile glue code</h3>
-            <p>
-              Instead of building one-off integrations (“this script calls that API in this
-              very specific way”), you have a <strong>reusable connector</strong> that can be used by
-              different assistants or workflows.
-            </p>
+          <p>For a small or medium-sized company, MCP brings three practical benefits:</p>
 
-            <h3 class="font-semibold mt-4">2. Clearer security boundaries</h3>
-            <p>
-              Because tools and data sources are explicitly described, it becomes easier to
-              answer:
-            </p>
-            <ul class="list-disc list-inside space-y-1">
-              <li>Which actions can this assistant perform?</li>
-              <li>On which systems?</li>
-              <li>With which parameters?</li>
-            </ul>
-
-            <p>
+          <ol>
+            <li>
+              <strong>Less fragile glue code</strong><br />
+              Instead of building one-off integrations (“this script calls that API in this very specific way”),
+              you have a <strong>reusable connector</strong> that can be used by different assistants or workflows.
+            </li>
+            <li>
+              <strong>Clearer security boundaries</strong><br />
+              Because tools and data sources are explicitly described, it becomes easier to answer:
+              <ul>
+                <li>Which actions can this assistant perform?</li>
+                <li>On which systems?</li>
+                <li>With which parameters?</li>
+              </ul>
               That is easier to reason about than “some code that calls some API somewhere”.
-            </p>
+            </li>
+            <li>
+              <strong>Easier evolution over time</strong><br />
+              If you later change your CRM or helpdesk system, you do not have to redesign all assistants.
+              You “just” adjust or replace the corresponding MCP connector. The interface for the assistant
+              can stay very similar.
+            </li>
+          </ol>
 
-            <h3 class="font-semibold mt-4">3. Easier evolution over time</h3>
-            <p>
-              If you later change your CRM or helpdesk system, you do not have to redesign
-              all assistants. You “just” adjust or replace the corresponding MCP connector.
-              The interface for the assistant can stay very similar.
-            </p>
+          <h2>How MCP fits into a small company architecture</h2>
 
-            <h2 class="text-base font-semibold mt-6">How MCP fits into a small company architecture</h2>
+          <p>A pragmatic picture for a smaller organisation might look like this:</p>
 
-            <p>
-              A pragmatic picture for a smaller organisation might look like this:
-            </p>
+          <ol>
+            <li>You have an <strong>AI assistant</strong> (for example, for support teams or internal operations).</li>
+            <li>This assistant runs in an environment that speaks MCP (for example, a compatible chat interface or orchestration layer).</li>
+            <li>
+              Behind that you have several <strong>MCP servers</strong>:
+              <ul>
+                <li>one for your ticketing system,</li>
+                <li>one for your knowledge base,</li>
+                <li>one for your internal APIs.</li>
+              </ul>
+            </li>
+          </ol>
 
-            <ol class="list-decimal list-inside space-y-1">
-              <li>
-                You have an <strong>AI assistant</strong> (for example, for support teams or internal
-                operations).
-              </li>
-              <li>
-                This assistant runs in an environment that speaks MCP (for example, a
-                compatible chat interface or orchestration layer).
-              </li>
-              <li>
-                Behind that you have several <strong>MCP servers</strong>:
-                <ul class="list-disc list-inside ml-5 space-y-1">
-                  <li>one for your ticketing system,</li>
-                  <li>one for your knowledge base,</li>
-                  <li>one for your internal APIs.</li>
-                </ul>
-              </li>
-            </ol>
+          <p>Each of these MCP servers defines:</p>
 
-            <p>
-              Each of these MCP servers defines:
-            </p>
+          <ul>
+            <li>which data can be read (for example: “get ticket by ID”),</li>
+            <li>which actions can be performed (for example: “add comment”, “change status”),</li>
+            <li>which parameters are required (for example: “ticketId”, “newStatus”).</li>
+          </ul>
 
-            <ul class="list-disc list-inside space-y-1">
-              <li>which data can be read (for example: “get ticket by ID”),</li>
-              <li>which actions can be performed (for example: “add comment”, “change status”),</li>
-              <li>which parameters are required (for example: “ticketId”, “newStatus”).</li>
-            </ul>
+          <p>
+            The assistant combines these building blocks to fulfil a user’s request — but always within the
+            boundaries defined by MCP.
+          </p>
 
-            <p>
-              The assistant combines these building blocks to fulfil a user’s request – but
-              always within the boundaries defined by MCP.
-            </p>
+          <h2>What MCP is <em>not</em></h2>
 
-            <h2 class="text-base font-semibold mt-6">What MCP is <em>not</em></h2>
+          <p>
+            MCP is useful, but it does not magically solve all integration problems. Important limitations:
+          </p>
 
-            <p>
-              MCP is useful, but it does not magically solve all integration problems.
-              Important limitations:
-            </p>
+          <ul>
+            <li>
+              It is <strong>not</strong> a full workflow engine — you still need some logic for sequences, approvals and error handling.
+            </li>
+            <li>
+              It does <strong>not</strong> remove the need for proper APIs or permissions — if your current systems are chaotic, MCP will not fix that alone.
+            </li>
+            <li>
+              It is <strong>not</strong> a “no-code” tool for business users — at least today, you still need engineers to define the connectors cleanly.
+            </li>
+          </ul>
 
-            <ul class="list-disc list-inside space-y-1">
-              <li>
-                It is <strong>not</strong> a full workflow engine – you still need some logic for
-                sequences, approvals and error handling.
-              </li>
-              <li>
-                It does <strong>not</strong> remove the need for proper APIs or permissions – if your
-                current systems are chaotic, MCP will not fix that alone.
-              </li>
-              <li>
-                It is <strong>not</strong> a “no-code” tool for business users – at least today, you
-                still need engineers to define the connectors cleanly.
-              </li>
-            </ul>
+          <p>Think of MCP as a <strong>clean interface layer</strong>, not the whole automation story.</p>
 
-            <p>
-              Think of MCP as a <strong>clean interface layer</strong>, not the whole automation story.
-            </p>
+          <h2>When MCP makes sense for you</h2>
 
-            <h2 class="text-base font-semibold mt-6">When MCP makes sense for you</h2>
+          <p>
+            You probably do <em>not</em> need MCP for a single, tiny experiment. But it becomes interesting when:
+          </p>
 
-            <p>
-              You probably do <em>not</em> need MCP for a single, tiny experiment. But it becomes
-              interesting when:
-            </p>
+          <ul>
+            <li>you have <strong>multiple systems</strong> an assistant should work with,</li>
+            <li>you want to <strong>avoid one-off integrations</strong> that are hard to maintain,</li>
+            <li>you care about <strong>clear security and responsibilities</strong>,</li>
+            <li>you want to build something that can <strong>grow over time</strong> without being rewritten every six months.</li>
+          </ul>
 
-            <ul class="list-disc list-inside space-y-1">
-              <li>you have <strong>multiple systems</strong> an assistant should work with,</li>
-              <li>you want to <strong>avoid one-off integrations</strong> that are hard to maintain,</li>
-              <li>you care about <strong>clear security and responsibilities</strong>,</li>
-              <li>you want to build something that can <strong>grow over time</strong> without being
-                  rewritten every six months.</li>
-            </ul>
+          <p>
+            In other words: MCP is not required to “play around with AI”. But if you see AI support as something
+            that should be part of your real operations, having a structured interface layer becomes very valuable.
+          </p>
 
-            <p>
-              In other words: MCP is not required to “play around with AI”. But if you see
-              AI support as something that should be part of your real operations, having a
-              structured interface layer becomes very valuable.
-            </p>
+          <h2>Summary</h2>
 
-            <h2 class="text-base font-semibold mt-6">Summary</h2>
+          <p>
+            MCP is a way to give AI assistants <strong>controlled access</strong> to your systems and data. It standardises how
+            tools and resources are described, so you do not have to invent a new integration pattern every time.
+          </p>
 
-            <p>
-              MCP is a way to give AI assistants <strong>controlled access</strong> to your systems and
-              data. It standardises how tools and resources are described, so you do not
-              have to invent a new integration pattern every time.
-            </p>
+          <p>For small and medium-sized companies, the interesting part is not the protocol itself, but what it enables:</p>
 
-            <p>
-              For small and medium-sized companies, the interesting part is not the
-              protocol itself, but what it enables:
-            </p>
+          <ul>
+            <li>cleaner integrations,</li>
+            <li>more predictable behaviour of assistants,</li>
+            <li>a foundation that can grow with new tools and use cases.</li>
+          </ul>
 
-            <ul class="list-disc list-inside space-y-1">
-              <li>cleaner integrations,</li>
-              <li>more predictable behaviour of assistants,</li>
-              <li>a foundation that can grow with new tools and use cases.</li>
-            </ul>
-
-            <p>
-              If you are thinking about giving AI access to internal systems, MCP is one of
-              the building blocks that can help you do it <strong>in a structured, maintainable way</strong>
-              instead of with another round of ad-hoc scripts.
-            </p>
+          <p>
+            If you are thinking about giving AI access to internal systems, MCP is one of the building blocks that can help
+            you do it <strong>in a structured, maintainable way</strong> instead of with another round of ad-hoc scripts.
+          </p>
 
         </div>
-
       </div>
     </article>
   </main>
@@ -382,7 +340,7 @@
       </div>
     </div>
   </footer>
-</div>
 
+</div>
 </body>
 </html>

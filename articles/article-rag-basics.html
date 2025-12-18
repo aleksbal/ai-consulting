@@ -2,13 +2,13 @@
 <html lang="en" class="scroll-smooth">
 <head>
   <meta charset="UTF-8" />
-  <title>Article title – Modest AI Studio</title>
+  <title>RAG Basics</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <meta name="description" content="Short description of this article for search engines and link previews." />
+  <meta name="description" content="RAG Basics: what Retrieval-Augmented Generation is, how it works, where it helps, and where it doesn’t — explained in simple business language." />
 
   <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
 
-  <!-- Tailwind -->
+  <!-- Tailwind + Typography plugin -->
   <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
   <script>
     tailwind.config = { darkMode: 'class' };
@@ -20,7 +20,10 @@
       color: rgb(45,212,191);
     }
   </style>
+
+  <link rel="stylesheet" href="../css/prose.css">
 </head>
+
 <body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased">
 
 <script>
@@ -87,7 +90,7 @@
 
 <div class="min-h-screen flex flex-col">
 
-  <!-- HEADER: same visual structure as index, links back to index + articles -->
+  <!-- HEADER -->
   <header class="sticky top-0 z-40 border-b border-slate-200 dark:border-slate-800/70 bg-white/80 dark:bg-slate-950/80 backdrop-blur">
     <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
       <div class="flex items-center gap-2">
@@ -101,6 +104,7 @@
           </div>
         </div>
       </div>
+
       <nav class="hidden md:flex gap-6 text-sm text-slate-600 dark:text-slate-300">
         <a href="../index.html#services" class="hover:text-emerald-600 dark:hover:text-emerald-300">Services</a>
         <a href="../index.html#process" class="hover:text-emerald-600 dark:hover:text-emerald-300">How it works</a>
@@ -109,6 +113,7 @@
         <a href="../articles.html" class="hover:text-emerald-600 dark:hover:text-emerald-300">Articles</a>
         <a href="../index.html#contact" class="hover:text-emerald-600 dark:hover:text-emerald-300">Contact</a>
       </nav>
+
       <div class="flex items-center gap-3">
         <div class="flex rounded-full border border-slate-300 dark:border-slate-700 text-xs overflow-hidden">
           <button id="btn-lang-en" onclick="setLang('en')" class="px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800">EN</button>
@@ -122,182 +127,166 @@
     </div>
   </header>
 
-  <!-- MAIN ARTICLE CONTENT -->
+  <!-- MAIN -->
   <main class="flex-1">
     <article class="bg-slate-50 dark:bg-slate-950">
       <div class="max-w-3xl mx-auto px-4 py-10 lg:py-14">
-        <!-- Meta line -->
+
         <p class="text-xs uppercase tracking-[0.25em] text-emerald-600/80 dark:text-emerald-300/80 mb-3">
-          Topic · Category
+          RAG · Knowledge · Search
         </p>
 
-        <!-- Title -->
         <h1 class="text-3xl font-semibold tracking-tight mb-3">
-          RAG Basics – How it actually works and when it makes sense
+          RAG Basics – how it works and when it makes sense
         </h1>
 
-        <!-- Reading time / audience -->
         <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">
           5–7 min read · For IT &amp; business stakeholders
         </p>
 
         <!-- Body -->
         <div class="prose prose-slate dark:prose-invert max-w-none">
-            <p>
+
+          <p>
             Most companies I talk to want “an AI assistant or agentic workflow that understands our documents”.
-            But they don’t want a massive project, and they definitely don’t want to train
-            their own model from scratch. Retrieval-Augmented Generation (RAG) is the
-            approach that makes this possible in a pragmatic way.
-            </p>
+            But they don’t want a massive project, and they definitely don’t want to train their own model from scratch.
+            Retrieval-Augmented Generation (RAG) is the approach that makes this possible in a pragmatic way.
+          </p>
 
-            <p>
-            RAG combines two things: a language model (the part that generates answers) and a
-            search component (the part that finds the right information in your documents).
-            The key idea is simple: instead of expecting the model to “know” everything, we
-            let it read your existing documents <em>at the moment the question is asked</em>.
-            </p>
+          <p>
+            RAG combines two things: a language model (the part that generates answers) and a search component
+            (the part that finds the right information in your documents). The key idea is simple: instead of expecting
+            the model to “know” everything, we let it read your existing documents <em>at the moment the question is asked</em>.
+          </p>
 
-            <h2 class="text-base font-semibold mt-6">Why companies use RAG instead of training models</h2>
+          <h2>Why companies use RAG instead of training models</h2>
 
-            <p>
-            Imagine you have PDFs, Word files, or internal wiki pages that contain important
-            knowledge. A traditional AI model doesn’t automatically know any of this — it
-            can only answer based on what it was trained on months ago.
-            </p>
+          <p>
+            Imagine you have PDFs, Word files, or internal wiki pages that contain important knowledge.
+            A traditional AI model doesn’t automatically know any of this — it can only answer based on what it was trained
+            on months ago.
+          </p>
 
-            <p>
-            With RAG, you don’t train the model on your data. You simply store your
-            documents in a searchable form. When someone asks a question, the system:
-            </p>
+          <p>
+            With RAG, you don’t train the model on your data. You simply store your documents in a searchable form.
+            When someone asks a question, the system:
+          </p>
 
-            <ul class="list-disc list-inside space-y-1">
-              <li>finds the most relevant passages in your documents</li>
-              <li>passes those passages to the language model</li>
-              <li>lets the model generate an answer based on real company information</li>
-            </ul>
+          <ul>
+            <li>finds the most relevant passages in your documents</li>
+            <li>passes those passages to the language model</li>
+            <li>lets the model generate an answer based on real company information</li>
+          </ul>
 
-            <p>
-            This means updates are easy — when you add or change a document, the AI
-            immediately uses the new version. No retraining, no downtime, no complicated
-            infrastructure.
-            </p>
+          <p>
+            This means updates are easy — when you add or change a document, the AI immediately uses the new version.
+            No retraining, no downtime, no complicated infrastructure.
+          </p>
 
-            <h2 class="text-base font-semibold mt-6">A simple mental model: “AI with glasses on”</h2>
+          <h2>A simple mental model: “AI with glasses on”</h2>
 
-            <p>
-            RAG is often explained in very technical diagrams, but here’s the simplest way
-            to think about it: the language model is smart, but it doesn’t remember your
-            company. RAG simply gives it glasses so it can read the correct part of your
-            documents before answering.
-            </p>
+          <p>
+            RAG is often explained in very technical diagrams, but here’s the simplest way to think about it:
+            the language model is smart, but it doesn’t remember your company. RAG simply gives it glasses so it can read
+            the correct part of your documents before answering.
+          </p>
 
-            <p>
-            This keeps things transparent. You can always see <em>which documents</em> the model
-            used for each answer. For many companies, this level of control is more
-            important than squeezing out a few extra percent of accuracy.
-            </p>
+          <p>
+            This keeps things transparent. You can always see <em>which documents</em> the model used for each answer.
+            For many companies, this level of control is more important than squeezing out a few extra percent of accuracy.
+          </p>
 
-            <h2 class="text-base font-semibold mt-6">What a basic RAG setup looks like</h2>
+          <h2>What a basic RAG setup looks like</h2>
 
-            <p>
+          <p>
             Every RAG system, no matter how fancy, boils down to five building blocks:
-            </p>
+          </p>
 
-            <ol class="list-decimal list-inside space-y-1">
-              <li><strong>Document ingestion:</strong> PDFs, Word files, wikis, emails — they are all processed into clean text.</li>
-              <li><strong>Chunking:</strong> The text is split into small, meaningful pieces the model can read.</li>
-              <li><strong>Indexing:</strong> These pieces are stored in a special search index (a “vector store”).</li>
-              <li><strong>Retrieval:</strong> When a question comes in, the system finds the top matching pieces.</li>
-              <li><strong>Answer generation:</strong> The model reads only those pieces and formulates a helpful answer.</li>
-            </ol>
+          <ol>
+            <li><strong>Document ingestion:</strong> PDFs, Word files, wikis, emails — they are all processed into clean text.</li>
+            <li><strong>Chunking:</strong> The text is split into small, meaningful pieces the model can read.</li>
+            <li><strong>Indexing:</strong> These pieces are stored in a special search index (a “vector store”).</li>
+            <li><strong>Retrieval:</strong> When a question comes in, the system finds the top matching pieces.</li>
+            <li><strong>Answer generation:</strong> The model reads only those pieces and formulates a helpful answer.</li>
+          </ol>
 
-            <p>
-            The end user never sees any of this. They just ask questions like:
-            </p>
+          <p>The end user never sees any of this. They just ask questions like:</p>
 
-            <ul class="list-disc list-inside space-y-1">
-              <li>"What steps are required to onboard a new customer?"</li>
-              <li>"Which product variant includes feature X?"</li>
-              <li>"What did we agree with this supplier last year?"</li>
-            </ul>
+          <ul>
+            <li>"What steps are required to onboard a new customer?"</li>
+            <li>"Which product variant includes feature X?"</li>
+            <li>"What did we agree with this supplier last year?"</li>
+          </ul>
 
-            <p>
-            And the system answers with the correct context attached.
-            </p>
+          <p>And the system answers with the correct context attached.</p>
 
-            <h2 class="text-base font-semibold mt-6">Where RAG is extremely useful</h2>
+          <h2>Where RAG is extremely useful</h2>
 
-            <p>
-            RAG shines in scenarios where information is mostly textual and spread across
-            different places:
-            </p>
+          <p>
+            RAG shines in scenarios where information is mostly textual and spread across different places:
+          </p>
 
-            <ul class="list-disc list-inside space-y-1">
-              <li>internal knowledge bases</li>
-              <li>product documentation</li>
-              <li>service manuals</li>
-              <li>compliance and policy documents</li>
-              <li>project archives and meeting notes</li>
-            </ul>
+          <ul>
+            <li>internal knowledge bases</li>
+            <li>product documentation</li>
+            <li>service manuals</li>
+            <li>compliance and policy documents</li>
+            <li>project archives and meeting notes</li>
+          </ul>
 
-            <p>
-            If employees frequently ask the same “Where do I find…?” questions, RAG can
-            save hours every week without changing your existing systems.
-            </p>
+          <p>
+            If employees frequently ask the same “Where do I find…?” questions, RAG can save hours every week
+            without changing your existing systems.
+          </p>
 
-            <h2 class="text-base font-semibold mt-6">Where RAG is <em>not</em> the right solution</h2>
+          <h2>Where RAG is <em>not</em> the right solution</h2>
 
-            <p>
-            RAG is not magic. It doesn’t understand the content better than your employees
-            — it just finds relevant passages and summarizes them well. Situations where RAG
-            is not ideal:
-            </p>
+          <p>
+            RAG is not magic. It doesn’t understand the content better than your employees — it just finds relevant passages
+            and summarizes them well. Situations where RAG is not ideal:
+          </p>
 
-            <ul class="list-disc list-inside space-y-1">
-              <li>data is extremely structured and numerical (better suited for databases)</li>
-              <li>answers must be legally binding (RAG can assist, not decide)</li>
-              <li>content is audio/video without transcripts</li>
-              <li>employees expect a perfect chatbot</li>
-            </ul>
+          <ul>
+            <li>data is extremely structured and numerical (better suited for databases)</li>
+            <li>answers must be legally binding (RAG can assist, not decide)</li>
+            <li>content is audio/video without transcripts</li>
+            <li>employees expect a perfect chatbot</li>
+          </ul>
 
-            <p>
-            In these cases, the expectations should be adjusted or we look at alternative
-            approaches.
-            </p>
+          <p>
+            In these cases, the expectations should be adjusted or we look at alternative approaches.
+          </p>
 
-            <h2 class="text-base font-semibold mt-6">How companies typically start</h2>
+          <h2>How companies typically start</h2>
 
-            <p>
-            Most organizations don’t need a big platform right away. A typical starting
-            point looks like this:
-            </p>
+          <p>
+            Most organizations don’t need a big platform right away. A typical starting point looks like this:
+          </p>
 
-            <ul class="list-disc list-inside space-y-1">
-              <li>choose one narrow use case with clear business value</li>
-              <li>prepare a small set of relevant documents (10–50 files is enough)</li>
-              <li>build a simple prototype UI or Slack/Teams integration</li>
-              <li>let 2–5 employees try it for one week</li>
-            </ul>
+          <ul>
+            <li>choose one narrow use case with clear business value</li>
+            <li>prepare a small set of relevant documents (10–50 files is enough)</li>
+            <li>build a simple prototype UI or Slack/Teams integration</li>
+            <li>let 2–5 employees try it for one week</li>
+          </ul>
 
-            <p>
-            This is enough to understand whether RAG will help — without committing to a
-            full-scale project.
-            </p>
+          <p>
+            This is enough to understand whether RAG will help — without committing to a full-scale project.
+          </p>
 
-            <h2 class="text-base font-semibold mt-6">Summary</h2>
+          <h2>Summary</h2>
 
-            <p>
-            RAG is a pragmatic way to bring company knowledge into an AI system without
-            building custom models. It’s fast to implement, easy to maintain and transparent
-            in how it works. For many small and medium-sized companies, it’s the most
-            realistic first step into applied AI.
-            </p>
+          <p>
+            RAG is a pragmatic way to bring company knowledge into an AI system without building custom models.
+            It’s fast to implement, easy to maintain and transparent in how it works.
+            For many small and medium-sized companies, it’s the most realistic first step into applied AI.
+          </p>
 
-            <p>
-            If you want to explore whether this makes sense in your situation, the easiest
-            way to start is with a short workshop and a small document set. That’s usually
-            enough to see immediate benefits.
-            </p>
+          <p>
+            If you want to explore whether this makes sense in your situation, the easiest way to start is with a short workshop
+            and a small document set. That’s usually enough to see immediate benefits.
+          </p>
+
         </div>
       </div>
     </article>

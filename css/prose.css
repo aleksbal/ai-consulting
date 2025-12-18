@@ -1,0 +1,72 @@
+/* ===============================
+   Prose polish for articles
+   =============================== */
+
+/* Links */
+.prose a {
+  text-decoration: none;
+  border-bottom: 1px solid rgba(16,185,129,0.35);
+}
+.prose a:hover {
+  border-bottom-color: rgba(16,185,129,0.8);
+}
+
+/* Blockquotes */
+.prose blockquote {
+  border-left: 4px solid rgba(16,185,129,0.6);
+  background: rgba(16,185,129,0.06);
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  font-style: normal;
+}
+.dark .prose blockquote {
+  background: rgba(16,185,129,0.10);
+  border-left-color: rgba(16,185,129,0.55);
+}
+.prose blockquote p {
+  margin: 0;
+}
+
+/* Inline code */
+.prose :not(pre) > code {
+  background: rgba(15,23,42,0.06);
+  border: 1px solid rgba(15,23,42,0.08);
+  padding: 0.1rem 0.35rem;
+  border-radius: 0.4rem;
+  font-weight: 500;
+}
+.dark .prose :not(pre) > code {
+  background: rgba(148,163,184,0.12);
+  border-color: rgba(148,163,184,0.20);
+}
+
+/* Code blocks */
+.prose pre {
+  background: rgb(15 23 42);
+  color: rgb(226 232 240);
+  border-radius: 0.9rem;
+  padding: 1rem;
+  overflow-x: auto;
+  border: 1px solid rgba(148,163,184,0.18);
+}
+.prose pre code {
+  background: transparent;
+  border: none;
+  padding: 0;
+  font-weight: 400;
+}
+
+/* Headings: a bit cleaner rhythm (doesn't change sizes, only spacing) */
+.prose h2 { margin-top: 2.2em; }
+.prose h3 { margin-top: 1.6em; }
+
+/* Lists: slightly nicer spacing */
+.prose ul > li,
+.prose ol > li { margin-top: 0.35em; margin-bottom: 0.35em; }
+
+/* Ordered list markers: make them feel intentional */
+.prose ol > li::marker { font-weight: 600; }
+
+/* Horizontal rules (if you use them) */
+.prose hr { border-color: rgba(148,163,184,0.35); }
+.dark .prose hr { border-color: rgba(148,163,184,0.20); }
