@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <title>Article title – Modest AI Studio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Short description of this article for search engines and link previews." />
+
+
+  <link rel="icon" type="image/svg+xml" href="../favicon.svg" />
+
+  <!-- Tailwind + Typography plugin -->
+  <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+  <script>
+    tailwind.config = { darkMode: 'class' };
+  </script>
+
+  <style>
+    .lang-toggle-active {
+      background-color: rgba(45,212,191,0.15);
+      color: rgb(45,212,191);
+    }
+  </style>
+
+  <link rel="stylesheet" href="../css/prose.css">
+</head>
+<body class="bg-slate-50 text-slate-900 dark:bg-slate-950 dark:text-slate-100 antialiased">
+
+<script>
+  let currentLang = "en";
+  let currentTheme = "light";
+
+  function setTheme(theme, store = true) {
+    currentTheme = theme;
+    document.documentElement.classList.toggle("dark", theme === "dark");
+    if (store) {
+      try { localStorage.setItem("theme", theme); } catch (e) {}
+    }
+    const btn = document.getElementById("btn-theme");
+    if (btn) btn.textContent = theme === "dark" ? "☀️" : "🌙";
+  }
+
+  function initTheme() {
+    let t = null;
+    try { t = localStorage.getItem("theme"); } catch (e) {}
+    if (t === "light" || t === "dark") {
+      setTheme(t, false);
+    } else {
+      setTheme(
+        window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light",
+        false
+      );
+    }
+  }
+
+  function toggleTheme() {
+    setTheme(currentTheme === "dark" ? "light" : "dark");
+  }
+
+  function setLang(lang) {
+    currentLang = lang;
+    try { localStorage.setItem("lang", lang); } catch (e) {}
+    document.documentElement.lang = lang;
+    const enBtn = document.getElementById("btn-lang-en");
+    const deBtn = document.getElementById("btn-lang-de");
+    if (enBtn && deBtn) {
+      enBtn.classList.toggle("lang-toggle-active", lang === "en");
+      deBtn.classList.toggle("lang-toggle-active", lang === "de");
+    }
+  }
+
+  function initLang() {
+    let stored = null;
+    try { stored = localStorage.getItem("lang"); } catch (e) {}
+    if (stored === "en" || stored === "de") {
+      setLang(stored);
+    } else {
+      const navLang = (navigator.language || "").toLowerCase().startsWith("de") ? "de" : "en";
+      setLang(navLang);
+    }
+  }
+
+  document.addEventListener("DOMContentLoaded", () => {
+    initTheme();
+    initLang();
+    const yearEl = document.getElementById("year");
+    if (yearEl) yearEl.textContent = new Date().getFullYear();
+  });
+</script>
+
+<div class="min-h-screen flex flex-col">
+
+  <!-- HEADER: same visual structure as index, links back to index + articles -->
+  <header class="sticky top-0 z-40 border-b border-slate-200 dark:border-slate-800/70 bg-white/80 dark:bg-slate-950/80 backdrop-blur">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex items-center justify-between gap-4">
+      <div class="flex items-center gap-2">
+        <div class="h-8 w-8 rounded-xl bg-gradient-to-br from-emerald-400 to-cyan-500 flex items-center justify-center text-sm font-bold text-slate-950">
+          M
+        </div>
+        <div>
+          <div class="font-semibold tracking-tight">Modest AI Studio</div>
+          <div class="text-xs text-slate-500 dark:text-slate-400">
+            AI consulting for real-world projects
+          </div>
+        </div>
+      </div>
+      <nav class="hidden md:flex gap-6 text-sm text-slate-600 dark:text-slate-300">
+        <a href="../index.html#services" class="hover:text-emerald-600 dark:hover:text-emerald-300">Services</a>
+        <a href="../index.html#process" class="hover:text-emerald-600 dark:hover:text-emerald-300">Process</a>
+        <a href="../index.html#use-cases" class="hover:text-emerald-600 dark:hover:text-emerald-300">Use cases</a>
+        <a href="../index.html#about" class="hover:text-emerald-600 dark:hover:text-emerald-300">About</a>
+        <a href="../articles.html" class="hover:text-emerald-600 dark:hover:text-emerald-300">Articles</a>
+        <a href="../index.html#contact" class="hover:text-emerald-600 dark:hover:text-emerald-300">Contact</a>
+      </nav>
+      <div class="flex items-center gap-3">
+        <div class="flex rounded-full border border-slate-300 dark:border-slate-700 text-xs overflow-hidden">
+          <button id="btn-lang-en" onclick="setLang('en')" class="px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800">EN</button>
+          <button id="btn-lang-de" onclick="setLang('de')" class="px-2 py-1 hover:bg-slate-100 dark:hover:bg-slate-800">DE</button>
+        </div>
+        <button id="btn-theme" onclick="toggleTheme()" class="text-sm rounded-full border px-2 py-1 border-slate-300 dark:border-slate-700 hover:bg-slate-100 dark:hover:bg-slate-800"></button>
+        <a href="../index.html#contact" class="hidden md:inline-flex items-center rounded-full border border-emerald-500/70 px-4 py-1.5 text-sm font-medium text-emerald-800 dark:text-emerald-100 hover:bg-emerald-500/10">
+          Free intro call
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN ARTICLE CONTENT -->
+  <main class="flex-1">
+    <article class="bg-slate-50 dark:bg-slate-950">
+      <div class="max-w-3xl mx-auto px-4 py-10 lg:py-14">
+        <!-- Meta line -->
+        <p class="text-xs uppercase tracking-[0.25em] text-emerald-600/80 dark:text-emerald-300/80 mb-3">
+          Topic · Category
+        </p>
+
+        <!-- Title -->
+        <h1 class="text-3xl font-semibold tracking-tight mb-3">
+          What does “AI-assisted email automation” cost?
+        </h1>
+
+        <!-- Reading time / audience -->
+        <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">
+          5–7 min read · For IT &amp; business stakeholders
+        </p>
+
+        <!-- Body -->
+        <div class="prose prose-slate max-w-none dark:prose-invert">
+
+         <p>
+            Many companies are curious about using large language models (LLMs) in customer support,
+             but are unsure what a realistic, practical setup actually looks like. There is often a gap
+             between abstract promises (“AI answers your emails”) and systems that can be integrated safely i
+             nto existing workflows, with humans still in control.
+         </p>
+         <p>
+            To make this concrete, the following example describes a common, production-ready support automation
+            pattern that focuses on efficiency rather than full automation. It shows how LLMs are typically used
+            as an assistive layer, while established mail or ticket systems remain the authoritative source of truth.
+          </p>
+          <p>
+            A common support-automation setup looks like this:
+            <strong>300–500 incoming emails/tickets per day</strong> are automatically read,
+            classified (e.g., billing / technical / sales / spam), and a
+            <strong>draft reply</strong> is prepared for a human to approve and send.
+            The language model runs via an API (e.g., OpenAI), while your existing mail/ticket system
+            remains the source of truth.
+          </p>
+
+          <h2>Two cost buckets: implementation vs. usage</h2>
+          <ul>
+            <li>
+              <strong>One-time / project cost</strong>: integration with your mail/ticket system, routing rules,
+              guardrails, evaluation on your historical tickets, logging/audit, and rollout.
+            </li>
+            <li>
+              <strong>Ongoing cost</strong>: mainly the model’s token usage (plus a small amount for hosting and monitoring).
+            </li>
+          </ul>
+
+          <h2>Token-based usage cost (quick, realistic estimate)</h2>
+          <p>
+            Model providers charge per token (roughly “pieces of text”). The total per ticket depends on:
+            how long the incoming message is, how much context you include (policy, knowledge base),
+            and how long the draft reply should be.
+          </p>
+
+          <h3>Assumptions for a “simple but useful” workflow</h3>
+          <ul>
+            <li><strong>Tickets/day:</strong> 300–500 (we’ll use 400 as a middle value)</li>
+            <li><strong>Input tokens per ticket:</strong> 600–1,200 (email + minimal instructions + a little context)</li>
+            <li><strong>Output tokens per ticket:</strong> 120–300 (classification + short draft reply)</li>
+          </ul>
+
+          <h3>Example monthly token volume</h3>
+          <p>
+            Using 400 tickets/day and a mid-case of <strong>900 input</strong> + <strong>250 output</strong> tokens:
+          </p>
+          <ul>
+            <li><strong>Daily input:</strong> 400 × 900 = 360,000 tokens</li>
+            <li><strong>Daily output:</strong> 400 × 250 = 100,000 tokens</li>
+            <li><strong>Monthly (30 days):</strong> 10.8M input + 3.0M output tokens</li>
+          </ul>
+
+          <h2>What this costs with OpenAI (typical choice for this use case)</h2>
+          <p>
+            If we use <strong>gpt-4o-mini</strong> (fast, cost-effective for classification + drafting),
+            OpenAI’s current standard pricing is <strong>$0.15 / 1M input</strong> and
+            <strong>$0.60 / 1M output</strong> tokens. :contentReference[oaicite:0]{index=0}
+          </p>
+
+          <table>
+            <thead>
+              <tr>
+                <th>Scenario</th>
+                <th>Tokens / ticket (in + out)</th>
+                <th>Monthly model cost (approx.)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Lean prompts</td>
+                <td>600 + 150</td>
+                <td>~$1–$2</td>
+              </tr>
+              <tr>
+                <td>Mid-case (example above)</td>
+                <td>900 + 250</td>
+                <td>~$3–$5</td>
+              </tr>
+              <tr>
+                <td>More context / longer drafts</td>
+                <td>1,200 + 300</td>
+                <td>~$5–$8</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <p>
+            The surprising takeaway: for “drafting + classification” workloads,
+            <strong>token fees are often not the main expense</strong>. The main work is usually
+            integration, reliability, and making sure the drafts are consistently safe and on-brand.
+          </p>
+
+          <h2>What about AWS (Bedrock) instead?</h2>
+          <p>
+            AWS Bedrock offers multiple models/vendors under one AWS umbrella (good for procurement and governance).
+            Pricing is still token-based, but varies by model. For example, Bedrock’s on-demand pricing page lists
+            (among others) Meta Llama 2 Chat 70B at <strong>$0.00195 / 1K input</strong> and
+            <strong>$0.00256 / 1K output</strong> tokens (≈ $1.95 / 1M input and $2.56 / 1M output). :contentReference[oaicite:1]{index=1}
+          </p>
+
+          <p>
+            Using the same mid-case token volume (10.8M in / 3.0M out), that example would land around:
+            <strong>~$21 input + ~$8 output ≈ ~$29/month</strong> for that specific model pricing.
+            (Other Bedrock models can be cheaper or more expensive; the “right” choice depends on quality needs,
+            latency, and compliance.)
+          </p>
+
+          <h2>How to keep costs predictable (and quality high)</h2>
+          <ul>
+            <li><strong>Split the workflow:</strong> cheap model for triage/classification, stronger model only for complex tickets.</li>
+            <li><strong>Use “just enough context”:</strong> include only the relevant policy/KB snippets, not the whole handbook.</li>
+            <li><strong>Cap draft length:</strong> short drafts reduce output tokens and keep replies readable.</li>
+            <li><strong>Cache stable instructions:</strong> repeated boilerplate can be billed as cached input where supported. :contentReference[oaicite:2]{index=2}</li>
+          </ul>
+
+          <h2>Next step</h2>
+          <p>
+            If you tell me (1) your average email length, (2) how many categories you need,
+            and (3) whether replies must cite internal policy/knowledge base,
+            I can give you a tighter estimate and propose a few architecture options:
+            <strong>OpenAI API</strong>, <strong>AWS Bedrock</strong>, or a hybrid setup with routing and human approval.
+            Want the simplest “human-in-the-loop drafts only”, or a more automated flow with suggested actions (refund, reship, escalate)?
+          </p>
+        </div>
+
+      </div>
+    </article>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="border-t border-slate-200 dark:border-slate-900 bg-white dark:bg-slate-950">
+    <div class="max-w-6xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-center justify-between gap-2 text-xs text-slate-500">
+      <div>© <span id="year"></span> Modest AI Studio. Alle Rechte vorbehalten.</div>
+      <div class="flex gap-4">
+        <a href="../impressum.html" class="hover:text-emerald-500">Impressum</a>
+        <a href="../datenschutz.html" class="hover:text-emerald-500">Datenschutzerklärung</a>
+      </div>
+    </div>
+  </footer>
+</div>
+
+</body>
+</html>
