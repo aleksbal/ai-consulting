@@ -137,7 +137,7 @@
         </p>
 
         <h1 class="text-3xl font-semibold tracking-tight mb-3">
-          RAG Basics – how it works and when it makes sense
+          Testing and evaluation of Retrieval-Augmented Generation systems
         </h1>
 
         <p class="text-xs text-slate-500 dark:text-slate-400 mb-6">
@@ -146,146 +146,152 @@
 
         <!-- Body -->
         <div class="prose prose-slate dark:prose-invert max-w-none">
+          <p>
+            Retrieval-Augmented Generation (RAG) systems combine information retrieval with large
+            language model inference. As a result, their evaluation differs from traditional NLP
+            systems and requires assessing both the retrieval stage and the generation stage.
+            In 2025, most production-grade RAG systems are tested using automated evaluation
+            frameworks that rely on LLM-based scoring rather than exclusively on human judgment.
+          </p>
+
+          <h2>General evaluation approach</h2>
 
           <p>
-            Most companies I talk to want “an AI assistant or agentic workflow that understands our documents”.
-            But they don’t want a massive project, and they definitely don’t want to train their own model from scratch.
-            Retrieval-Augmented Generation (RAG) is the approach that makes this possible in a pragmatic way.
+            Modern RAG evaluation typically separates the system into two conceptual components:
+            retrieval and generation. Each component is evaluated independently, allowing teams
+            to identify whether failures originate from missing or irrelevant context, or from
+            incorrect use of retrieved information during answer generation.
           </p>
 
           <p>
-            RAG combines two things: a language model (the part that generates answers) and a search component
-            (the part that finds the right information in your documents). The key idea is simple: instead of expecting
-            the model to “know” everything, we let it read your existing documents <em>at the moment the question is asked</em>.
+            Due to the cost and limited scalability of fully human-labeled datasets, many
+            evaluation pipelines employ an <em>LLM-as-a-judge</em> approach. In this setup,
+            a language model is used to score the quality of retrieved context and generated
+            answers according to predefined criteria.
           </p>
 
-          <h2>Why companies use RAG instead of training models</h2>
+          <h2>Evaluation frameworks</h2>
 
           <p>
-            Imagine you have PDFs, Word files, or internal wiki pages that contain important knowledge.
-            A traditional AI model doesn’t automatically know any of this — it can only answer based on what it was trained
-            on months ago.
-          </p>
-
-          <p>
-            With RAG, you don’t train the model on your data. You simply store your documents in a searchable form.
-            When someone asks a question, the system:
-          </p>
-
-          <ul>
-            <li>finds the most relevant passages in your documents</li>
-            <li>passes those passages to the language model</li>
-            <li>lets the model generate an answer based on real company information</li>
-          </ul>
-
-          <p>
-            This means updates are easy — when you add or change a document, the AI immediately uses the new version.
-            No retraining, no downtime, no complicated infrastructure.
-          </p>
-
-          <h2>A simple mental model: “AI with glasses on”</h2>
-
-          <p>
-            RAG is often explained in very technical diagrams, but here’s the simplest way to think about it:
-            the language model is smart, but it doesn’t remember your company. RAG simply gives it glasses so it can read
-            the correct part of your documents before answering.
-          </p>
-
-          <p>
-            This keeps things transparent. You can always see <em>which documents</em> the model used for each answer.
-            For many companies, this level of control is more important than squeezing out a few extra percent of accuracy.
-          </p>
-
-          <h2>What a basic RAG setup looks like</h2>
-
-          <p>
-            Every RAG system, no matter how fancy, boils down to five building blocks:
-          </p>
-
-          <ol>
-            <li><strong>Document ingestion:</strong> PDFs, Word files, wikis, emails — they are all processed into clean text.</li>
-            <li><strong>Chunking:</strong> The text is split into small, meaningful pieces the model can read.</li>
-            <li><strong>Indexing:</strong> These pieces are stored in a special search index (a “vector store”).</li>
-            <li><strong>Retrieval:</strong> When a question comes in, the system finds the top matching pieces.</li>
-            <li><strong>Answer generation:</strong> The model reads only those pieces and formulates a helpful answer.</li>
-          </ol>
-
-          <p>The end user never sees any of this. They just ask questions like:</p>
-
-          <ul>
-            <li>"What steps are required to onboard a new customer?"</li>
-            <li>"Which product variant includes feature X?"</li>
-            <li>"What did we agree with this supplier last year?"</li>
-          </ul>
-
-          <p>And the system answers with the correct context attached.</p>
-
-          <h2>Where RAG is extremely useful</h2>
-
-          <p>
-            RAG shines in scenarios where information is mostly textual and spread across different places:
+            Several open-source and commercial frameworks are commonly used to evaluate RAG
+            systems. These tools provide standardized metrics and abstractions for assessing
+            retrieval quality, answer relevance, and factual grounding.
           </p>
 
           <ul>
-            <li>internal knowledge bases</li>
-            <li>product documentation</li>
-            <li>service manuals</li>
-            <li>compliance and policy documents</li>
-            <li>project archives and meeting notes</li>
+            <li>
+              <strong>Ragas (RAG Assessment)</strong> focuses on metric-based evaluation of
+              retrieval and generation, often without requiring manually curated ground-truth
+              answers for every test case.
+            </li>
+            <li>
+              <strong>TruLens</strong> applies a structured evaluation model commonly referred
+              to as the “RAG Triad”, which evaluates context relevance, groundedness, and answer
+              relevance.
+            </li>
+            <li>
+              <strong>DeepEval</strong> emphasizes automated testing workflows and CI/CD
+              integration, treating LLM evaluations similarly to software unit tests with
+              pass/fail criteria.
+            </li>
+            <li>
+              <strong>Maxim AI</strong> provides an end-to-end platform for offline evaluation,
+              simulation, and production monitoring of RAG applications.
+            </li>
           </ul>
 
+          <h2>Core evaluation metrics</h2>
+
           <p>
-            If employees frequently ask the same “Where do I find…?” questions, RAG can save hours every week
-            without changing your existing systems.
+            While individual frameworks differ in terminology, most RAG evaluations rely on
+            a shared set of core metrics. These metrics are commonly grouped into retrieval
+            metrics and generation metrics.
           </p>
 
-          <h2>Where RAG is <em>not</em> the right solution</h2>
+          <h3>Retrieval metrics</h3>
+
+          <ul>
+            <li>
+              <strong>Context precision</strong> measures whether the retrieved document chunks
+              are relevant to the input query.
+            </li>
+            <li>
+              <strong>Context recall</strong> measures whether all information required to
+              answer the query is present in the retrieved context.
+            </li>
+          </ul>
+
+          <h3>Generation metrics</h3>
+
+          <ul>
+            <li>
+              <strong>Faithfulness (groundedness)</strong> measures whether the generated answer
+              is supported by the retrieved context and does not introduce unsupported claims.
+            </li>
+            <li>
+              <strong>Answer relevance</strong> measures how well the generated response addresses
+              the intent of the original query.
+            </li>
+          </ul>
+
+          <h2>Evaluation datasets</h2>
 
           <p>
-            RAG is not magic. It doesn’t understand the content better than your employees — it just finds relevant passages
-            and summarizes them well. Situations where RAG is not ideal:
+            RAG systems are typically evaluated using a curated evaluation dataset, often
+            referred to as a “golden dataset”. Such datasets usually consist of realistic
+            questions, reference answers or expected facts, and the corresponding source
+            documents from which answers should be derived.
+          </p>
+
+          <p>
+            Because manual dataset creation is time-consuming, many evaluation workflows
+            augment curated datasets with synthetically generated test cases. In this approach,
+            language models generate questions and reference answers directly from source
+            documents, increasing coverage across topics and document structures.
+          </p>
+
+          <h2>Use of public benchmarks</h2>
+
+          <p>
+            Public benchmarks are commonly used to compare RAG architectures or to study
+            specific failure modes. These datasets are primarily intended for research and
+            benchmarking purposes and are not a substitute for domain-specific evaluation data.
           </p>
 
           <ul>
-            <li>data is extremely structured and numerical (better suited for databases)</li>
-            <li>answers must be legally binding (RAG can assist, not decide)</li>
-            <li>content is audio/video without transcripts</li>
-            <li>employees expect a perfect chatbot</li>
+            <li>
+              <strong>FRAMES</strong> evaluates multi-document and multi-hop reasoning in
+              retrieval-augmented systems.
+            </li>
+            <li>
+              <strong>RAGTruth</strong> focuses on detecting hallucinations and unsupported
+              statements in RAG outputs.
+            </li>
+            <li>
+              <strong>FEVER</strong> is a fact verification dataset used to assess evidence-based
+              claim validation against structured sources.
+            </li>
           </ul>
 
-          <p>
-            In these cases, the expectations should be adjusted or we look at alternative approaches.
-          </p>
-
-          <h2>How companies typically start</h2>
+          <h2>Limitations of automated evaluation</h2>
 
           <p>
-            Most organizations don’t need a big platform right away. A typical starting point looks like this:
-          </p>
-
-          <ul>
-            <li>choose one narrow use case with clear business value</li>
-            <li>prepare a small set of relevant documents (10–50 files is enough)</li>
-            <li>build a simple prototype UI or Slack/Teams integration</li>
-            <li>let 2–5 employees try it for one week</li>
-          </ul>
-
-          <p>
-            This is enough to understand whether RAG will help — without committing to a full-scale project.
+            Although LLM-based evaluation enables scalable and repeatable testing, it is not
+            fully deterministic and may vary depending on prompt formulation and model choice.
+            For critical use cases, automated evaluation is typically complemented by periodic
+            human review and regression testing based on real production failures.
           </p>
 
           <h2>Summary</h2>
 
           <p>
-            RAG is a pragmatic way to bring company knowledge into an AI system without building custom models.
-            It’s fast to implement, easy to maintain and transparent in how it works.
-            For many small and medium-sized companies, it’s the most realistic first step into applied AI.
+            Testing RAG systems requires evaluating both retrieval quality and answer generation.
+            In practice, most teams rely on automated evaluation frameworks, curated and synthetic
+            datasets, and a limited set of core metrics to detect regressions and guide system
+            improvements. This approach enables continuous evaluation without excessive manual
+            effort while maintaining acceptable reliability in production systems.
           </p>
 
-          <p>
-            If you want to explore whether this makes sense in your situation, the easiest way to start is with a short workshop
-            and a small document set. That’s usually enough to see immediate benefits.
-          </p>
 
         </div>
       </div>
